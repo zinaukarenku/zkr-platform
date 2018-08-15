@@ -1,9 +1,6 @@
-import re
-
 import requests
 from bs4 import BeautifulSoup
 from requests.adapters import HTTPAdapter
-from requests_xml import XMLResponse, XMLSession
 from tidylib import tidy_document
 from urllib3 import Retry
 
