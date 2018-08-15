@@ -49,35 +49,36 @@ services:
     - redis_network
     volumes:
     - redis_volume:/data
-#
-#  celery_worker:
-#    container_name: celery_worker
-#    image: .
-#    env_file:
-#    - .env
-#    command: 'python -m celery -A _project_ worker -l debug'
-#    volumes_from:
-#    - platform
-#    depends_on:
-#    - platform
-#    networks:
-#    - database_network
-#    - redis_network
-#
-#  celery_beat:
-#    container_name: celery_beat
-#    image: .
-#    env_file:
-#    - .env
-#    command: 'python -m celery -A _project_ beat --pidfile= -l debug'
-#    volumes_from:
-#    - platform
-#    depends_on:
-#    - platform
-#    networks:
-#    - database_network
-#    - redis_network
 
+  celery_beat:
+    container_name: celery_beat
+    image: .
+    env_file:
+    - .env
+    command: celery -A zkr beat -l info --schedule=/usr/src/web/worker_cache/celerybeat-schedule
+    volumes_from:
+    - platform
+    volumes:
+    - /srv/platform/worker_cache:/usr/src/web/worker_cache
+    depends_on:
+    - platform
+    networks:
+    - database_network
+    - redis_network
+
+  celery_default_worker:
+    container_name: celery_default_worker
+    image: .
+    env_file:
+    - .env
+    command: celery -A zkr worker -l info --concurrency=3
+    volumes_from:
+    - celery_beat
+    depends_on:
+    - celery_beat
+    networks:
+    - database_network
+    - redis_network
 
 networks:
   nginx_network:
