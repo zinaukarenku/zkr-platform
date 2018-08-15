@@ -185,6 +185,10 @@ CELERY_BEAT_SCHEDULE = {
     'worker_heartbeat_default': {
         'task': 'seimas.tasks.fetch_terms',
         'schedule': crontab(minute='0', hour='12')
+    },
+    'fetch_politicians': {
+        'task': 'seimas.tasks.fetch_politicians',
+        'schedule': crontab(minute='0', hour='*/3')
     }
 }
 
