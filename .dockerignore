@@ -1,0 +1,11 @@
+.cache
+.git
+.tox
+.tx
+__pycache__
+*.pyc
+node_modules/
+/static/
+/media/
+venv/
+/.env

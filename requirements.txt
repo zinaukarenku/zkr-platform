@@ -1,0 +1,16 @@
+Django>=2.1,<2.2
+Pillow>=5.2,<5.3
+requests>=2.19.0,<2.20.0
+uWSGI==2.0.17.1
+psycopg2-binary==2.7.5
+django-debug-toolbar==1.9.1
+django-admin-sortable2==0.6.19
+django-reversion==2.0.13
+gunicorn>=19.9,<19.10
+ipdb==0.11
+djangorestframework==3.8.2
+django-enumfields==0.10.1
+celery[redis]==4.2.1
+django-redis==4.9.0
+beautifulsoup4==4.6.3
+pytidylib==0.3.2

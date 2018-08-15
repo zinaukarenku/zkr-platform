@@ -1,0 +1,94 @@
+version: "3"
+
+services:
+
+  platform:
+    container_name: platform
+    build: .
+    volumes:
+    - static_volume:/srv/platform/static
+    - media_volume:/srv/platform/media
+    env_file:
+    - .env
+    networks:
+    - nginx_network
+    - database_network
+    - redis_network
+    depends_on:
+    - postgres
+    - redis
+
+  nginx:
+    container_name: nginx
+    image: nginx
+    ports:
+    - 80:80
+    volumes:
+    - ./config/nginx:/etc/nginx/conf.d
+    - static_volume:/srv/platform/static
+    - media_volume:/srv/platform/media
+    depends_on:
+    - platform
+    networks:
+    - nginx_network
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    env_file:
+    - .env
+    networks:
+    - database_network
+    volumes:
+    - database_volume:/var/lib/postgresql/data
+
+  redis:
+    container_name: redis
+    image: redis
+    networks:
+    - redis_network
+    volumes:
+    - redis_volume:/data
+#
+#  celery_worker:
+#    container_name: celery_worker
+#    image: .
+#    env_file:
+#    - .env
+#    command: 'python -m celery -A _project_ worker -l debug'
+#    volumes_from:
+#    - platform
+#    depends_on:
+#    - platform
+#    networks:
+#    - database_network
+#    - redis_network
+#
+#  celery_beat:
+#    container_name: celery_beat
+#    image: .
+#    env_file:
+#    - .env
+#    command: 'python -m celery -A _project_ beat --pidfile= -l debug'
+#    volumes_from:
+#    - platform
+#    depends_on:
+#    - platform
+#    networks:
+#    - database_network
+#    - redis_network
+
+
+networks:
+  nginx_network:
+    driver: bridge
+  database_network:
+    driver: bridge
+  redis_network:
+    driver: bridge
+
+volumes:
+  database_volume:
+  static_volume:
+  media_volume:
+  redis_volume:
