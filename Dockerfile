@@ -3,8 +3,8 @@ FROM python:3.7
 EXPOSE 8080
 
 ENV PYTHONUNBUFFERED 1
-RUN mkdir /srv/questions
-WORKDIR /srv/questions
+RUN mkdir /srv/platform
+WORKDIR /srv/platform
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt

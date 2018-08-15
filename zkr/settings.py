@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from celery.schedules import crontab
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
@@ -177,6 +179,13 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
+
+CELERY_BEAT_SCHEDULE = {
+    'worker_heartbeat_default': {
+        'task': 'seimas.tasks.fetch_terms',
+        'schedule': crontab(minute='0', hour='12')
+    }
+}
 
 CELERYD_TASK_SOFT_TIME_LIMIT = 45 * 60
 CELERYD_SEND_EVENTS = True
