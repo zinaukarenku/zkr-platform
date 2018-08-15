@@ -14,3 +14,5 @@ celery[redis]==4.2.1
 django-redis==4.9.0
 beautifulsoup4==4.6.3
 pytidylib==0.3.2
+# This unreleased version has task name and other parameters
+git+git://github.com/celery/django-celery-results.git

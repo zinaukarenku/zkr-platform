@@ -45,11 +45,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'seimas',
-    'web',
-
+    'django_celery_results',
     'adminsortable2',
     'reversion'
+
+    'seimas',
+    'web',
 ]
 
 MIDDLEWARE = [
