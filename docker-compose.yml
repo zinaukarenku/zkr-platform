@@ -55,8 +55,8 @@ services:
     volumes:
     - redis_volume:/data
 
-  celery_beat:
-    container_name: celery_beat
+  celery_zkr_beat:
+    container_name: celery_zkr_beat
     build: .
     volumes:
     - static_volume:/srv/platform/static
@@ -71,21 +71,20 @@ services:
     - postgres
     - redis
 
-  celery_default_worker:
-    container_name: celery_default_worker
-    image: .
-    env_file:
-    - .env
-    command: celery -A zkr worker -l info --concurrency=3
+  celery_zkr_default_worker:
+    container_name: celery_zkr_default_worker
+    build: .
     volumes:
     - static_volume:/srv/platform/static
     - media_volume:/srv/platform/media
-    - /srv/platform/worker_cache:/srv/platform/worker_cache
-    depends_on:
-    - celery_beat
+    env_file:
+    - .env
+    command: celery -A zkr worker -l info --concurrency=3
     networks:
     - database_network
     - redis_network
+    depends_on:
+    - celery_zkr_beat
 
 networks:
   nginx_network:
