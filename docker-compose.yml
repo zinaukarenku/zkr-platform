@@ -5,6 +5,8 @@ services:
   platform:
     container_name: platform
     build: .
+    env_file:
+    - .env
     healthcheck:
       test: ["CMD", "curl --fail http://localhost:8080/ || exit 1"]
       interval: 5s
@@ -13,8 +15,6 @@ services:
     volumes:
     - static_volume:/srv/platform/static
     - media_volume:/srv/platform/media
-    env_file:
-    - .env
     networks:
     - nginx_network
     - database_network
@@ -58,12 +58,13 @@ services:
   celery_zkr_beat:
     container_name: celery_zkr_beat
     build: .
+    env_file:
+    - .env
     volumes:
     - static_volume:/srv/platform/static
     - media_volume:/srv/platform/media
-    env_file:
-    - .env
-    command: celery -A zkr beat -l info
+    - /srv/platform/worker_cache:/srv/platform/worker_cache
+    command: celery -A zkr beat -l info  --schedule=/srv/platform/celerybeat-schedule
     networks:
     - database_network
     - redis_network
@@ -74,11 +75,12 @@ services:
   celery_zkr_default_worker:
     container_name: celery_zkr_default_worker
     build: .
+    env_file:
+    - .env
     volumes:
     - static_volume:/srv/platform/static
     - media_volume:/srv/platform/media
-    env_file:
-    - .env
+    - /srv/platform/worker_cache:/srv/platform/worker_cache
     command: celery -A zkr worker -l info --concurrency=3
     networks:
     - database_network
