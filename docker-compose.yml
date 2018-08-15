@@ -5,6 +5,11 @@ services:
   platform:
     container_name: platform
     build: .
+    healthcheck:
+      test: ["CMD", "curl --fail http://localhost:8080/ || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
     volumes:
     - static_volume:/srv/platform/static
     - media_volume:/srv/platform/media
