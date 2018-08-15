@@ -56,9 +56,9 @@ services:
     env_file:
     - .env
     command: celery -A zkr beat -l info --schedule=/usr/src/web/worker_cache/celerybeat-schedule
-    volumes_from:
-    - platform
     volumes:
+    - static_volume:/srv/platform/static
+    - media_volume:/srv/platform/media
     - /srv/platform/worker_cache:/usr/src/web/worker_cache
     depends_on:
     - platform
@@ -72,8 +72,10 @@ services:
     env_file:
     - .env
     command: celery -A zkr worker -l info --concurrency=3
-    volumes_from:
-    - celery_beat
+    volumes:
+    - static_volume:/srv/platform/static
+    - media_volume:/srv/platform/media
+    - /srv/platform/worker_cache:/usr/src/web/worker_cache
     depends_on:
     - celery_beat
     networks:
