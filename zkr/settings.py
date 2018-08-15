@@ -47,7 +47,7 @@ INSTALLED_APPS = [
 
     'django_celery_results',
     'adminsortable2',
-    'reversion'
+    'reversion',
 
     'seimas',
     'web',
