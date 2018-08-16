@@ -81,7 +81,7 @@ services:
     - static_volume:/srv/platform/static
     - media_volume:/srv/platform/media
     - /srv/platform/worker_cache:/srv/platform/worker_cache
-    command: celery -A zkr worker -l info --concurrency=3
+    command: celery -A zkr worker -l info -E --concurrency=3
     networks:
     - database_network
     - redis_network
