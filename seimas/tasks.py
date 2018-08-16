@@ -4,7 +4,7 @@ import re
 from celery import shared_task
 
 from seimas.models import Term, Session, Party, Politician, PoliticianParliamentGroup, PoliticianDivision, \
-    PoliticianBusinessTrip
+    PoliticianBusinessTrip, PoliticianTerm, ElectionType
 from seimas.utils import requests_retry_session, parse_invalid_xml
 
 logger = logging.getLogger(__name__)
@@ -179,6 +179,44 @@ def fetch_politicians():
             statistics['politicians']['updated'] += 1
 
     return statistics
+
+
+@shared_task(soft_time_limit=300)
+def fetch_and_match_sessions_with_politicians():
+    created = 0
+    updated = 0
+    for term in Term.objects.all():
+        req = requests_retry_session().get("http://apps.lrs.lt/sip/p2b.ad_seimo_nariai", params={
+            'p_kade_id': term.kad_id
+        })
+        req.raise_for_status()
+
+        soup = parse_invalid_xml(req.text)
+        politicians_xml = soup.find_all('SeimoNarys')
+
+        for politician_xml in politicians_xml:
+            politician = Politician.objects.filter(asm_id=politician_xml['asmens_id']).first()
+            if politician:
+                party, _ = Party.objects.get_or_create(name=politician_xml['iškėlusi_partija'].strip())
+                election_type, _ = ElectionType.objects.get_or_create(name=politician_xml['išrinkimo_būdas'].strip())
+                _, is_created = PoliticianTerm.objects.update_or_create(politician=politician,
+                                                                        term=term,
+                                                                        defaults={
+                                                                            'start': politician_xml['data_nuo'],
+                                                                            'end': politician_xml['data_iki'] or None,
+                                                                            'elected_party': party,
+                                                                            'election_type': election_type
+                                                                        })
+
+                if is_created:
+                    created += 1
+                else:
+                    updated += 1
+
+    return {
+        'created': created,
+        'updated': updated
+    }
 
 
 @shared_task(soft_time_limit=300)

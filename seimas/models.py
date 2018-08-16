@@ -125,6 +125,25 @@ class Politician(models.Model):
         return self.name
 
 
+class PoliticianTerm(models.Model):
+    politician = models.ForeignKey(Politician, on_delete=models.CASCADE, related_name="politician_terms")
+    term = models.ForeignKey(Term, on_delete=models.CASCADE, related_name="politician_terms")
+
+    start = models.DateField()
+    end = models.DateField(null=True, blank=True)
+
+    elected_party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name="politician_terms")
+    election_type = models.ForeignKey(ElectionType, on_delete=models.CASCADE, related_name="politician_terms")
+
+    class Meta:
+        verbose_name_plural = "Politician terms"
+        ordering = ['politician', 'term']
+        unique_together = ['politician', 'term']
+
+    def __str__(self):
+        return f"{self.politician} {self.name} group as {self.role}"
+
+
 class PoliticianDivision(models.Model):
     politician = models.ForeignKey(Politician, on_delete=models.CASCADE, related_name="divisions")
 
