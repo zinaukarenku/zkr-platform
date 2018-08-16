@@ -12,3 +12,4 @@ venv/
 /docker-compose.yml
 /Dockerfile
 /Makefile
+/deploy_rsa.enc
