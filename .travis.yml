@@ -15,10 +15,5 @@ before_install:
 
 after_success:
 - set -e
-- ssh -o "StrictHostKeyChecking no" -i /tmp/deploy_rsa -t $REMOTE_USER@$REMOTE_HOST /bin/bash << EOF
-  set -e
-  cd ${REMOTEAPPDIR}
-  make
-  set +e
-  EOF
+- ssh -o "StrictHostKeyChecking no" -i /tmp/deploy_rsa $REMOTE_USER@$REMOTE_HOST 'bash -s' < config/deploy-travis.sh
 - set +e
