@@ -1,5 +1,5 @@
 #!/bin/bash
 set -e
 
-cd ${REMOTEAPPDIR}
+cd /root/zkr-platform
 make
