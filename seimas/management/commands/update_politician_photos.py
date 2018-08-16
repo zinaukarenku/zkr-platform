@@ -163,8 +163,17 @@ class Command(BaseCommand):
             last_name = name_split[1]
             photo_url = row[0].strip()
 
-            politician = Politician.objects.get(first_name__iexact=first_name, last_name__iexact=last_name)
+            politician = Politician.objects.filter(first_name__iexact=first_name, last_name__iexact=last_name).first()
 
-            if not save_image_from_url(politician.photo, photo_url):
-                print(f"Unable to save photo of {politician} from url {photo_url}")
-            sleep(3)
+            if not politician:
+                print(f"Unable to find politician first_name {first_name} last_name {last_name}")
+            else:
+                if politician.photo:
+                    continue
+
+                if not save_image_from_url(politician.photo, photo_url):
+                    print(f"{politician} photo saved succesfully")
+                else:
+                    print(f"Unable to save photo of {politician} from url {photo_url}")
+
+                sleep(3)
