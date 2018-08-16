@@ -12,7 +12,7 @@ from seimas.utils import save_image_from_url
 class Command(BaseCommand):
     help = 'Update politician photos'
 
-    politicians_csv = """img,name,status
+    politicians_csv = """
     http://www.lrs.lt/SIPIS/sn_foto/2016/vida_aciene.jpg,VidaAčienė,Seimo narė nuo 2016-11-14
     http://www.lrs.lt/SIPIS/sn_foto/2016/mantas_adomenas.jpg,MantasAdomėnas,Seimo narys nuo 2016-11-14
     http://www.lrs.lt/SIPIS/sn_foto/2016/virgilijus_alekna.jpg,VirgilijusAlekna,Seimo narys nuo 2016-11-14
@@ -157,7 +157,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         csv_reader = csv.reader(StringIO(self.politicians_csv), delimiter=',')
-        for row in csv_reader[1:]:
+        for row in csv_reader:
             name_split = re.findall('[A-ZĄČĘĖĮŠŲŪŽ][^A-ZĄČĘĖĮŠŲŪŽ]*', row[1])
             first_name = name_split[0]
             last_name = name_split[1]
