@@ -35,7 +35,6 @@ ALLOWED_HOSTS = ['*']
 
 INTERNAL_IPS = ['127.0.0.1']
 
-
 USE_X_FORWARDED_HOST = True
 
 # Application definition
@@ -196,6 +195,10 @@ CELERY_BEAT_SCHEDULE = {
     'fetch_sessions': {
         'task': 'seimas.tasks.fetch_sessions',
         'schedule': crontab(minute='30', hour='12')
+    },
+    'fetch_and_match_sessions_with_politicians': {
+        'task': 'seimas.tasks.fetch_and_match_sessions_with_politicians',
+        'schedule': crontab(minute='50', hour='12')
     },
     'fetch_business_trips': {
         'task': 'seimas.tasks.fetch_business_trips',

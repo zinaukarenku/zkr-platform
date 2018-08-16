@@ -181,7 +181,7 @@ def fetch_politicians():
     return statistics
 
 
-@shared_task(soft_time_limit=300)
+@shared_task(soft_time_limit=600)
 def fetch_and_match_sessions_with_politicians():
     created = 0
     updated = 0
