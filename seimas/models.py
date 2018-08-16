@@ -60,6 +60,15 @@ class ElectionType(models.Model):
         return self.name
 
 
+class PoliticianQuerySet(models.QuerySet):
+    pass
+
+
+class ActivePoliticianManager(models.Manager):
+    def get_queryset(self):
+        return PoliticianQuerySet(self.model, using=self._db).filter(is_active=True)
+
+
 class Politician(models.Model):
     def _politician_photo_file(self, filename):
         ext = file_extension(filename)
@@ -72,6 +81,8 @@ class Politician(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     slug = models.SlugField(unique=True)
+
+    is_active = models.BooleanField(default=True, db_index=True)
 
     photo = models.ImageField(null=True, blank=True, upload_to=_politician_photo_file)
 
@@ -90,6 +101,9 @@ class Politician(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    objects = PoliticianQuerySet.as_manager()
+    published = ActivePoliticianManager()
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         self.slug = slugify(self.name)
