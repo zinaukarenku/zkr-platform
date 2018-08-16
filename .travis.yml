@@ -15,9 +15,9 @@ before_install:
 
 after_success:
 - set -e
-- ssh -o "StrictHostKeyChecking no" -i /tmp/deploy_rsa -t $REMOTE_USER@$REMOTE_HOST << EOF
+- ssh -o "StrictHostKeyChecking no" -i /tmp/deploy_rsa -t $REMOTE_USER@$REMOTE_HOST /bin/bash << EOF
   set -e
-  cd $REMOTEAPPDIR
+  cd ${REMOTEAPPDIR}
   make
   set +e
   EOF
