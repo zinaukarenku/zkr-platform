@@ -90,6 +90,7 @@ services:
 
   zkr_flower:
     container_name: zkr-flower
+    image: flower
     env_file:
     - .env
     environment:
