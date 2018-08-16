@@ -1,0 +1,70 @@
+{% extends "base/base-page.html" %}
+
+{% block title %}{{ politician.name }}{% endblock %}
+{% block description %}TODO description{% endblock %}
+
+{% block content %}
+    <h1>{{ politician.name }}</h1>
+    <p>
+        {{ politician.elected_party }}
+    </p>
+    <p>
+        Start {{ politician.start }}
+    </p>
+    <p>
+        Biourl <a href="{{ politician.bio_url }}">{{ politician.bio_url }}</a>
+    </p>
+    <p>
+        Email: {{ politician.email|default:"No e-mail" }}
+    </p>
+    <p>
+        Phone: {{ politician.phone|default:"No phone" }}
+    </p>
+    <p>
+        Personal website: {{ politician.personal_website|default:"No personal website" }}
+    </p>
+
+    <h2>Divisions</h2>
+    <table class="table">
+        <tbody>
+        {% for division in politician.divisions.all %}
+            <tr>
+                <td>{{ division.name }}</td>
+                <td>{{ division.role }}</td>
+                <td>{{ division.start }}</td>
+                <td>{{ division.end|default:"No end date" }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Parliament groups</h2>
+    <table class="table">
+        <tbody>
+        {% for group in politician.parliament_groups.all %}
+            <tr>
+                <td>{{ group.name }}</td>
+                <td>{{ group.role }}</td>
+                <td>{{ group.start }}</td>
+                <td>{{ group.end|default:"No end date" }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Business trips</h2>
+    <table class="table">
+        <tbody>
+        {% for trip in politician.business_trips.all %}
+            <tr>
+                <td>{{ trip.name }}</td>
+                <td>{{ trip.start }}</td>
+                <td>{{ trip.end|default:"No end date" }}</td>
+                <td>{{ trip.is_secondment|yesno:"Komandiruotė,Kelionė" }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

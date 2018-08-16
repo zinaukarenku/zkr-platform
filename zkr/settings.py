@@ -33,6 +33,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY') if not DEBUG else 'DEBUG'
 
 ALLOWED_HOSTS = ['*']
 
+INTERNAL_IPS = ['127.0.0.1']
+
+
 USE_X_FORWARDED_HOST = True
 
 # Application definition
