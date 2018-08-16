@@ -58,7 +58,6 @@ services:
   celery_zkr_beat:
     container_name: celery-zkr-beat
     build: .
-    user: celery
     env_file:
     - .env
     volumes:
@@ -76,7 +75,6 @@ services:
   celery_zkr_default_worker:
     container_name: celery-zkr-default-worker
     build: .
-    user: celery
     env_file:
     - .env
     volumes:
