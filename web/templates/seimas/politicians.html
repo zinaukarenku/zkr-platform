@@ -1,0 +1,36 @@
+{% extends "base/base-page.html" %}
+
+{% block title %}Politikai{% endblock %}
+{% block description %}TODO description{% endblock %}
+
+{% block content %}
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Vardas</th>
+            <th scope="col">Fotkė</th>
+            <th scope="col">Partija</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for politician in politicians %}
+            <tr>
+                <td>
+                    <a href="{{ politician.profile_url }}">
+                        {{ politician.name }}
+                    </a>
+                </td>
+                <td>
+                    {% if politician.photo %}
+                        <a href="{{ politician.profile_url }}">
+                            <img src="{{ politician.photo.url }}">
+                        </a>
+                    {% endif %}
+                </td>
+                <td>{{ politician.elected_party }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

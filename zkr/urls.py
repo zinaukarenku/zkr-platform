@@ -17,8 +17,10 @@ from django.contrib import admin
 from django.urls import path
 
 from seimas.views import index
+from web.views import politicians, politician
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index)
+    path('', politicians, name="seimas_politicians"),
+    path('seimas/politikai/<slug:slug>/', politician, name="seimas_politician")
 ]

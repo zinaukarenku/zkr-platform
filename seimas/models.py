@@ -1,6 +1,7 @@
 from os.path import join
 
 from django.db import models
+from django.urls import reverse
 from django.utils.text import slugify
 
 from seimas.utils import file_extension
@@ -103,11 +104,15 @@ class Politician(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     objects = PoliticianQuerySet.as_manager()
-    published = ActivePoliticianManager()
+    active = ActivePoliticianManager()
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         self.slug = slugify(self.name)
         super().save(force_insert, force_update, using, update_fields)
+
+    @property
+    def profile_url(self):
+        return reverse('seimas_politician', kwargs={'slug': self.slug})
 
     @property
     def name(self):
