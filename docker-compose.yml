@@ -3,7 +3,7 @@ version: "3"
 services:
 
   platform:
-    container_name: platform
+    container_name: zkr-platform
     build: .
     env_file:
     - .env
@@ -24,7 +24,7 @@ services:
     - redis
 
   nginx:
-    container_name: nginx
+    container_name: zkr-nginx
     image: nginx
     ports:
     - 80:80
@@ -38,7 +38,7 @@ services:
     - nginx_network
 
   postgres:
-    container_name: postgres
+    container_name: zkr-postgres
     image: postgres
     env_file:
     - .env
@@ -56,8 +56,9 @@ services:
     - redis_volume:/data
 
   celery_zkr_beat:
-    container_name: celery_zkr_beat
+    container_name: celery-zkr-beat
     build: .
+    user: celery
     env_file:
     - .env
     volumes:
@@ -73,8 +74,9 @@ services:
     - redis
 
   celery_zkr_default_worker:
-    container_name: celery_zkr_default_worker
+    container_name: celery-zkr-default-worker
     build: .
+    user: celery
     env_file:
     - .env
     volumes:
