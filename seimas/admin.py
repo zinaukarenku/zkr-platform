@@ -1,11 +1,24 @@
 from django.contrib import admin
 from reversion.admin import VersionAdmin
 
-from seimas.models import Term, Session, Politician
+from seimas.models import Term, Session, Politician, PoliticianDivision, PoliticianParliamentGroup, \
+    PoliticianBusinessTrip
 
 
 class SessionsInline(admin.StackedInline):
     model = Session
+
+
+class PoliticianDivisionsInline(admin.StackedInline):
+    model = PoliticianDivision
+
+
+class PoliticianParliamentGroupsInline(admin.StackedInline):
+    model = PoliticianParliamentGroup
+
+
+class PoliticianBusinessTripsInline(admin.StackedInline):
+    model = PoliticianBusinessTrip
 
 
 @admin.register(Term)
@@ -24,3 +37,9 @@ class PoliticianAdmin(VersionAdmin):
     list_display = ['first_name', 'last_name', 'is_male', 'elected_party']
     list_select_related = ['elected_party']
     list_filter = ['elected_party']
+
+    inlines = [
+        PoliticianDivisionsInline,
+        PoliticianParliamentGroupsInline,
+        PoliticianBusinessTripsInline
+    ]
