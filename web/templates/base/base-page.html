@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block main_container %}
 
@@ -6,20 +7,13 @@
         <nav class="nav-main">
             <div class="container">
                 <h1 class="sr-only">Žinau, ką renku</h1><a class="navbar-brand" href="/"><img
-                    src="http://178.128.199.74/static/assets/images/logo.png" alt="2018 Žinau, ką renk"/></a><span>Pažink Politiką</span>
+                    src="{% static 'img/zkr-logo.png' %}" alt="Žinau, ką renku"/></a><span>Pažink Politiką</span>
                 <button class="btn btn-menu d-lg-none"><span class="bar lg-bar bar-m-one"></span><span
                         class="bar md-bar bar-m-two"></span><span class="bar md-bar bar-m-three"></span></button>
             </div>
         </nav>
-        <div class="note invisible">
-            <div class="container text-center"><span>Žaidimo Pabaiga</span></div>
-        </div>
-        <div class="container">
-            <main>
-                {% block content %}
-                {% endblock %}
-            </main>
-        </div>
+        {% block content %}
+        {% endblock %}
         <footer class="text-center pb-2"><span class="d-block text-muted text-eyebrow">&copy 2018 Žinau, ką renku</span>
         </footer>
     </div>

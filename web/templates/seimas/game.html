@@ -4,40 +4,51 @@
 {% block description %}TODO description{% endblock %}
 
 {% block content %}
-    {% if not game.is_game_ended %}
-        <h2>{{ game.correct_politician.name }}</h2>
-        <div class="row">
-            {% for card in game.polititian_cards %}
-                <div class="col-sm-6">
-                    <a href="{{ card.url|safe }}">
-                        <div class="card">
-                            <img class="card-img-top"
-                                 src="{{ card.photo }}">
-                        </div>
-                    </a>
-                </div>
-            {% endfor %}
+    {% if game.is_game_ended %}
+        <div class="note invisible">
+            <div class="container text-center"><span>Žaidimo Pabaiga</span></div>
         </div>
-        <h3>Atsakėte: {{ game.answered_count }}</h3>
-    {% else %}
-        <h2>{{ game.correct_politician.name }}</h2>
-        <div class="row">
-            {% for card in game.polititian_cards %}
-                <div class="col-sm-6">
-                    <div class="card">
-                        <i class="fas {{ card.is_correct|yesno:"fa-check-circle,fa-times-circle" }} fa-lg"></i>
-                        <img class="card-img-top"
-                             src="{{ card.photo }}">
-                        <div class="card-body">
-                            <a class="card-link" href="{{ card.more_info }}">{{ card.name }}</a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-        <h5 class="mb-4">Teisingai pateikėte {{ game.answered_count }} politikus</h5>
-        <form action="{% url 'seimas_politician_game' %}">
-            <button type="submit" class="btn btn-new-game text-eyebrow">Žaisti iš naujo</button>
-        </form>
     {% endif %}
+    <div class="container">
+        <main>
+            {% if not game.is_game_ended %}
+                <h2>{{ game.correct_politician.name }}</h2>
+                <div class="row">
+                    {% for card in game.polititian_cards %}
+                        <div class="col-sm-6">
+                            <a href="{{ card.url|safe }}">
+                                <div class="card">
+                                    <img class="card-img-top"
+                                         src="{{ card.photo }}">
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <h3>Atsakėte: {{ game.answered_count }}</h3>
+            {% else %}
+                <h2>{{ game.correct_politician.name }}</h2>
+                <div class="row">
+                    {% for card in game.polititian_cards %}
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <i class="fas {{ card.is_correct|yesno:"fa-check-circle,fa-times-circle" }} fa-lg"></i>
+                                <img class="card-img-top"
+                                     src="{{ card.photo }}">
+                                <div class="card-body">
+                                    <a class="card-link" href="{{ card.more_info }}">{{ card.name }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <h5 class="mb-4">Teisingai pateikėte {{ game.answered_count }} politikus</h5>
+                <form action="{% url 'seimas_politician_game' %}">
+                    <button type="submit" class="btn btn-new-game text-eyebrow">Žaisti iš naujo</button>
+                </form>
+            {% endif %}
+
+        </main>
+    </div>
+
 {% endblock %}
