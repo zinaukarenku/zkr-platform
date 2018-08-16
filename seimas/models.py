@@ -36,7 +36,7 @@ class Session(models.Model):
 
 
 class Party(models.Model):
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=128, unique=True)
 
     class Meta:
         verbose_name_plural = "Parties"

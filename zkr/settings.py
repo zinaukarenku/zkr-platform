@@ -188,8 +188,20 @@ CELERY_BEAT_SCHEDULE = {
     },
     'fetch_politicians': {
         'task': 'seimas.tasks.fetch_politicians',
-        'schedule': crontab(minute='0', hour='*/3')
-    }
+        'schedule': crontab(minute='0', hour='*')
+    },
+    'fetch_terms': {
+        'task': 'seimas.tasks.fetch_terms',
+        'schedule': crontab(minute='30', hour='11')
+    },
+    'fetch_sessions': {
+        'task': 'seimas.tasks.fetch_sessions',
+        'schedule': crontab(minute='30', hour='12')
+    },
+    'fetch_business_trips': {
+        'task': 'seimas.tasks.fetch_business_trips',
+        'schedule': crontab(minute='20', hour='*')
+    },
 }
 
 CELERYD_TASK_SOFT_TIME_LIMIT = 45 * 60
