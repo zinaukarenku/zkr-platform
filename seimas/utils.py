@@ -29,3 +29,7 @@ def parse_invalid_xml(xml_text):
     content, _ = tidy_document(xml_text, {"input_xml": True})
 
     return BeautifulSoup(content, 'xml')
+
+
+def file_extension(file_name):
+    return file_name.split('.')[-1]

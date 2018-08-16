@@ -1,4 +1,9 @@
+from os.path import join
+
 from django.db import models
+from django.utils.text import slugify
+
+from seimas.utils import file_extension
 
 
 class Term(models.Model):
@@ -56,10 +61,17 @@ class ElectionType(models.Model):
 
 
 class Politician(models.Model):
+    def _politician_photo_file(self, filename):
+        ext = file_extension(filename)
+
+        filename = f"{self.slug}-photo.{ext}"
+        return join('img', 'seimas', 'politician', self.slug, filename)
+
     asm_id = models.IntegerField(unique=True, help_text="Asmens id is used internally in seimas web")
 
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
+    slug = models.SlugField(unique=True)
     is_male = models.BooleanField(default=True)
 
     elected_party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name="politicians")
@@ -75,6 +87,10 @@ class Politician(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.slug = slugify(self.name)
+        super().save(force_insert, force_update, using, update_fields)
 
     @property
     def name(self):
