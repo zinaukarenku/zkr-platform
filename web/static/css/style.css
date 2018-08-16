@@ -1,0 +1,218 @@
+.row, .col-sm-6 {
+  margin: 0px !important;
+  padding: 0px;
+  -webkit-appearance: none;
+}
+
+body {
+  background: linear-gradient(to right, #2980b9, #2c3e50);
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 300;
+}
+
+.text-eyebrow {
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 80%;
+}
+
+.phone_screen {
+  position: relative;
+  margin: 15px;
+  width: 320px;
+  min-width: 320px;
+  height: 568px;
+  background: #deeef5;
+  overflow: hidden;
+  color: #212529;
+}
+
+.desktop {
+  width: 1200px;
+  overflow: auto;
+}
+
+nav {
+  height: 50px;
+  width: 100%;
+  background: #fff;
+  border-bottom: 1px solid #deeef5;
+  box-shadow: 0px 0px 1px 1px #c4ced2;
+}
+nav .container {
+  display: flex;
+  max-width: 900px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  height: 50px;
+}
+nav .container h1 {
+  font-size: 25px;
+  font-weight: 300;
+  margin: 0;
+}
+
+.note {
+  padding: 5px 0px;
+  background: red;
+  color: #fff;
+}
+.note span {
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 80%;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 15px;
+}
+main h2, main h3, main h4 {
+  text-align: center;
+}
+main .game_over {
+  color: #e20d0d;
+}
+
+.menu {
+  height: 100%;
+  background-color: #fff;
+  padding: 25px 15px;
+  max-width: 320px;
+}
+
+.row {
+  margin: 0px 25px;
+  display: flex;
+  flex: 1;
+  padding-bottom: 25px;
+}
+
+.card {
+  position: relative;
+  width: 135px;
+  height: 205px;
+  background: #3c1053;
+  border: none;
+  border-radius: 5px;
+  margin: 0px 5px;
+}
+.card i {
+  position: absolute;
+  top: 5px;
+  right: 2px;
+}
+.card .fas.fa-check-circle {
+  color: #bf972c;
+}
+.card .fas.fa-times-circle {
+  color: red;
+}
+
+.card-img-top {
+  border-radius: 5px;
+}
+
+.card-body {
+  position: absolute;
+  background: #fff;
+  width: 100%;
+  height: 35px;
+  bottom: -1px;
+  border-radius: 0px 0px 5px 5px;
+  padding-top: 5px;
+  text-align: center;
+}
+.card-body a.card-link {
+  text-transform: uppercase;
+  font-size: 80%;
+  font-weight: 600;
+  color: #007bff;
+}
+.card-body a.card-link:hover, .card-body a.card-link:active, .card-body a.card-link:visited {
+  color: #0056b3;
+}
+
+footer {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+}
+footer a {
+  display: block;
+  text-align: center;
+  margin-bottom: 5px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+button.btn {
+  -webkit-appearance: none;
+  border: none;
+  border-radius: 4px;
+}
+
+.btn-new-game {
+  width: 200px;
+  padding: 10px;
+  color: #fff;
+  background-color: #4141d8;
+}
+
+.btn-new-game:hover {
+  background-color: #0606b1;
+}
+
+.btn-menu, .btn-close {
+  height: 32px;
+  width: 32px;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0);
+}
+.btn-menu:hover > .bar, .btn-close:hover > .bar {
+  background-color: #add8e6;
+}
+.btn-menu .bar, .btn-close .bar {
+  position: absolute;
+  height: 1px;
+  background-color: #b0bcc1;
+  left: 6px;
+}
+.btn-menu .lg-bar, .btn-close .lg-bar {
+  width: 20px;
+}
+.btn-menu .md-bar, .btn-close .md-bar {
+  width: 15px;
+  margin-left: 5px;
+}
+.btn-menu .bar-one, .btn-close .bar-one {
+  transform: rotateZ(45deg);
+}
+.btn-menu .bar-two, .btn-close .bar-two {
+  transform: rotate(-45deg);
+}
+.btn-menu .bar-m-one, .btn-close .bar-m-one {
+  top: 8px;
+}
+.btn-menu .bar-m-three, .btn-close .bar-m-three {
+  bottom: 8px;
+}
+
+.counter-time {
+  font-size: 220%;
+  color: #59387a;
+}
+
+#gameCount, #correctCount, #unkownPolitician {
+  font-size: 150%;
+  color: #59387a;
+}

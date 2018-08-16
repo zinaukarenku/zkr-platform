@@ -1,10 +1,17 @@
+import logging
+import random
+import uuid
+from collections import namedtuple
 from os.path import join
+from random import randint
 
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 
-from seimas.utils import file_extension
+from seimas.utils import file_extension, django_now, add_url_params
+
+logger = logging.getLogger(__name__)
 
 
 class Term(models.Model):
@@ -202,14 +209,123 @@ class PoliticianBusinessTrip(models.Model):
     def __str__(self):
         return f"{self.politician} business trip {self.name}"
 
-# class PoliticianTerm(models.Model):
-#     politician = models.ForeignKey(Politician, on_delete=models.CASCADE)
-#     term = models.ForeignKey(Term, on_delete=models.CASCADE)
-#
-#     class Meta:
-#         verbose_name_plural = "Politicians"
-#         ordering = ['politician', 'term']
-#         unique_together = ['politician', 'term']
-#
-#     def __str__(self):
-#         return f"{self.politician} {self.term}"
+
+class PoliticianGame(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    email = models.EmailField(null=True, blank=True)
+
+    ended = models.DateTimeField(null=True, blank=True)
+
+    answered_politicians = models.ManyToManyField(Politician, blank=True)
+
+    first_politician = models.ForeignKey(Politician, on_delete=models.CASCADE, related_name="+")
+    second_politician = models.ForeignKey(Politician, on_delete=models.CASCADE, related_name="+")
+    correct_politician = models.ForeignKey(Politician, on_delete=models.CASCADE, related_name="+")
+
+    lost_on_politician = models.ForeignKey(Politician, null=True, blank=True, on_delete=models.CASCADE,
+                                           related_name="game_lost_politicians")
+
+    user_ip = models.GenericIPAddressField()
+    user_agent = models.TextField(blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = "Politicians game"
+        ordering = ['-created_at']
+
+    @staticmethod
+    def generate_politicians_pair(is_male, answered_politician_ids):
+        politicians_queryset = Politician.active.filter(is_male=is_male).exclude(id__in=answered_politician_ids)
+        politicians_count = politicians_queryset.count()
+        if politicians_count >= 2:
+            politician1, politician2 = politicians_queryset.order_by('?')[:2]
+
+            return politician1, politician2
+        else:
+            return None, None
+
+    @staticmethod
+    def generate_random_politician_pair(answered_politician_ids):
+        is_male = randint(0, 10) >= 4
+
+        politician1, politician2 = PoliticianGame.generate_politicians_pair(is_male=is_male,
+                                                                            answered_politician_ids=answered_politician_ids)
+        if politician1 and politician2:
+            return politician1, politician2
+
+        return PoliticianGame.generate_politicians_pair(is_male=not is_male,
+                                                        answered_politician_ids=answered_politician_ids)
+
+    @property
+    def answered_count(self):
+        return self.answered_politicians.all().count()
+
+    def is_game_ended(self):
+        if self.ended:
+            return True
+
+        politician1, politician2 = self.generate_random_politician_pair(self.answered_politicians.all())
+
+        return politician1 is None
+
+    def is_game_lost(self):
+        return self.lost_on_politician is None
+
+    @staticmethod
+    def start_new_game(user_ip, user_agent):
+        game = PoliticianGame()
+
+        game.user_ip = user_ip
+        game.user_agent = user_agent
+
+        game.first_politician, game.second_politician = PoliticianGame.generate_random_politician_pair([])
+        game.correct_politician = random.choice([game.first_politician, game.second_politician])
+        game.save()
+
+        return game
+
+    def guess_politician(self, selected_politician):
+        if not self.first_politician.id != selected_politician.id \
+                and not self.second_politician.id != selected_politician.id:
+            logger.warning("Selected politician id doesn't match", exc_info=True)
+            return None
+
+        if selected_politician.id != self.correct_politician.id:
+            self.ended = django_now()
+            self.lost_on_politician = self.correct_politician
+            self.save()
+
+            return self
+
+        self.answered_politicians.add(self.correct_politician)
+        self.save()
+
+        if self.is_game_ended():
+            self.ended = django_now()
+        else:
+            self.first_politician, self.second_politician = PoliticianGame.generate_random_politician_pair(
+                self.answered_politicians.all())
+            self.correct_politician = random.choice([self.first_politician, self.second_politician])
+
+        self.save()
+        return self
+
+    def polititian_cards(self):
+        PoliticianCard = namedtuple("PoliticianCard", ["photo", "name", "url", "is_correct", "more_info"])
+        base_url = reverse('seimas_politician_game')
+
+        return [
+            PoliticianCard(photo=self.first_politician.photo.url,
+                           name=self.first_politician.name,
+                           url=add_url_params(base_url, {'politician': self.first_politician.id}),
+                           is_correct=self.first_politician.id == self.correct_politician.id,
+                           more_info=self.first_politician.profile_url),
+            PoliticianCard(photo=self.second_politician.photo.url,
+                           name=self.second_politician.name,
+                           url=add_url_params(base_url, {'politician': self.second_politician.id}),
+                           is_correct=self.second_politician.id == self.correct_politician.id,
+                           more_info=self.second_politician.profile_url),
+        ]

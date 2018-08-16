@@ -17,12 +17,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 
-from web.views import politicians, politician
+from web.views import politicians, politician, politician_game
 from zkr import settings
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
-                  path('', politicians, name="seimas_politicians"),
+                  path('', politician_game, name="seimas_politician_game"),
+                  path('seimas/politikai/', politicians, name="seimas_politicians"),
                   path('seimas/politikai/<slug:slug>/', politician, name="seimas_politician")
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

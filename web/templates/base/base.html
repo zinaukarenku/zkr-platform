@@ -14,8 +14,7 @@
     <title>{{ meta_title }} | Žinau, ką renku</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" media="screen">
-    <link rel="stylesheet" href="{% static 'css/custom.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
     <meta name="og:title" content="{{ meta_title }}">
     <meta name="og:site_name" content="Žinau, ką renku">
@@ -39,11 +38,6 @@
 {% block main_container %}
 {% endblock %}
 
-
-<script src="{% static 'js/jquery.min.js' %}"></script>
-<script src="{% static 'js/popper.min.js' %}"></script>
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
-<script src="{% static 'js/custom.js' %}"></script>
 {% block script %}{% endblock %}
 </body>
 </html>
