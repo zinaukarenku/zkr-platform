@@ -72,6 +72,9 @@ class Politician(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     slug = models.SlugField(unique=True)
+
+    photo = models.ImageField(null=True, blank=True, upload_to=_politician_photo_file)
+
     is_male = models.BooleanField(default=True)
 
     elected_party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name="politicians")
