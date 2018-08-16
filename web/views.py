@@ -1,7 +1,8 @@
+from django.db.models import Prefetch
 from django.http import Http404
 from django.shortcuts import render
 
-from seimas.models import Politician
+from seimas.models import Politician, PoliticianTerm
 
 
 def politicians(request):
@@ -14,7 +15,15 @@ def politicians(request):
 
 def politician(request, slug):
     selected_politician = Politician.objects.filter(slug=slug) \
-        .select_related('elected_party').prefetch_related('divisions', 'parliament_groups', 'business_trips').first()
+        .select_related('elected_party') \
+        .prefetch_related('divisions',
+                          'parliament_groups',
+                          'business_trips',
+                          Prefetch('politician_terms',
+                                   PoliticianTerm.objects.select_related('term',
+                                                                         'elected_party',
+                                                                         'election_type'))
+                          ).first()
 
     if selected_politician is None:
         raise Http404("Politician does not exist")

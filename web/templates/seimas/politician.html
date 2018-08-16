@@ -24,6 +24,21 @@
         Personal website: {{ politician.personal_website|default:"No personal website" }}
     </p>
 
+    <h2>Elected</h2>
+    <table class="table">
+        <tbody>
+        {% for politician_term in politician.politician_terms.all %}
+            <tr>
+                <td>{{ politician_term.term }}</td>
+                <td>{{ politician_term.start }}</td>
+                <td>{{ politician_term.end|default:"No end date" }}</td>
+                <td>{{ politician_term.elected_party }}</td>
+                <td>{{ politician_term.election_type }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
     <h2>Divisions</h2>
     <table class="table">
         <tbody>
