@@ -135,7 +135,7 @@ class PoliticianBusinessTrip(models.Model):
     start = models.DateField()
     end = models.DateField(null=True, blank=True)
 
-    is_secondment = models.BooleanField(default=False, verbose_name="True stands for Komandiruotė, False for Kelionė")
+    is_secondment = models.BooleanField(default=False, help_text="True stands for Komandiruotė, False for Kelionė")
 
     class Meta:
         verbose_name_plural = "Politician business trips"
