@@ -15,15 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
 
 from web.views import politicians, politician
 from zkr import settings
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', politicians, name="seimas_politicians"),
-    path('seimas/politikai/<slug:slug>/', politician, name="seimas_politician")
-]
+                  path('admin/', admin.site.urls),
+                  path('', politicians, name="seimas_politicians"),
+                  path('seimas/politikai/<slug:slug>/', politician, name="seimas_politician")
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
