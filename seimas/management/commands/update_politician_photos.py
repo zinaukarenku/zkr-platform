@@ -157,18 +157,14 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         csv_reader = csv.reader(StringIO(self.politicians_csv), delimiter=',')
-        line_count = 0
-        for row in csv_reader:
-            if line_count == 0:
-                print(f'Column names are {", ".join(row)}')
-            else:
-                name_split = re.findall('[A-ZĄČĘĖĮŠŲŪŽ][^A-ZĄČĘĖĮŠŲŪŽ]*', row[1])
-                first_name = name_split[0]
-                last_name = name_split[1]
-                photo_url = row[0].strip()
+        for row in csv_reader[1:]:
+            name_split = re.findall('[A-ZĄČĘĖĮŠŲŪŽ][^A-ZĄČĘĖĮŠŲŪŽ]*', row[1])
+            first_name = name_split[0]
+            last_name = name_split[1]
+            photo_url = row[0].strip()
 
-                politician = Politician.objects.get(first_name__iexact=first_name, last_name__iexact=last_name)
+            politician = Politician.objects.get(first_name__iexact=first_name, last_name__iexact=last_name)
 
-                if not save_image_from_url(politician.photo, photo_url):
-                    print(f"Unable to save photo of {politician} from url {photo_url}")
-                sleep(3)
+            if not save_image_from_url(politician.photo, photo_url):
+                print(f"Unable to save photo of {politician} from url {photo_url}")
+            sleep(3)
