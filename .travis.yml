@@ -13,6 +13,6 @@ before_deploy:
 - echo -e "Host $DEPLOY_HOST\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
 after_success:
-- ssh $REMOTE_USER@$REMOTE_HOST
+- ssh -o "StrictHostKeyChecking no" -i /tmp/deploy_rsa $REMOTE_USER@$REMOTE_HOST
 - cd $REMOTEAPPDIR
 - make
