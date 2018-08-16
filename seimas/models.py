@@ -141,7 +141,7 @@ class PoliticianTerm(models.Model):
         unique_together = ['politician', 'term']
 
     def __str__(self):
-        return f"{self.politician} {self.name} group as {self.role}"
+        return f"{self.politician} in {self.term}"
 
 
 class PoliticianDivision(models.Model):
