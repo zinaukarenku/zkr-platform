@@ -7,18 +7,22 @@ from seimas.models import Term, Session, Politician, PoliticianDivision, Politic
 
 class SessionsInline(admin.StackedInline):
     model = Session
+    extra = 0
 
 
 class PoliticianDivisionsInline(admin.StackedInline):
     model = PoliticianDivision
+    extra = 0
 
 
 class PoliticianParliamentGroupsInline(admin.StackedInline):
     model = PoliticianParliamentGroup
+    extra = 0
 
 
 class PoliticianBusinessTripsInline(admin.StackedInline):
     model = PoliticianBusinessTrip
+    extra = 0
 
 
 @admin.register(Term)
