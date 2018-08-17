@@ -1,4 +1,4 @@
-version: "3"
+version: "3.7"
 
 services:
 
@@ -22,6 +22,12 @@ services:
     depends_on:
     - postgres
     - redis
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        delay: 10s
+        order: start-first
 
   nginx:
     container_name: zkr-nginx
