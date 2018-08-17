@@ -25,9 +25,10 @@ services:
 
   nginx:
     container_name: zkr-nginx
-    image: nginx
+    image: funkygibbon/nginx-pagespeed:1.13.9
     ports:
     - 80:80
+    - 443:443
     volumes:
     - ./config/nginx:/etc/nginx/conf.d
     - static_volume:/srv/platform/static
