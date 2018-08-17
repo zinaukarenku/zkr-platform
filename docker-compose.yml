@@ -25,7 +25,7 @@ services:
 
   nginx:
     container_name: zkr-nginx
-    image: funkygibbon/nginx-pagespeed:1.13.9
+    image: funkygibbon/nginx-pagespeed
     ports:
     - 80:80
     - 443:443
