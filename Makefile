@@ -1,9 +1,9 @@
 .PHONY: all
 
-all: pull release
+all: pull deploy
 
 pull:
 	git pull
 
-release:
-	docker-compose up -d --build
+deploy:
+	docker stack deploy zkr-platform --compose-file docker-compose.yml

@@ -1,4 +1,9 @@
+sudo: required
+
 language: generic
+
+services:
+  - docker
 
 addons:
   sshknownhosts:
@@ -6,6 +11,9 @@ addons:
 
 before_install:
 - set -e
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+- docker build -t vycius/zkr-platform .
+- docker push vycius/zkr-platform
 - openssl aes-256-cbc -K $encrypted_c3e3f6321cf7_key -iv $encrypted_c3e3f6321cf7_iv
   -in deploy_rsa.enc -out /tmp/deploy_rsa -d
 - eval "$(ssh-agent -s)"
