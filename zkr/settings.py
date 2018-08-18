@@ -49,9 +49,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'raven.contrib.django.raven_compat',
     'django_celery_results',
     'adminsortable2',
     'reversion',
+
 
     'seimas',
     'web',
