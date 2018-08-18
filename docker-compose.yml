@@ -3,8 +3,7 @@ version: "3"
 services:
 
   platform:
-    container_name: zkr-platform
-    build: .
+    image: vycius/zkr-platform
     env_file:
     - .env
     healthcheck:
@@ -24,7 +23,6 @@ services:
     - redis
 
   nginx:
-    container_name: zkr-nginx
     image: nginx
     ports:
     - 80:80
@@ -57,8 +55,7 @@ services:
     - redis_volume:/data
 
   celery_zkr_beat:
-    container_name: celery-zkr-beat
-    build: .
+    image: vycius/zkr-platform
     env_file:
     - .env
     volumes:
@@ -74,8 +71,7 @@ services:
     - redis
 
   celery_zkr_default_worker:
-    container_name: celery-zkr-default-worker
-    build: .
+    image: vycius/zkr-platform
     env_file:
     - .env
     volumes:
@@ -91,11 +87,11 @@ services:
 
 networks:
   nginx_network:
-    driver: bridge
+    driver: overlay
   database_network:
-    driver: bridge
+    driver: overlay
   redis_network:
-    driver: bridge
+    driver: overlay
 
 volumes:
   database_volume:

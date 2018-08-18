@@ -1,5 +1,5 @@
 from django.db.models import Prefetch, Q
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect
 from ipware import get_client_ip
 
@@ -8,6 +8,10 @@ from seimas.utils import try_parse_int
 
 
 def politician_game(request):
+    # Temporary hack
+    if Politician.objects.count() == 0:
+        return HttpResponse("OK")
+
     user_ip, _ = get_client_ip(request)
     user_agent = request.META.get('HTTP_USER_AGENT', None)
 
