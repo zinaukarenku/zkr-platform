@@ -67,3 +67,7 @@ def politician(request, slug):
     return render(request, 'seimas/politician.html', {
         'politician': selected_politician
     })
+
+
+def health_check(request):
+    return HttpResponse("OK")
