@@ -7,7 +7,7 @@ services:
     env_file:
     - .env
     healthcheck:
-      test: ["CMD", "curl --fail http://platform:8080/health/ || exit 1"]
+      test: ["CMD", "curl --fail http://localhost:8080/health/ || exit 1"]
       interval: 5s
       timeout: 5s
       retries: 15
@@ -15,7 +15,6 @@ services:
       update_config:
         parallelism: 2
         delay: 15s
-        order: start-first
     volumes:
     - static_volume:/srv/platform/static
     - media_volume:/srv/platform/media
