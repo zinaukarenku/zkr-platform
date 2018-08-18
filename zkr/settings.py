@@ -132,10 +132,11 @@ else:
 
 SENTRY_KEY = os.environ.get("SENTRY_KEY", None)
 SENTRY_SECRET = os.environ.get("SENTRY_SECRET", None)
+SENTRY_PROJECT_ID = os.environ.get("SENTRY_PROJECT_ID", None)
 RAVEN_CONFIG = None
-if SENTRY_KEY and SENTRY_SECRET:
+if SENTRY_KEY and SENTRY_SECRET and SENTRY_PROJECT_ID:
     RAVEN_CONFIG = {
-        'dsn': f'https://{SENTRY_SECRET}:{SENTRY_SECRET}@sentry.io/218316'
+        'dsn': f'https://{SENTRY_SECRET}:{SENTRY_SECRET}@sentry.io/{SENTRY_PROJECT_ID}'
     }
 
 # https://lincolnloop.com/blog/django-logging-right-way/
