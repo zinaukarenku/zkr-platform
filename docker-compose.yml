@@ -8,9 +8,9 @@ services:
     - .env
     healthcheck:
       test: ["curl", "-f", "http://localhost:8080/health/", "||", "exit", "1"]
-      interval: 5s
-      timeout: 5s
-      retries: 15
+      interval: 1s
+      timeout: 3s
+      retries: 30
     deploy:
       update_config:
         parallelism: 2
