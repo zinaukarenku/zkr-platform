@@ -7,7 +7,7 @@ services:
     env_file:
     - .env
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health/", "||", "exit", "1"]
+      test: ["curl", "-f", "http://localhost:8080/health/", "||", "exit", "1"]
       interval: 5s
       timeout: 5s
       retries: 15
