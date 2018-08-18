@@ -54,7 +54,6 @@ INSTALLED_APPS = [
     'adminsortable2',
     'reversion',
 
-
     'seimas',
     'web',
 ]
@@ -184,6 +183,11 @@ logging.config.dictConfig({
         'seimas': {
             'level': 'WARNING',
             'handlers': LOGGER_HANDLERS,
+            'propagate': False,
+        },
+        'tidylib': {
+            'level': 'ERROR',
+            'handlers': ['console'],
             'propagate': False,
         },
         # Default runserver request logging
