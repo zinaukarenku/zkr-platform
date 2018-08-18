@@ -37,7 +37,6 @@ services:
     - nginx_network
 
   postgres:
-    container_name: zkr-postgres
     image: postgres:10.5
     env_file:
     - .env
@@ -47,7 +46,6 @@ services:
     - database_volume:/var/lib/postgresql/data
 
   redis:
-    container_name: zkr-redis
     image: redis:4.0.11
     networks:
     - redis_network
