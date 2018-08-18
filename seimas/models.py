@@ -238,7 +238,8 @@ class PoliticianGame(models.Model):
 
     @staticmethod
     def generate_politicians_pair(is_male, answered_politician_ids):
-        politicians_queryset = Politician.active.filter(is_male=is_male).exclude(id__in=answered_politician_ids)
+        politicians_queryset = Politician.active.filter(photo__isnull=False, is_male=is_male) \
+            .exclude(id__in=answered_politician_ids)
         politicians_count = politicians_queryset.count()
         if politicians_count >= 2:
             politician1, politician2 = politicians_queryset.order_by('?')[:2]
