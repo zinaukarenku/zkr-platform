@@ -18,3 +18,4 @@ pytidylib==0.3.2
 # This unreleased version has task name and other parameters
 git+git://github.com/celery/django-celery-results.git
 django-ipware==2.1.0
+raven==6.9.0

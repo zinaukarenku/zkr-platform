@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import logging.config
+from django.utils.log import DEFAULT_LOGGING
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from celery.schedules import crontab
@@ -127,6 +129,64 @@ else:
             'PORT': '5432',
         }
     }
+
+SENTRY_KEY = os.environ.get("SENTRY_KEY", None)
+SENTRY_SECRET = os.environ.get("SENTRY_SECRET", None)
+RAVEN_CONFIG = None
+if SENTRY_KEY and SENTRY_SECRET:
+    RAVEN_CONFIG = {
+        'dsn': f'https://{SENTRY_SECRET}:{SENTRY_SECRET}@sentry.io/218316'
+    }
+
+# https://lincolnloop.com/blog/django-logging-right-way/
+# Disable Django's logging setup
+LOGGING_CONFIG = None
+LOGGER_HANDLERS = ['console'] if RAVEN_CONFIG else ['console', 'sentry']
+logging.config.dictConfig({
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'default': {
+            # exact format is not important, this is the minimum information
+            'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+        },
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(name)-12s %(module)s '
+                      '%(process)d %(thread)d %(message)s'
+        },
+        'django.server': DEFAULT_LOGGING['formatters']['django.server'],
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',  # STDERR
+            'formatter': 'verbose',
+        },
+        'sentry': {
+            'level': 'WARNING',
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+        },
+        'django.server': DEFAULT_LOGGING['handlers']['django.server'],
+    },
+    'loggers': {
+        '': {
+            'level': 'WARNING',
+            'handlers': LOGGER_HANDLERS,
+        },
+        'web': {
+            'level': 'INFO' if DEBUG else 'WARNING',
+            'handlers': LOGGER_HANDLERS,
+            'propagate': False,
+        },
+        'seimas': {
+            'level': 'WARNING',
+            'handlers': LOGGER_HANDLERS,
+            'propagate': False,
+        },
+        # Default runserver request logging
+        'django.server': DEFAULT_LOGGING['loggers']['django.server'],
+    },
+})
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
