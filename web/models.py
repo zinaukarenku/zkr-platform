@@ -1,6 +1,52 @@
+from os.path import join
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.text import slugify
+from django_resized import ResizedImageField
+
+from seimas.utils import file_extension
 
 
 class User(AbstractUser):
     pass
+
+
+class OrganizationMemberGroup(models.Model):
+    name = models.CharField(max_length=128, unique=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        verbose_name_plural = "Organization member groups"
+        ordering = ['order']
+
+    def __str__(self):
+        return self.name
+
+
+class OrganizationMember(models.Model):
+    def _organization_member_photo_file(self, filename):
+        ext = file_extension(filename)
+        slug = slugify(self.name)
+
+        filename = f"{slug}-photo.{ext}"
+        return join('img', 'zkr', 'member', filename)
+
+    name = models.CharField(max_length=128)
+    photo = ResizedImageField(upload_to=_organization_member_photo_file, crop=['middle', 'center'], size=[256, 256])
+
+    group = models.ForeignKey(OrganizationMemberGroup, on_delete=models.CASCADE, related_name="members")
+    role = models.CharField(max_length=256)
+
+    linkedin_url = models.URLField(blank=True, null=True)
+    facebook_url = models.URLField(blank=True, null=True)
+    twitter_url = models.URLField(blank=True, null=True)
+
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        verbose_name_plural = "Organization members"
+        ordering = ['order']
+
+    def __str__(self):
+        return self.name
