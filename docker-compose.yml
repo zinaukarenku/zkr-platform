@@ -11,6 +11,11 @@ services:
       interval: 5s
       timeout: 5s
       retries: 15
+    deploy:
+      update_config:
+        parallelism: 2
+        delay: 15s
+        order: start-first
     volumes:
     - static_volume:/srv/platform/static
     - media_volume:/srv/platform/media
