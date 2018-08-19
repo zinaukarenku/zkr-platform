@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-if os.environ.get('DEV'):
+if 'DEV' in os.environ:
     CELERY_TASK_ALWAYS_EAGER = True  # Sync celery tasks in sync
     DEBUG = True
 
@@ -111,8 +111,9 @@ WSGI_APPLICATION = 'zkr.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+IS_POSTGRES_AVAILABLE = 'POSTGRES_DB' in os.environ and 'POSTGRES_USER' in os.environ and 'POSTGRES_PASSWORD' in os.environ
 
-if DEBUG:
+if DEBUG and not IS_POSTGRES_AVAILABLE:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
