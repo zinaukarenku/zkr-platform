@@ -1,0 +1,67 @@
+{% extends "base/base-page.html" %}
+
+{% block title %}Index{% endblock %}
+
+{% block content %}
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <td class="text-center">
+                <a href="{% url 'seimas_politician_game' %}">Politikų žaidimas</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="text-center">
+                <a href="{% url 'seimas_politicians' %}">Politikai seime</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <form id="subscribe-form"
+                  action="{% url 'subscribe' %}"
+                  method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="email" name="email" class="form-control"
+                           placeholder="Enter your email address"
+                           required>
+                </div>
+                <button class="btn btn-primary btn-block" type="submit">
+                    Subscribe
+                </button>
+            </form>
+            <div id="subscribe-message">
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let subscribeForm = $('#subscribe-form');
+            subscribeForm.submit(function () {
+                $.ajax({
+                    type: subscribeForm.attr('method'),
+                    url: subscribeForm.attr('action'),
+                    data: subscribeForm.serialize(),
+                    success: function (response) {
+                        $('#subscribe-message').text("E-mail subscription succeeded");
+                    },
+                    error: function (request, textStatus, errorThrown) {
+                        $('#subscribe-message').text('Unable to add your e-amil to subscription list. ' + request.responseText);
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+{% endblock %}
+
+

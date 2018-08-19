@@ -12,6 +12,26 @@ class User(AbstractUser):
     pass
 
 
+class EmailSubscription(models.Model):
+    email = models.EmailField(unique=True)
+
+    user_ip = models.GenericIPAddressField()
+    user_agent = models.TextField(blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = "E-mail subscriptions"
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.email}"
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.email = self.email.strip().lower()
+        super().save(force_insert, force_update, using, update_fields)
+
+
 class OrganizationMemberGroup(models.Model):
     name = models.CharField(max_length=128, unique=True)
     order = models.PositiveIntegerField(default=0)
