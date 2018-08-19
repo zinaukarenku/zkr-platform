@@ -1,6 +1,8 @@
 {% load static %}
 {% load capture_tags %}
 {% load full_static %}
+{% load raven %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,6 +41,8 @@
 {% block main_container %}
 {% endblock %}
 
+<script src="{% static 'js/raven.min.js' %}"></script
+<script>Raven.config('{% sentry_public_dsn 'https' %}').install()</script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script
 {% block script %}{% endblock %}
 </body>
