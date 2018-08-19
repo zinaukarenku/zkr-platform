@@ -6,11 +6,8 @@ services:
     image: vycius/zkr-platform
     env_file:
     - .env
-#    healthcheck:
-#      test: ["CMD", "curl", "-f", "http://localhost:8080/health/", "||", "exit", "1"]
-#      interval: 1s
-#      timeout: 3s
-#      retries: 30
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/health/ || exit 1"]
     deploy:
       update_config:
         parallelism: 2
