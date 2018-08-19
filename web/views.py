@@ -6,11 +6,14 @@ from ipware import get_client_ip
 from rest_framework.status import HTTP_422_UNPROCESSABLE_ENTITY, HTTP_409_CONFLICT, HTTP_201_CREATED
 
 from web.forms import EmailSubscriptionForm
-from web.models import EmailSubscription
+from web.models import EmailSubscription, OrganizationPartner
 
 
 def index(request):
-    return render(request, 'web/index.html')
+    partners = OrganizationPartner.objects.all()
+    return render(request, 'web/index.html', {
+        'partners': partners
+    })
 
 
 @require_http_methods(["POST"])

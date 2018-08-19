@@ -70,3 +70,24 @@ class OrganizationMember(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class OrganizationPartner(models.Model):
+    def _organization_partner_logo_file(self, filename):
+        ext = file_extension(filename)
+        slug = slugify(self.name)
+
+        filename = f"{slug}-photo.{ext}"
+        return join('img', 'zkr', 'partners', filename)
+
+    name = models.CharField(max_length=256)
+    logo = models.ImageField()
+    url = models.URLField()
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        verbose_name_plural = "Organization partners"
+        ordering = ['order']
+
+    def __str__(self):
+        return self.name

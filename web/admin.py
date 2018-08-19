@@ -2,7 +2,7 @@ from adminsortable2.admin import SortableAdminMixin
 from django.contrib import admin
 from reversion.admin import VersionAdmin
 
-from web.models import OrganizationMember, OrganizationMemberGroup, EmailSubscription
+from web.models import OrganizationMember, OrganizationMemberGroup, EmailSubscription, OrganizationPartner
 
 
 @admin.register(OrganizationMember)
@@ -17,6 +17,12 @@ class OrganizationMemberAdmin(SortableAdminMixin, VersionAdmin):
 class OrganizationMemberGroupAdmin(SortableAdminMixin, VersionAdmin):
     search_fields = ['name']
     list_display = ['name']
+
+
+@admin.register(OrganizationPartner)
+class OrganizationPartnersAdmin(SortableAdminMixin, VersionAdmin):
+    search_fields = ['name']
+    list_display = ['name', 'logo', 'url']
 
 
 @admin.register(EmailSubscription)
