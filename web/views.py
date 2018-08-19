@@ -6,13 +6,15 @@ from ipware import get_client_ip
 from rest_framework.status import HTTP_422_UNPROCESSABLE_ENTITY, HTTP_409_CONFLICT, HTTP_201_CREATED
 
 from web.forms import EmailSubscriptionForm
-from web.models import EmailSubscription, OrganizationPartner
+from web.models import EmailSubscription, OrganizationPartner, OrganizationMember
 
 
 def index(request):
     partners = OrganizationPartner.objects.all()
+    members = OrganizationMember.objects.select_related('group').all()
     return render(request, 'web/index.html', {
-        'partners': partners
+        'partners': partners,
+        'members': members
     })
 
 
