@@ -43,6 +43,8 @@
 
 <script src="{% static 'js/raven.min.js' %}"></script>
 <script>Raven.config('{% sentry_public_dsn 'https' %}').install()</script>
+<script src="{% static 'js/jquery.slim.min.js' %}"></script
+<script src="{% static 'js/popper.min.js' %}"></script
 <script src="{% static 'js/bootstrap.min.js' %}"></script
 {% block script %}{% endblock %}
 </body>
