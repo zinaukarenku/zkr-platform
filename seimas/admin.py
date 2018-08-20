@@ -5,7 +5,8 @@ from reversion.admin import VersionAdmin
 from seimas.models import Term, Session, Politician, PoliticianDivision, PoliticianParliamentGroup, \
     PoliticianBusinessTrip, PoliticianTerm, PoliticianGame
 
-admin.site.login = login_required(admin.site.login)
+# admin.site.login = login_required(admin.site.login)
+
 
 class SessionsInline(admin.StackedInline):
     model = Session
@@ -60,6 +61,7 @@ class PoliticianAdmin(VersionAdmin):
 @admin.register(PoliticianGame)
 class PoliticianGameAdmin(VersionAdmin):
     search_fields = ['id']
-    list_display = ['id', 'first_politician', 'second_politician', 'correct_politician', 'lost_on_politician',
+
+    list_display = ['id', 'user', 'first_politician', 'second_politician', 'correct_politician', 'lost_on_politician',
                     'user_ip', 'user_agent']
-    list_select_related = ['first_politician', 'second_politician', 'correct_politician', 'lost_on_politician']
+    list_select_related = ['user', 'first_politician', 'second_politician', 'correct_politician', 'lost_on_politician']

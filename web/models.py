@@ -8,6 +8,7 @@ from django.utils.text import slugify
 from django_resized import ResizedImageField
 
 from seimas.utils import file_extension
+from zkr import settings
 
 
 class User(AbstractUser):
@@ -77,6 +78,8 @@ class OrganizationMember(models.Model):
     name = models.CharField(max_length=128)
     photo = ResizedImageField(upload_to=_organization_member_photo_file, crop=['middle', 'center'], size=[256, 256])
 
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True,
+                                related_name="organization_member")
     group = models.ForeignKey(OrganizationMemberGroup, on_delete=models.CASCADE, related_name="members")
     role = models.CharField(max_length=256)
 
