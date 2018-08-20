@@ -1,0 +1,36 @@
+{% extends "web/base-page.html" %}
+{% load crispy_forms_tags %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block content %}
+    <div class="container main-content">
+        <div style="max-width: 450px;" class="mx-auto">
+            <h3 class="fw-400 font-dosis mb-20 text-center">{% block title %}{% trans "Signup" %}{% endblock %}</h3>
+            <p class="lead fw-400 opacity-65 text-center">
+                {% blocktrans with provider_name=account.get_provider.name site_name=site.name %}
+                    You are about to use  your
+                    {{ provider_name }} account to login to
+                    {{ site_name }}. As a final step, please complete the following form:
+                {% endblocktrans %}
+            </p>
+            <div class="card">
+                <div class="card-body">
+                    <form class="signup" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}">
+                        {% csrf_token %}
+                        {% crispy form %}
+                        {% if redirect_field_value %}
+                            <input type="hidden" name="{{ redirect_field_name }}"
+                                   value="{{ redirect_field_value }}"/>
+                        {% endif %}
+                        <div class="form-actions">
+                            <button class="btn btn-block btn-bold btn-primary" type="submit">Sign Up</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
