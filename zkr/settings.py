@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'django_celery_results',
     'adminsortable2',
     'reversion',
+    'captcha',
 
     'seimas',
     'web',
@@ -322,9 +323,20 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
-# ACCOUNT_FORMS = {}
-# SOCIALACCOUNT_FORMS = {}
+ACCOUNT_FORMS = {
+    'login': 'web.forms.LoginForm',
+    'signup': 'web.forms.SignupForm',
+    'reset_password': 'web.forms.ResetPasswordForm',
+}
+SOCIALACCOUNT_FORMS = {
+    'signup': 'web.forms.SocialSignupForm',
+}
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+
+# Recaptcha
+RECAPTCHA_PUBLIC_KEY = os.environ.get('RECAPTCHA_PUBLIC_KEY')
+RECAPTCHA_PRIVATE_KEY = os.environ.get('RECAPTCHA_PRIVATE_KEY')
+NOCAPTCHA = True

@@ -4,7 +4,7 @@
 {% load raven %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt" prefix="og: http://ogp.me/ns#">
 <head>
     {% capture as meta_title silent %}{% block title %}{% endblock %}{% endcapture %}
     {% capture as meta_description silent %}{% block description %}{% endblock %}{% endcapture %}
@@ -21,11 +21,11 @@
 
     <meta name="og:title" content="{{ meta_title }}">
     <meta name="og:site_name" content="Žinau, ką renku">
-    <meta name="og:description" content="{{ meta_description }}>
+    <meta name="og:description" content="{{ meta_description }}">
     {% if image %}
          <meta name="og:image" content="{{ image }}">
     {% else %}
-        <meta name="og:image" content="{% full_static 'img/zkr-big-square-logo.png' %}>
+        <meta name="og:image" content="{% full_static 'img/zkr-big-square-logo.png' %}">
     {% endif %}
     {% if video %}
         <meta property="og:video" content="{{ video }}">
