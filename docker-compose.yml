@@ -76,7 +76,7 @@ services:
     - /srv/platform/worker_cache:/srv/platform/worker_cache
     command: celery -A zkr beat -l info  --schedule=/srv/platform/celerybeat-schedule
     healthcheck:
-      test: ["CMD-SHELL", "celery inspect ping -A zkr"]
+      test: ["CMD", "celery inspect ping -A zkr"]
     networks:
     - database_network
     - redis_network
@@ -97,7 +97,7 @@ services:
     - /srv/platform/worker_cache:/srv/platform/worker_cache
     command: celery -A zkr worker -l info -E --concurrency=3
     healthcheck:
-      test: ["CMD-SHELL", "celery inspect ping -A zkr"]
+      test: ["CMD", "celery inspect ping -A zkr"]
     networks:
     - database_network
     - redis_network
