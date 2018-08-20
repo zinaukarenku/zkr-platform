@@ -6,7 +6,6 @@ from django.views.decorators.http import require_http_methods
 from ipware import get_client_ip
 from rest_framework.status import HTTP_422_UNPROCESSABLE_ENTITY, HTTP_409_CONFLICT, HTTP_201_CREATED
 
-from seimas.models import PoliticianGame
 from web.forms import EmailSubscriptionForm
 from web.models import EmailSubscription, OrganizationPartner, OrganizationMember
 
