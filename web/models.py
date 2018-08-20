@@ -1,7 +1,9 @@
 from os.path import join
 
+from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django_resized import ResizedImageField
 
@@ -9,7 +11,27 @@ from seimas.utils import file_extension
 
 
 class User(AbstractUser):
-    pass
+    photo = models.ImageField(blank=True, null=True, upload_to='img/users/')
+
+    def save(self, *args, **kwargs):
+        if not self.username:
+            self.username = self.email
+
+        super().save(*args, **kwargs)
+
+    @cached_property
+    def all_social_accounts(self):
+        return SocialAccount.objects.filter(user=self)
+
+    def facebook_social_account(self):
+        for social_account in self.all_social_accounts:
+            if social_account.provider == 'facebook':
+                return social_account
+
+    def google_social_account(self):
+        for social_account in self.all_social_accounts:
+            if social_account.provider == 'google':
+                return social_account
 
 
 class EmailSubscription(models.Model):

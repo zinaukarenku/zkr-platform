@@ -28,7 +28,7 @@ if 'DEV' in os.environ:
     CELERY_TASK_ALWAYS_EAGER = True  # Sync celery tasks in sync
     DEBUG = True
 
-ENABLE_DEBUG_DRAWER_IN_DEBUG = True
+ENABLE_DEBUG_DRAWER_IN_DEBUG = False
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY') if not DEBUG else 'DEBUG'
@@ -48,14 +48,24 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
+    'django.contrib.sitemaps',
+    'django.contrib.sites',
 
     'raven.contrib.django.raven_compat',
+    'crispy_forms',
     'django_celery_results',
     'adminsortable2',
     'reversion',
 
     'seimas',
     'web',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -300,3 +310,21 @@ if not DEBUG:
 DJANGORESIZED_DEFAULT_QUALITY = 90
 DJANGORESIZED_DEFAULT_KEEP_META = False
 DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = False
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# Authentication
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+LOGIN_REDIRECT_URL = "/"
+ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
+ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
+# ACCOUNT_FORMS = {}
+# SOCIALACCOUNT_FORMS = {}
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'

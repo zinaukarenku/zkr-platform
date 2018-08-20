@@ -1,8 +1,11 @@
 from adminsortable2.admin import SortableAdminMixin
 from django.contrib import admin
+from django.contrib.auth.decorators import login_required
 from reversion.admin import VersionAdmin
 
 from web.models import OrganizationMember, OrganizationMemberGroup, EmailSubscription, OrganizationPartner
+
+admin.site.login = login_required(admin.site.login)
 
 
 @admin.register(OrganizationMember)
