@@ -9,6 +9,8 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8080/health/ || exit 1"]
     deploy:
+      restart_policy:
+        condition: on-failure
       update_config:
         parallelism: 2
         delay: 15s
@@ -36,6 +38,9 @@ services:
     - platform
     networks:
     - nginx_network
+    deploy:
+      restart_policy:
+        condition: on-failure
 
   postgres:
     image: postgres:10.5
@@ -45,6 +50,9 @@ services:
     - database_network
     volumes:
     - database_volume:/var/lib/postgresql/data
+    deploy:
+      restart_policy:
+        condition: on-failure
 
   redis:
     image: redis:4.0.11
@@ -52,6 +60,11 @@ services:
     - redis_network
     volumes:
     - redis_volume:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping"]
+    deploy:
+      restart_policy:
+        condition: on-failure
 
   celery_zkr_beat:
     image: vycius/zkr-platform
@@ -62,12 +75,17 @@ services:
     - media_volume:/srv/platform/media
     - /srv/platform/worker_cache:/srv/platform/worker_cache
     command: celery -A zkr beat -l info  --schedule=/srv/platform/celerybeat-schedule
+    healthcheck:
+      test: ["CMD-SHELL", "celery inspect ping -A zkr"]
     networks:
     - database_network
     - redis_network
     depends_on:
     - postgres
     - redis
+    deploy:
+      restart_policy:
+        condition: on-failure
 
   celery_zkr_default_worker:
     image: vycius/zkr-platform
@@ -78,11 +96,17 @@ services:
     - media_volume:/srv/platform/media
     - /srv/platform/worker_cache:/srv/platform/worker_cache
     command: celery -A zkr worker -l info -E --concurrency=3
+    healthcheck:
+      test: ["CMD-SHELL", "celery inspect ping -A zkr"]
     networks:
     - database_network
     - redis_network
     depends_on:
-    - celery_zkr_beat
+    - postgres
+    - redis
+    deploy:
+      restart_policy:
+        condition: on-failure
 
 networks:
   nginx_network:
