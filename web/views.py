@@ -1,10 +1,12 @@
+from allauth.socialaccount.forms import DisconnectForm
 from django.db import IntegrityError
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
 from ipware import get_client_ip
 from rest_framework.status import HTTP_422_UNPROCESSABLE_ENTITY, HTTP_409_CONFLICT, HTTP_201_CREATED
 
+from seimas.models import PoliticianGame
 from web.forms import EmailSubscriptionForm
 from web.models import EmailSubscription, OrganizationPartner, OrganizationMember
 
@@ -35,6 +37,26 @@ def subscribe(request):
         return HttpResponse(status=HTTP_409_CONFLICT, content='E-mail is already registered.')
 
     return HttpResponse(status=HTTP_201_CREATED)
+
+
+def user_profile(request):
+    user = request.user
+
+    if user is None or user.is_authenticated is False:
+        return redirect('account_login')
+
+    error = None
+    if request.method == 'POST':
+        disconnect_form = DisconnectForm(request.POST, request=request)
+
+        if disconnect_form.is_valid():
+            disconnect_form.save()
+        else:
+            error = "Unable to disconnect social account. Try again."
+
+    return render(request, 'web/user-profile.html', {
+        'error': error
+    })
 
 
 def health_check(request):

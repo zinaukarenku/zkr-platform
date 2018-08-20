@@ -211,6 +211,11 @@ class PoliticianBusinessTrip(models.Model):
         return f"{self.politician} business trip {self.name}"
 
 
+class PoliticianGameQuerySet(models.QuerySet):
+    def annotate_with_politicians_answered_count(self):
+        return self.annotate(politicians_answered_count=models.Count('answered_politicians'))
+
+
 class PoliticianGame(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
@@ -234,6 +239,8 @@ class PoliticianGame(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    objects = PoliticianGameQuerySet.as_manager()
 
     class Meta:
         verbose_name_plural = "Politicians game"
@@ -282,7 +289,7 @@ class PoliticianGame(models.Model):
     def start_new_game(user, user_ip, user_agent):
         game = PoliticianGame()
 
-        game.user = user
+        game.user = user if user.is_authenticated else None
         game.user_ip = user_ip
         game.user_agent = user_agent
 

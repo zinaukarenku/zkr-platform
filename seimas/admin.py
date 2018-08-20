@@ -60,8 +60,17 @@ class PoliticianAdmin(VersionAdmin):
 
 @admin.register(PoliticianGame)
 class PoliticianGameAdmin(VersionAdmin):
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate_with_politicians_answered_count()
+
     search_fields = ['id']
 
-    list_display = ['id', 'user', 'first_politician', 'second_politician', 'correct_politician', 'lost_on_politician',
+    list_display = ['id', 'user', 'politicians_answered_count', 'first_politician', 'second_politician',
+                    'correct_politician', 'lost_on_politician',
                     'user_ip', 'user_agent']
     list_select_related = ['user', 'first_politician', 'second_politician', 'correct_politician', 'lost_on_politician']
+
+    def politicians_answered_count(self, obj):
+        return obj.politicians_answered_count
+
+    politicians_answered_count.admin_order_field = 'politicians_answered_count'
