@@ -16,3 +16,6 @@ media/
 venv/
 /.env
 db.sqlite3
+pip-selfcheck.json
+pyvenv.cfg
+bin/

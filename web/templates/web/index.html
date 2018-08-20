@@ -1,51 +1,52 @@
-{% extends "base/base-page.html" %}
+{% extends "base/base-page.html" %} {% block title %}Index{% endblock %} {% load staticfiles %} {% block styles %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}"> {% endblock %} {% block content %}
 
-{% block title %}Index{% endblock %}
 
-{% block content %}
+<div class="banner banner--home d-flex align-items-center justify-content-center">
+    <div class="container text-center mt-4">
+        <h2 class="text-600">Žinau, ką renku</h2>
+        <p>Politinės stebėsenos platforma</p>
+    </div>
+</div>
 
-    <table class="table">
-        <tbody>
-        <tr>
-            <td class="text-center">
-                <a href="{% url 'seimas_politician_game' %}">Politikų žaidimas</a>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-center">
-                <a href="{% url 'seimas_politicians' %}">Politikai seime</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <hr>
-
-    <div class="row">
-        <div class="col-md-4 mx-auto">
-            <form id="subscribe-form"
-                  action="{% url 'subscribe' %}"
-                  method="post">
-                {% csrf_token %}
-                <div class="form-group">
-                    <input type="email" name="email" class="form-control"
-                           placeholder="Enter your email address"
-                           required>
-                </div>
-                <button class="btn btn-primary btn-block" type="submit">
-                    Subscribe
-                </button>
-            </form>
-            <div id="subscribe-message">
+<main class="pt-3 mb-3">
+    <div class="container">
+        <div class="row mb-2">
+            <div class="col-lg-3">
+                <a href="" class="card d-flex align-items-center justify-content-center card-block-link text-center">Pažink politiką</a>
+            </div>
+            <div class="col-lg-3">
+                <a href="" class="card d-flex align-items-center justify-content-center card-block-link text-center">ŽKR - Laisvės Piknike</a>
+            </div>
+            <div class="col-lg-3">
+                <a href="" class="card d-flex align-items-center justify-content-center card-block-link text-center">Tinkliaraštis</a>
+            </div>
+            <div class="col-lg-3">
+                <a href="" class="card d-flex align-items-center justify-content-center card-block-link text-center">Pažink politiką</a>
             </div>
         </div>
+
+        <div class="banner--newsletter pt-4 pb-4">
+            <h2>Užsiprenumeruokite mūsų naujienlaiškius</h2>
+            <form id="subscribe-form" class="form-inline justify-content-center form-newsletter" action="{% url 'subscribe' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="sr-only">El. paštas</label>
+                    <input type="email" name="email" class="form-control mr-2" placeholder="Jūsų el. paštas" style="min-width: 280px; max-width: 400px;" required>
+                </div>
+                <button class="btn btn-primary" type="submit">Prenumeruokite</button>
+            </form>
+            <div id="subscribe-message"></div>
+        </div>
     </div>
+</main>
 
-    {% regroup members by group as members_by_group %}
-    <hr>
-    <h2>Organizacijos nariai</h2>
+<!-- {% regroup members by group as members_by_group %}
+<hr>
+<h2>Organizacijos nariai</h2>
 
-    <table class="table">
-        <thead>
+<table class="table">
+    <thead>
         <tr>
             <th>
                 Vardas
@@ -66,92 +67,130 @@
                 Twitter
             </th>
         </tr>
-        </thead>
-        <tbody>
+    </thead>
+    <tbody>
         {% for group, members in members_by_group %}
-            <tr>
-                <th class="text-center" colspan="6">
-                    {{ group.name }}
-                </th>
-            </tr>
-            {% for member in members %}
-                <tr>
-                    <td>
-                        {{ member.name }}
-                    </td>
-                    <td>
-                        {{ member.role }}
-                    </td>
-                    <td>
-                        <img src="{{ member.photo.url }}">
-                    </td>
-                    <td>
-                        {% if member.linkedin_url %}
-                            <a href="{{ member.linkedin_url }}">{{ member.linkedin_url }}</a>
-                        {% else %}
-                            -
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if  member.facebook_url %}
-                            <a href="{{ member.facebook_url }}">{{ member.facebook_url }}</a>
-                        {% else %}
-                            -
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if member.twitter_url %}
-                            <a href="{{ member.twitter_url }}">{{ member.twitter_url }}</a>
-                        {% else %}
-                            -
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-        {% endfor %}
-        </tbody>
-    </table>
-    <hr>
+        <tr>
+            <th class="text-center" colspan="6">
+                {{ group.name }}
+            </th>
+        </tr>
+        {% for member in members %}
+        <tr>
+            <td>
+                {{ member.name }}
+            </td>
+            <td>
+                {{ member.role }}
+            </td>
+            <td>
+                <img src="{{ member.photo.url }}">
+            </td>
+            <td>
+                {% if member.linkedin_url %}
+                <a href="{{ member.linkedin_url }}">{{ member.linkedin_url }}</a> {% else %} - {% endif %}
+            </td>
+            <td>
+                {% if member.facebook_url %}
+                <a href="{{ member.facebook_url }}">{{ member.facebook_url }}</a> {% else %} - {% endif %}
+            </td>
+            <td>
+                {% if member.twitter_url %}
+                <a href="{{ member.twitter_url }}">{{ member.twitter_url }}</a> {% else %} - {% endif %}
+            </td>
+        </tr>
+        {% endfor %} {% endfor %}
+    </tbody>
+</table>
+<hr> -->
 
-    <h2>Organizacijos partneriai</h2>
-
-
-    <div class="card">
-        <div class="card-header">
-            Partneriai
-        </div>
-        <div class="card-body">
-            {% for partner in partners %}
-                <a href="{{ partner.url }}"
-                   target="_blank"
-                   title="{{ partner.name }}">
-                    <img src="{{ partner.logo.url }}">
-                </a>
-            {% endfor %}
+<div class="draugai">
+    <div class="container">
+        <h3 class="text-center">Mūsų draugai</h3>
+        <div class="row">
+            <ul class="col-md-12 d-flex flex-column flex-md-row align-items-center">
+                <li>
+                    <a href="https://www.facebook.com/mannedzin/" target="_blank" rel="noopener noreferrer">
+                        <img src="{% static 'img/man_ne_dzin_3.png' %}" width="130">
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.baltosiospirstines.lt/" target="_blank" rel="noopener noreferrer">
+                        <img src="{% static 'img/BP_logo_sutekstu1000.png' %}" width="120">
+                    </a>
+                </li>
+            </ul>
+            <ul class="col-md-12 d-flex flex-column flex-md-row align-items-center">
+                <li>
+                    <a href="https://www.rtvmc.lt/" target="_blank" rel="noopener noreferrer">
+                        <img src="{% static 'img/maxresdefault.png' %}" width="200">
+                    </a>
+                </li>
+                <li>
+                    <a href="http://eurohouse.lt/" target="_blank" rel="noopener noreferrer">
+                        <img src="{% static 'img/europos_namai.png' %}" width="150">
+                    </a>
+                </li>
+            </ul>
+            <ul class="col-md-12 d-flex flex-column flex-md-row align-items-center">
+                <li>
+                    <a href="http://www.manobalsas.lt/index/index.php" target="_blank" rel="noopener noreferrer">
+                        <img src="{% static 'img/Manobalsas.lt logo.png' %}" width="170">
+                    </a>
+                </li>
+                <li>
+                    <a href="http://www.erasmus-plius.lt/" target="_blank" rel="noopener noreferrer">
+                        <img src="{% static 'img/logo-erasmus-plus.png' %}" width="150">
+                    </a>
+                </li>
+            </ul>
+            <ul class="col-md-12 d-flex flex-column flex-md-row align-items-center">
+                <li>
+                    <a href="http://www.civitas.lt/" target="_blank" rel="noopener noreferrer">
+                        <img src="{% static 'img/civit-lt.png' %}" width="150">
+                    </a>
+                </li>
+                <li>
+                    <a href="http://vrk.lt/" target="_blank" rel="noopener noreferrer">
+                        <img src="{% static 'img/vrk-logo-lt.png' %}" width="200">
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
-{% endblock %}
+</div>
 
-{% block script %}
-    <script type="text/javascript">
-        $(document).ready(function () {
-            let subscribeForm = $('#subscribe-form');
-            subscribeForm.submit(function () {
-                $.ajax({
-                    type: subscribeForm.attr('method'),
-                    url: subscribeForm.attr('action'),
-                    data: subscribeForm.serialize(),
-                    success: function (response) {
-                        $('#subscribe-message').text("E-mail subscription succeeded");
-                    },
-                    error: function (request, textStatus, errorThrown) {
-                        $('#subscribe-message').text('Unable to add your e-amil to subscription list. ' + request.responseText);
-                    }
-                });
-                return false;
+
+<!-- <div class="card">
+    <div class="card-header">
+        Partneriai
+    </div>
+    <div class="card-body">
+        {% for partner in partners %}
+        <a href="{{ partner.url }}" target="_blank" title="{{ partner.name }}">
+            <img src="{{ partner.logo.url }}">
+        </a>
+        {% endfor %}
+    </div>
+</div> -->
+{% endblock %} {% block script %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        let subscribeForm = $('#subscribe-form');
+        subscribeForm.submit(function() {
+            $.ajax({
+                type: subscribeForm.attr('method'),
+                url: subscribeForm.attr('action'),
+                data: subscribeForm.serialize(),
+                success: function(response) {
+                    $('#subscribe-message').text("E-mail subscription succeeded");
+                },
+                error: function(request, textStatus, errorThrown) {
+                    $('#subscribe-message').text('Unable to add your e-amil to subscription list. ' + request.responseText);
+                }
             });
+            return false;
         });
-    </script>
+    });
+</script>
 {% endblock %}
-
-
