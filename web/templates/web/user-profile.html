@@ -1,0 +1,29 @@
+{% extends "base/base-page.html" %}
+{% load static %}
+
+{% block title %}Profilis{% endblock %}
+
+{% block content %}
+
+    <main>
+        <div class="container">
+            {% if error %}
+                <div class="alert alert-danger">
+                    <strong>{{ error }}</strong>
+                </div>
+            {% endif %}
+            <div class="row">
+                <div class="col-lg-5 col-md-6">
+                    <div class="card">
+                        <h4 class="card-title">
+                            Social Accounts
+                        </h4>
+                        <div class="card-body">
+                            {% include 'account/social-buttons.html' with process="connect" %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

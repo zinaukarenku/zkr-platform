@@ -1,0 +1,17 @@
+{% extends 'base/base-page.html' %}
+
+{% load crispy_forms_tags %}
+
+{% load account socialaccount %}
+
+{% block content %}
+    <div class="container main-content">
+        <div style="max-width: 450px;" class="mx-auto">
+            <h3 class="fw-400 font-dosis mb-20 text-center">{% block title %}Verify Your E-mail
+                Address{% endblock %}</h3>
+            <p class="lead fw-400 opacity-65 text-center">We have sent an e-mail to you for verification. Follow the
+                link provided to finalize the signup process. Please contact us if you do not receive it within a few
+                minutes.</p>
+        </div>
+    </div>
+{% endblock %}

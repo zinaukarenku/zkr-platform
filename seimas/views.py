@@ -24,7 +24,7 @@ def politician_game(request):
         game = PoliticianGame.objects.filter(id=game_id, ended__isnull=True).first()
 
     if game is None:
-        game = PoliticianGame.start_new_game(user_ip=user_ip, user_agent=user_agent)
+        game = PoliticianGame.start_new_game(user=request.user, user_ip=user_ip, user_agent=user_agent)
     elif politician_id:
         selected_politician = Politician.objects.filter(id=politician_id).first()
 
@@ -35,7 +35,7 @@ def politician_game(request):
     response = render(request, 'seimas/game.html', {
         'game': game
     })
-    response.set_cookie('politician_game_id', game.id)
+    response.set_cookie('politician_game_id', game.id, max_age=300)
 
     return response
 

@@ -1,0 +1,33 @@
+{% extends 'base/base-page.html' %}
+
+{% load crispy_forms_tags %}
+
+{% load account socialaccount %}
+
+
+
+{% block content %}
+    <div class="container main-content">
+        <div style="max-width: 450px;" class="mx-auto">
+            <h3 class="fw-400 font-dosis mb-20 text-center">{% block title %}Sign Up{% endblock %}</h3>
+            <p class="lead fw-400 opacity-65 text-center">Already have an account? Then please <a
+                    href="{{ login_url }}">sign
+                in</a>.</p>
+            <div class="card">
+                <div class="card-body">
+                    <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+                        {% crispy form %}
+                        {% if redirect_field_value %}
+                            <input type="hidden" name="{{ redirect_field_name }}"
+                                   value="{{ redirect_field_value }}"/>
+                        {% endif %}
+                        <div class="form-actions">
+                            <button class="btn btn-block btn-bold btn-primary" type="submit">Sign Up</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

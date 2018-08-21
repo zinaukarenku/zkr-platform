@@ -5,6 +5,7 @@ uWSGI==2.0.17.1
 psycopg2-binary==2.7.5
 django-debug-toolbar==1.9.1
 django-admin-sortable2==0.6.21
+django-allauth==0.36.0
 django-reversion==2.0.13
 gunicorn>=19.9,<19.10
 ipdb==0.11
@@ -21,3 +22,5 @@ django-ipware==2.1.0
 raven==6.9.0
 # Version in pip doesn't have EXIF bugfix
 git+git://github.com/un1t/django-resized.git
+django-crispy-forms==1.7.2
+django-recaptcha==1.4.0

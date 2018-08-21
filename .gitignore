@@ -11,7 +11,8 @@ tests/coverage_html/
 tests/.coverage
 tests/report/
 package-lock.json
-media/
+/media/
+/static/
 .idea/
 venv/
 /.env

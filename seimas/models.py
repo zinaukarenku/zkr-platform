@@ -10,6 +10,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 
 from seimas.utils import file_extension, django_now, add_url_params
+from zkr import settings
 
 logger = logging.getLogger(__name__)
 
@@ -210,6 +211,11 @@ class PoliticianBusinessTrip(models.Model):
         return f"{self.politician} business trip {self.name}"
 
 
+class PoliticianGameQuerySet(models.QuerySet):
+    def annotate_with_politicians_answered_count(self):
+        return self.annotate(politicians_answered_count=models.Count('answered_politicians'))
+
+
 class PoliticianGame(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
@@ -226,11 +232,15 @@ class PoliticianGame(models.Model):
     lost_on_politician = models.ForeignKey(Politician, null=True, blank=True, on_delete=models.CASCADE,
                                            related_name="game_lost_politicians")
 
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True,
+                             related_name="politician_games")
     user_ip = models.GenericIPAddressField()
     user_agent = models.TextField(blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    objects = PoliticianGameQuerySet.as_manager()
 
     class Meta:
         verbose_name_plural = "Politicians game"
@@ -276,9 +286,10 @@ class PoliticianGame(models.Model):
         return self.lost_on_politician is None
 
     @staticmethod
-    def start_new_game(user_ip, user_agent):
+    def start_new_game(user, user_ip, user_agent):
         game = PoliticianGame()
 
+        game.user = user if user.is_authenticated else None
         game.user_ip = user_ip
         game.user_agent = user_agent
 
