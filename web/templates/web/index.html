@@ -13,29 +13,29 @@
 <main class="pt-3 mb-3">
     <div class="container">
         <div class="row mb-2">
-            <div class="col-lg-3">
+            <div class="col-sm-12 col-md-6 col-lg-4">
                 <a href="{% url 'seimas_politician_game' %}" class="card d-flex align-items-center justify-content-center card-block-link text-center">Pažink
                         politiką</a>
             </div>
-            <div class="col-lg-3">
-                <a href="" class="card d-flex align-items-center justify-content-center card-block-link text-center">ŽKR -
+            <div class="col-sm-12 col-md-6 col-lg-4">
+                <a href="https://www.facebook.com/events/474276509707298/" class="card d-flex align-items-center justify-content-center card-block-link text-center">ŽKR -
                         Laisvės Piknike</a>
             </div>
-            <div class="col-lg-3">
+            <!-- <div class="col-sm-12 col-md-6 col-lg-3">
                 <a href="" class="card d-flex align-items-center justify-content-center card-block-link text-center">Tinkliaraštis</a>
-            </div>
-            <div class="col-lg-3">
+            </div> -->
+            <div class="col-sm-12 col-md-12 col-lg-4">
                 <a href="{% url 'user_profile' %}" class="card d-flex align-items-center justify-content-center card-block-link text-center">Vartotojo profilis</a>
             </div>
         </div>
 
-        <div class="banner--newsletter pt-4 pb-4">
-            <h2>Užsiprenumeruokite mūsų naujienlaiškius</h2>
+        <div class="banner--newsletter pt-4 pb-4 pl-2 pr-2">
+            <h4>Užsiprenumeruokite mūsų naujienlaiškius</h4>
             <form id="subscribe-form" class="form-inline justify-content-center form-newsletter" action="{% url 'subscribe' %}" method="post">
                 {% csrf_token %}
                 <div class="form-group">
                     <label class="sr-only">El. paštas</label>
-                    <input type="email" name="email" class="form-control mr-2" placeholder="Jūsų el. paštas" style="min-width: 280px; max-width: 400px;" required>
+                    <input type="email" name="email" class="form-control mr-2 input--newsletter" placeholder="Jūsų el. paštas" required>
                 </div>
                 <button class="btn btn-primary" type="submit">Prenumeruokite</button>
             </form>

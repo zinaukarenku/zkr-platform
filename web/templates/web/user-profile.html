@@ -1,29 +1,26 @@
-{% extends "base/base-page.html" %}
-{% load static %}
+{% extends "base/base-page.html" %} {% load static %} {% block title %}Profilis{% endblock %} {% block head %}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">{% endblock %}{% block content %}
 
-{% block title %}Profilis{% endblock %}
-
-{% block content %}
-
-    <main>
-        <div class="container">
-            {% if error %}
-                <div class="alert alert-danger">
-                    <strong>{{ error }}</strong>
-                </div>
-            {% endif %}
-            <div class="row">
-                <div class="col-lg-5 col-md-6">
-                    <div class="card">
-                        <h4 class="card-title">
-                            Social Accounts
-                        </h4>
-                        <div class="card-body">
-                            {% include 'account/social-buttons.html' with process="connect" %}
-                        </div>
+<main class="pt-5" style="height: 80vh;">
+    <div class="container" style="height: 100%;">
+        {% if error %}
+        <div class="alert alert-danger">
+            <strong>{{ error }}</strong>
+        </div>
+        {% endif %}
+        <div class="row justify-content-center align-items-center" style="height: 100%;">
+            <div class="col-sm-12 col-lg-4 col-md-6">
+                <div class="card pt-5 pb-5">
+                    <img src="{% static 'img/zkr-medium-logo.png' %}" width="120" style="margin: 0 auto;">
+                    <h4 class="card-title">
+                        Prisijungti
+                    </h4>
+                    <div class="card-body">
+                        {% include 'account/social-buttons.html' with process="connect" %}
                     </div>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+</main>
 {% endblock %}

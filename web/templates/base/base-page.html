@@ -5,16 +5,33 @@
         <a class="navbar-brand" href="/">
             <img src="{% static 'img/zkr-logo.png' %}" alt="Žinau, ką renku logotipas" class="d-inline-bl">
         </a>
-        <div class="float-right d-flex align-items-center justify-content-between" style="margin-top: 10px; width: 300px">
-            <a class="text-center active" aria-current="true" href="/"></a>
-            <a class="text-center" aria-current="false" href="{% url 'seimas_politician_game' %}">Pažink
-                    politiką</a>
+        <div class="float-right d-none d-md-flex align-items-center justify-content-between" style="margin-top: 10px; width: 300px">
+            <a class="text-center" aria-current="false" href="{% url 'seimas_politician_game' %}">Pažink politiką</a>
             <a class="text-center" aria-current="false" href="{% url 'seimas_politicians' %}">Seimo nariai</a>
-            <a class="text-center" aria-current="false" href="">Apie mus</a>
+            <!-- <a class="text-center" aria-current="false" href="">Apie mus</a> -->
+            <a class="text-center" aria-current="false" href="{% url 'user_profile' %}">Prisijungti</a>
         </div>
+        <button id="open_menu" class="d-md-none btn btn-menu">
+            <span class="bar lg-bar bar-m-one"></span>
+            <span class="bar md-bar bar-m-two"></span>
+            <span class="bar md-bar bar-m-three"></span>
+        </button>
+        <button id="close_menu" class="d-none btn btn-close">
+            <span class="bar lg-bar bar-one"></span>
+            <span class="bar lg-bar bar-two"></span>
+        </button>
     </div>
 </nav>
-
+<div id="mobile_nav" class="d-none mobile-nav">
+    <div class="container">
+        <ul>
+            <li><a class="text-center" aria-current="false" href="{% url 'seimas_politician_game' %}">Pažink politiką</a></li>
+            <li><a class="text-center" aria-current="false" href="{% url 'seimas_politicians' %}">Seimo nariai</a></li>
+            <!-- <li><a class="text-center" aria-current="false" href="">Apie mus</a></li> -->
+            <li><a class="text-center" aria-current="false" href="{% url 'user_profile' %}">Prisijungti</a></li>
+        </ul>
+    </div>
+</div>
 {% block content %}{% endblock %}
 
 <footer class="pt-2 pb-2">
@@ -22,7 +39,7 @@
         <div class="row">
             <div class="col-sm-12 col-lg-8 d-flex justify-content-center justify-content-lg-start">
                 <ul>
-                    <li><a href="/" class="text-eyebrow" title="Apie mus">Apie mus</a></li>
+                    <!-- <li><a href="/" class="text-eyebrow" title="Apie mus">Apie mus</a></li> -->
                     <li><a href="https://medium.com/@Zinaukarenku" class="text-eyebrow" title="Tinklaraštis - Žinau, ką renku">Blog</a></li>
                     <li><a href="https://eurohouse.lt" class="text-eyebrow" title="Europos Namai">Europos Namai</a>
                     </li>

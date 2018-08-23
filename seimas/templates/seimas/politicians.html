@@ -1,36 +1,15 @@
-{% extends "base/base-page.html" %}
-
-{% block title %}Politikai{% endblock %}
-{% block description %}TODO description{% endblock %}
-
-{% block content %}
-
-    <table class="table">
-        <thead class="thead-dark">
-        <tr>
-            <th scope="col">Vardas</th>
-            <th scope="col">Fotkė</th>
-            <th scope="col">Partija</th>
-        </tr>
-        </thead>
-        <tbody>
+{% extends "base/base-page.html" %} {% block title %}Politikai{% endblock %} {% block description %}TODO description{% endblock %} {% block content %}
+<main style="padding-top: 75px">
+    <div class="container">
         {% for politician in politicians %}
-            <tr>
-                <td>
-                    <a href="{{ politician.profile_url }}">
-                        {{ politician.name }}
-                    </a>
-                </td>
-                <td>
-                    {% if politician.photo %}
-                        <a href="{{ politician.profile_url }}">
-                            <img src="{{ politician.photo.url }}">
-                        </a>
-                    {% endif %}
-                </td>
-                <td>{{ politician.elected_party }}</td>
-            </tr>
+        <div class="card mb-3">
+            <div class="card-body">
+                <span class="card-small-img mr-3" {% if politician.photo %} style="background-image:url('{{ politician.photo.url }}');" {% endif %}></span>
+                <a href="{{ politician.profile_url }}" class="card-title">{{ politician.name }}</a>
+                <span class="text-muted">{{ politician.elected_party }}</span>
+            </div>
+        </div>
         {% endfor %}
-        </tbody>
-    </table>
+    </div>
+</main>
 {% endblock %}
