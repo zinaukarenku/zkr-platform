@@ -22,9 +22,9 @@ services:
     - database_network
     - redis_network
     depends_on:
-    - postgres
+    - postgres:
       condition: service_healthy
-    - redis
+    - redis:
       condition: service_healthy
 
   nginx:
@@ -84,9 +84,9 @@ services:
     - redis_network
     depends_on:
     - platform
-    - postgres
+    - postgres:
       condition: service_healthy
-    - redis
+    - redis:
       condition: service_healthy
     deploy:
       restart_policy:
@@ -107,9 +107,9 @@ services:
     depends_on:
     - platform
     - postgres
-      condition: service_healthy
+      condition: service_healthy:
     - redis
-      condition: service_healthy
+      condition: service_healthy:
     deploy:
       restart_policy:
         condition: on-failure
