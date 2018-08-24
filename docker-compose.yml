@@ -105,7 +105,6 @@ services:
     - database_network
     - redis_network
     depends_on:
-    - platform
     - postgres:
       condition: service_healthy:
     - redis:
