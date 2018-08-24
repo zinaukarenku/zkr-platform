@@ -65,10 +65,18 @@ class PoliticianGameAdmin(VersionAdmin):
 
     search_fields = ['id']
 
-    list_display = ['id', 'user', 'politicians_answered_count', 'first_politician', 'second_politician',
+    list_display = ['id', 'user', 'email', 'politicians_answered_count', 'time_sec', 'first_politician',
+                    'second_politician',
                     'correct_politician', 'lost_on_politician',
                     'user_ip', 'user_agent']
     list_select_related = ['user', 'first_politician', 'second_politician', 'correct_politician', 'lost_on_politician']
+
+    # noinspection PyMethodMayBeStatic
+    def time_sec(self, game):
+        if game.ended:
+            return (game.ended - game.created_at).seconds
+        else:
+            return "-"
 
     def politicians_answered_count(self, obj):
         return obj.politicians_answered_count

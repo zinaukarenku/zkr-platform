@@ -3,6 +3,7 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect
 from ipware import get_client_ip
 
+from seimas.forms import PrizeFrom
 from seimas.models import Politician, PoliticianTerm, PoliticianGame
 from seimas.utils import try_parse_int
 
@@ -16,6 +17,17 @@ def politician_game(request):
 
     politician_id = try_parse_int(request.GET.get('politician', None))
     game_id = request.COOKIES.get('politician_game_id', None)
+
+    prize_form = PrizeFrom(request.POST or None)
+    email = None
+    if request.method == "POST" and prize_form.is_valid():
+        email = prize_form.cleaned_data['email']
+
+    email = email or request.COOKIES.get('email', None) or None
+
+    if email:
+        PoliticianGame.objects.filter(id=game_id).exclude(email=email).update(email=email)
+
     game = None
     if game_id and politician_id:
         game = PoliticianGame.objects.filter(id=game_id, ended__isnull=True) \
@@ -33,9 +45,13 @@ def politician_game(request):
             return redirect('seimas_politician_game')
 
     response = render(request, 'seimas/game.html', {
-        'game': game
+        'game': game,
+        'email': email
     })
     response.set_cookie('politician_game_id', game.id, max_age=300)
+
+    if email:
+        response.set_cookie('email', email)
 
     return response
 

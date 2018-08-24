@@ -1,18 +1,17 @@
-{% load static %} {% load capture_tags %} {% load full_static %} {% load raven %}
-
+{% load static %} {% load capture_tags %} {% load full_static %} {% load raven %} {% with version=1 %}
 <!DOCTYPE html>
 <html lang="lt" prefix="og: http://ogp.me/ns#">
 
 <head>
-    {% capture as meta_title silent %}{% block title %}{% endblock %}{% endcapture %} {% capture as meta_description silent %}{% block description %}{% endblock %}{% endcapture %} {% capture as meta_keywords silent %}{% block keywords %}{% endblock %}{% endcapture %} {% capture as image silent %}{% block image %}{% endblock %}{% endcapture %} {% capture as video silent %}{% block video %}{% endblock %}{% endcapture %}
+    {% capture as meta_title silent %}{% block title %}{% endblock %}{% endcapture %} {% capture as meta_description silent %}{% block description %}{% endblock %}{% endcapture %} {% capture as meta_keywords silent %}{% block keywords %}{% endblock %}{% endcapture
+    %} {% capture as image silent %}{% block image %}{% endblock %}{% endcapture %} {% capture as video silent %}{% block video %}{% endblock %}{% endcapture %}
 
     <meta charset="utf-8">
     <title>{{ meta_title }} | Žinau, ką renku</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}?v={{ version }}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v={{ version }}">
 
     <meta name="og:title" content="{{ meta_title }}">
     <meta name="og:site_name" content="Žinau, ką renku">
@@ -26,13 +25,14 @@
 <body>
     {% block extra_body_start %} {% endblock %} {% block main_container %} {% endblock %}
 
-    <script src="{% static 'js/raven.min.js' %}"></script>
+    <script src="{% static 'js/raven.min.js' %}?v={{ version }}"></script>
     <script>Raven.config('{% sentry_public_dsn 'https' %}').install()</script>
-    <script src="{% static 'js/jquery.min.js' %}"></script>
-    <script src="{% static 'js/popper.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/scripts.js' %}"></script>
+    <script src="{% static 'js/jquery.min.js' %}?v={{ version }}"></script>
+    <script src="{% static 'js/popper.min.js' %}?v={{ version }}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}?v={{ version }}"></script>
+    <script src="{% static 'js/scripts.js' %}?v={{ version }}"></script>
     {% block script %}{% endblock %}
 </body>
 
 </html>
+{% endwith %}

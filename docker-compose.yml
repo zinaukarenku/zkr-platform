@@ -50,6 +50,8 @@ services:
     - database_network
     volumes:
     - database_volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready"]
     deploy:
       restart_policy:
         condition: on-failure
@@ -73,12 +75,13 @@ services:
     volumes:
     - static_volume:/srv/platform/static
     - media_volume:/srv/platform/media
-    - /srv/platform/worker_cache:/srv/platform/worker_cache
+    - worker_cache_volume:/srv/platform/worker_cache
     command: celery -A zkr beat -l info  --schedule=/srv/platform/celerybeat-schedule
     networks:
     - database_network
     - redis_network
     depends_on:
+    - platform
     - postgres
     - redis
     deploy:
@@ -92,12 +95,13 @@ services:
     volumes:
     - static_volume:/srv/platform/static
     - media_volume:/srv/platform/media
-    - /srv/platform/worker_cache:/srv/platform/worker_cache
+    - worker_cache_volume:/srv/platform/worker_cache
     command: celery -A zkr worker -l info -E --concurrency=3
     networks:
     - database_network
     - redis_network
     depends_on:
+    - platform
     - postgres
     - redis
     deploy:
@@ -117,3 +121,4 @@ volumes:
   static_volume:
   media_volume:
   redis_volume:
+  worker_cache_volume:
