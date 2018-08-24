@@ -23,6 +23,7 @@ services:
     - redis_network
     depends_on:
     - postgres
+      condition: service_healthy
     - redis
 
   nginx:
@@ -50,6 +51,8 @@ services:
     - database_network
     volumes:
     - database_volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready"]
     deploy:
       restart_policy:
         condition: on-failure
