@@ -16,7 +16,7 @@
                     {% for card in game.polititian_cards %}
                         <div class="col-6">
                             <a href="{{ card.url|safe }}">
-                                <div class="card {% cycle 'float-right' 'float-left' %}" style="width: 12rem">
+                                <div class="card {% cycle 'float-right' 'float-left' %}" style="width: 10rem">
                                     <img class="card-img-top"
                                          src="{{ card.photo }}">
                                 </div>
@@ -29,7 +29,7 @@
                 <div class="row">
                     {% for card in game.polititian_cards %}
                         <div class="col-6">
-                            <div class="card {% cycle 'float-right' 'float-left' %}" style="width: 12rem">
+                            <div class="card {% cycle 'float-right' 'float-left' %}" style="width: 10rem">
                                 <i class="fas {{ card.is_correct|yesno:"fa-check-circle,fa-times-circle" }} fa-lg"></i>
                                 <img class="card-img-top"
                                      src="{{ card.photo }}">
