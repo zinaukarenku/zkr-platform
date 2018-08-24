@@ -1,49 +1,57 @@
-{% extends "base/base-page.html" %} {% load static %} {% block head %}
-<link rel="stylesheet" href="{% static 'css/home.css' %}"> {% endblock %} {% block content %}
+{% extends "base/base-page.html" %} {% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+{% block content %}
 
 
-<div class="banner banner--home d-flex align-items-center justify-content-center">
-    <div class="container text-center mt-4">
-        <h2 class="text-600">Žinau, ką renku</h2>
-        <p>Politinės stebėsenos platforma</p>
+    <div class="banner banner--home d-flex align-items-center justify-content-center">
+        <div class="container text-center mt-4">
+            <h2 class="text-600">Žinau, ką renku</h2>
+            <p>Politinės stebėsenos platforma</p>
+        </div>
     </div>
-</div>
-</main>
 
-<main class="pt-3 mb-3">
-    <div class="container">
-        <div class="row mb-2">
-            <div class="col-sm-12 col-md-6 col-lg-4">
-                <a href="{% url 'seimas_politician_game' %}" class="card d-flex align-items-center justify-content-center card-block-link text-center">Pažink
+    <main class="pt-3 mb-3">
+        <div class="container">
+            <div class="row mb-2">
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <a href="{% url 'seimas_politician_game' %}"
+                       class="card d-flex align-items-center justify-content-center card-block-link text-center">Pažink
                         politiką</a>
-            </div>
-            <div class="col-sm-12 col-md-6 col-lg-4">
-                <a href="https://www.facebook.com/events/474276509707298/" class="card d-flex align-items-center justify-content-center card-block-link text-center">ŽKR -
-                        Laisvės Piknike</a>
-            </div>
-            <!-- <div class="col-sm-12 col-md-6 col-lg-3">
-                <a href="" class="card d-flex align-items-center justify-content-center card-block-link text-center">Tinkliaraštis</a>
-            </div> -->
-            <div class="col-sm-12 col-md-12 col-lg-4">
-                <a href="{% url 'user_profile' %}" class="card d-flex align-items-center justify-content-center card-block-link text-center">Vartotojo profilis</a>
-            </div>
-        </div>
-
-        <div class="banner--newsletter pt-4 pb-4 pl-2 pr-2">
-            <h4>Užsiprenumeruokite mūsų naujienlaiškius</h4>
-            <form id="subscribe-form" class="form-inline justify-content-center form-newsletter" action="{% url 'subscribe' %}" method="post">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label class="sr-only">El. paštas</label>
-                    <input type="email" name="email" class="form-control mr-2 input--newsletter" placeholder="Jūsų el. paštas" required>
                 </div>
-                <button class="btn btn-primary" type="submit">Prenumeruokite</button>
-            </form>
-            <div id="subscribe-message"></div>
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <a href="https://www.facebook.com/events/474276509707298/"
+                       class="card d-flex align-items-center justify-content-center card-block-link text-center">ŽKR -
+                        Laisvės Piknike</a>
+                </div>
+                <!-- <div class="col-sm-12 col-md-6 col-lg-3">
+                    <a href="" class="card d-flex align-items-center justify-content-center card-block-link text-center">Tinkliaraštis</a>
+                </div> -->
+                <div class="col-sm-12 col-md-12 col-lg-4">
+                    <a href="{% url 'user_profile' %}"
+                       class="card d-flex align-items-center justify-content-center card-block-link text-center">Vartotojo
+                        profilis</a>
+                </div>
+            </div>
+
+            <div class="banner--newsletter pt-4 pb-4 pl-2 pr-2">
+                <h4>Užsiprenumeruokite mūsų naujienlaiškius</h4>
+                <form id="subscribe-form" class="form-inline justify-content-center form-newsletter"
+                      action="{% url 'subscribe' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label class="sr-only">El. paštas</label>
+                        <input type="email" name="email" class="form-control mr-2 input--newsletter"
+                               placeholder="Jūsų el. paštas" required>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Prenumeruokite</button>
+                </form>
+                <div id="subscribe-message"></div>
+            </div>
         </div>
-    </div>
-</main>
-{% comment %} {% regroup members by group as members_by_group %}
+    </main>
+    {% comment %} {% regroup members by group as members_by_group %}
 <hr>
 <h2>Organizacijos nariai</h2>
 
@@ -106,41 +114,42 @@
 </table>
 <hr> {% endcomment %}
 
-<div class="draugai">
-    <div class="container">
-        <h3 class="text-center">Mūsų draugai</h3>
-        <div class="row flex-wrap">
-            {% for partner in partners %}
-            <div class="col-md-6 d-flex">
-                <a href="{{ partner.url }}" class="mx-auto my-auto" target="_blank" rel="noopener" title="{{ partner.name }}">
-                    <img src="{{ partner.logo.url }}">
-                </a>
-            </div>
+    <div class="draugai">
+        <div class="container">
+            <h3 class="text-center">Mūsų draugai</h3>
+            <div class="row flex-wrap">
+                {% for partner in partners %}
+                    <div class="col-md-6 d-flex">
+                        <a href="{{ partner.url }}" class="mx-auto my-auto" target="_blank" rel="noopener"
+                           title="{{ partner.name }}">
+                            <img src="{{ partner.logo.url }}">
+                        </a>
+                    </div>
 
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     </div>
-</div>
 
 {% endblock %} {% block script %}
-<script type="text/javascript">
-    $(document).ready(function() {
-        let subscribeForm = $('#subscribe-form');
-        subscribeForm.submit(function() {
-            $.ajax({
-                type: subscribeForm.attr('method'),
-                url: subscribeForm.attr('action'),
-                data: subscribeForm.serialize(),
-                success: function(response) {
-                    $('#subscribe-message').text("E-mail subscription succeeded");
-                },
-                error: function(request, textStatus, errorThrown) {
-                    $('#subscribe-message').text('Unable to add your e-amil to subscription list. ' + request.responseText);
-                }
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let subscribeForm = $('#subscribe-form');
+            subscribeForm.submit(function () {
+                $.ajax({
+                    type: subscribeForm.attr('method'),
+                    url: subscribeForm.attr('action'),
+                    data: subscribeForm.serialize(),
+                    success: function (response) {
+                        $('#subscribe-message').text("E-mail subscription succeeded");
+                    },
+                    error: function (request, textStatus, errorThrown) {
+                        $('#subscribe-message').text('Unable to add your e-amil to subscription list. ' + request.responseText);
+                    }
+                });
+                return false;
             });
             return false;
         });
-        return false;
-    });
-</script>
+    </script>
 {% endblock %}
