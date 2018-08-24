@@ -105,10 +105,11 @@ services:
     - database_network
     - redis_network
     depends_on:
+    - platform
     - postgres:
-      condition: service_healthy:
+      condition: service_healthy
     - redis:
-      condition: service_healthy:
+      condition: service_healthy
     deploy:
       restart_policy:
         condition: on-failure
