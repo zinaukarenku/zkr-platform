@@ -106,7 +106,7 @@ class OrganizationPartner(models.Model):
         return join('img', 'zkr', 'partners', filename)
 
     name = models.CharField(max_length=256)
-    logo = models.ImageField()
+    logo = models.ImageField(upload_to=_organization_partner_logo_file)
     url = models.URLField()
     order = models.PositiveIntegerField(default=0)
 
