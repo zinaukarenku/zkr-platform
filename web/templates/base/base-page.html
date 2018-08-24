@@ -1,31 +1,27 @@
 {% extends 'base/base.html' %}
 {% load static %}
 {% block main_container %}
-    <nav class="nav-main fixed-top">
+    <nav class="nav-main">
         <div class="container">
             <h1 class="sr-only">Žinau, ką renku</h1>
             <a class="navbar-brand" href="/">
                 <img src="{% static 'img/zkr-logo.png' %}" alt="Žinau, ką renku logotipas" class="d-inline-bl">
             </a>
-            <div class="float-right d-flex align-items-center justify-content-between"
-                 style="margin-top: 10px; width: 300px">
-                <a class="text-center active" aria-current="true" href="/"></a>
-                <a class="text-center" aria-current="false" href="{% url 'seimas_politician_game' %}">Pažink
+            <div class="float-right align-items-center justify-content-between">
+                <a class="text-center active pl-1 pr-1" aria-current="false" href="{% url 'seimas_politician_game' %}">Pažink
                     politiką</a>
-                <a class="text-center" aria-current="false" href="{% url 'seimas_politicians' %}">Seimo nariai</a>
-                <a class="text-center" aria-current="false" href="">Apie mus</a>
+                <a class="text-center pl-1 pr-1" aria-current="false" href="http://www.zinaukarenku.lt/">Apie mus</a>
             </div>
         </div>
     </nav>
 
     {% block content %}{% endblock %}
 
-    <footer class="pt-2 pb-2">
+    <footer class="border-top pt-2 pb-2">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-lg-8 d-flex justify-content-center justify-content-lg-start">
                     <ul>
-                        <li><a href="/" class="text-eyebrow" title="Apie mus">Apie mus</a></li>
                         <li><a href="https://medium.com/@Zinaukarenku" class="text-eyebrow"
                                title="Tinklaraštis - Žinau, ką renku">Blog</a></li>
                         <li><a href="https://eurohouse.lt" class="text-eyebrow" title="Europos Namai">Europos Namai</a>

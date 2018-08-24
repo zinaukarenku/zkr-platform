@@ -334,10 +334,10 @@ class PoliticianGame(models.Model):
                            name=self.first_politician.name,
                            url=add_url_params(base_url, {'politician': self.first_politician.id}),
                            is_correct=self.first_politician.id == self.correct_politician.id,
-                           more_info=self.first_politician.profile_url),
+                           more_info=self.first_politician.bio_url),
             PoliticianCard(photo=self.second_politician.photo.url,
                            name=self.second_politician.name,
                            url=add_url_params(base_url, {'politician': self.second_politician.id}),
                            is_correct=self.second_politician.id == self.correct_politician.id,
-                           more_info=self.second_politician.profile_url),
+                           more_info=self.second_politician.bio_url),
         ]

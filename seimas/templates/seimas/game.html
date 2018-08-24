@@ -1,23 +1,22 @@
 {% extends "base/base-page.html" %}
 
 {% block title %}Pažink politiką{% endblock %}
-{% block description %}TODO description{% endblock %}
 
 {% block content %}
     {% if game.is_game_ended %}
-        <div class="note invisible">
-            <div class="container text-center"><span>Žaidimo Pabaiga</span></div>
+        <div class="note">
+            <div class="container text-center"><span>Žaidimo pabaiga</span></div>
         </div>
     {% endif %}
     <div class="container">
         <main>
+            <h2 class="p-2">{{ game.correct_politician.name }}</h2>
             {% if not game.is_game_ended %}
-                <h2>{{ game.correct_politician.name }}</h2>
                 <div class="row">
                     {% for card in game.polititian_cards %}
-                        <div class="col-sm-6">
+                        <div class="col-6">
                             <a href="{{ card.url|safe }}">
-                                <div class="card">
+                                <div class="card {% cycle 'float-right' 'float-left' %}" style="width: 12rem">
                                     <img class="card-img-top"
                                          src="{{ card.photo }}">
                                 </div>
@@ -25,32 +24,48 @@
                         </div>
                     {% endfor %}
                 </div>
-                <h3>Atsakėte: {{ game.answered_count }}</h3>
+                <h3 class="p-3">Atsakėte: {{ game.answered_count }}</h3>
             {% else %}
-                <h2>{{ game.correct_politician.name }}</h2>
                 <div class="row">
                     {% for card in game.polititian_cards %}
-                        <div class="col-sm-6">
-                            <div class="card">
+                        <div class="col-6">
+                            <div class="card {% cycle 'float-right' 'float-left' %}" style="width: 12rem">
                                 <i class="fas {{ card.is_correct|yesno:"fa-check-circle,fa-times-circle" }} fa-lg"></i>
                                 <img class="card-img-top"
                                      src="{{ card.photo }}">
-                                <div class="card-body">
-                                    <a class="card-link" href="{{ card.more_info }}">{{ card.name }}</a>
+                                <div class="card-body text-center">
+                                    <a class="card-link" target="_blank" href="{{ card.more_info }}">{{ card.name }}</a>
                                 </div>
                             </div>
                         </div>
                     {% endfor %}
                 </div>
-                <h5 class="mb-4">Teisingai pateikėte {{ game.answered_count }} politikus</h5>
 
-                {% if not user.is_authenticated %}
-                    <form action="{% url 'account_login' %}">
-                        <button type="submit" class="btn btn-new-game text-eyebrow">Prisijungti</button>
-                    </form>
-                {% endif %}
-                <form action="{% url 'seimas_politician_game' %}">
-                    <button type="submit" class="btn btn-new-game text-eyebrow">Žaisti iš naujo</button>
+                <h4 class="p-3 text-center">Teisingai atsakėte <strong>{{ game.answered_count }}</strong> politikus</h4>
+
+                <form action="{% url 'seimas_politician_game' %}" method="post" class="text-center p-2 mx-auto"
+                      style="max-width: 300px">
+                    {% csrf_token %}
+                    <div class="form-group text-center mx-auto">
+                        <label for="email"
+                               class="col-form-label">
+                            Tavo elektroninis paštas
+                        </label>
+                        <div>
+                            <input type="email" name="email" placeholder="E-mail address"
+                                    {% if email %}
+                                   value="{{ email }}"
+                                    {% endif %}
+                                   autofocus="autofocus" class="textinput textInput form-control"
+                                   id="email">
+                        </div>
+                        <small id="passwordHelpBlock" class="form-text text-muted">
+                            Elektroninis paštas bus naudojamas tik susisiekti dėl prizo atsiėmimo.
+                        </small>
+                    </div>
+                    <button type="submit" class="btn btn-new-game btn-block text-eyebrow p-2 text-center">Žaisti iš
+                        naujo
+                    </button>
                 </form>
             {% endif %}
 

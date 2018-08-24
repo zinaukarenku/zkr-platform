@@ -2,50 +2,51 @@
 {% load capture_tags %}
 {% load full_static %}
 {% load raven %}
+{% with version=1 %}
+    <!DOCTYPE html>
+    <html lang="lt" prefix="og: http://ogp.me/ns#">
+    <head>
+        {% capture as meta_title silent %}{% block title %}{% endblock %}{% endcapture %}
+        {% capture as meta_description silent %}{% block description %}{% endblock %}{% endcapture %}
+        {% capture as meta_keywords silent %}{% block keywords %}{% endblock %}{% endcapture %}
+        {% capture as image silent %}{% block image %}{% endblock %}{% endcapture %}
+        {% capture as video silent %}{% block video %}{% endblock %}{% endcapture %}
 
-<!DOCTYPE html>
-<html lang="lt" prefix="og: http://ogp.me/ns#">
-<head>
-    {% capture as meta_title silent %}{% block title %}{% endblock %}{% endcapture %}
-    {% capture as meta_description silent %}{% block description %}{% endblock %}{% endcapture %}
-    {% capture as meta_keywords silent %}{% block keywords %}{% endblock %}{% endcapture %}
-    {% capture as image silent %}{% block image %}{% endblock %}{% endcapture %}
-    {% capture as video silent %}{% block video %}{% endblock %}{% endcapture %}
+        <meta charset="utf-8">
+        <title>{{ meta_title }} | Žinau, ką renku</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}?v={{ version }}">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}?v={{ version }}">
 
-    <meta charset="utf-8">
-    <title>{{ meta_title }} | Žinau, ką renku</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
-    <meta name="og:title" content="{{ meta_title }}">
-    <meta name="og:site_name" content="Žinau, ką renku">
-    <meta name="og:description" content="{{ meta_description }}">
-    {% if image %}
-         <meta name="og:image" content="{{ image }}">
-    {% else %}
-        <meta name="og:image" content="{% full_static 'img/zkr-big-square-logo.png' %}">
-    {% endif %}
-    {% if video %}
-        <meta property="og:video" content="{{ video }}">
-    {% endif %}
-    <meta name="og:type" content="website">
-    {% block head %}{% endblock %}
-</head>
-<body>
-{% block extra_body_start %}
-{% endblock %}
+        <meta name="og:title" content="{{ meta_title }}">
+        <meta name="og:site_name" content="Žinau, ką renku">
+        <meta name="og:description" content="{{ meta_description }}">
+        {% if image %}
+            <meta name="og:image" content="{{ image }}">
+        {% else %}
+            <meta name="og:image" content="{% full_static 'img/zkr-big-square-logo.png' %}">
+        {% endif %}
+        {% if video %}
+            <meta property="og:video" content="{{ video }}">
+        {% endif %}
+        <meta name="og:type" content="website">
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+    {% block extra_body_start %}
+    {% endblock %}
 
 
-{% block main_container %}
-{% endblock %}
+    {% block main_container %}
+    {% endblock %}
 
-<script src="{% static 'js/raven.min.js' %}"></script>
-<script>Raven.config('{% sentry_public_dsn 'https' %}').install()</script>
-<script src="{% static 'js/jquery.min.js' %}"></script>
-<script src="{% static 'js/popper.min.js' %}"></script>
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
-{% block script %}{% endblock %}
-</body>
-</html>
+    <script src="{% static 'js/raven.min.js' %}?v={{ version }}"></script>
+    <script>Raven.config('{% sentry_public_dsn 'https' %}').install()</script>
+    <script src="{% static 'js/jquery.min.js' %}?v={{ version }}"></script>
+    <script src="{% static 'js/popper.min.js' %}?v={{ version }}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}?v={{ version }}"></script>
+    {% block script %}{% endblock %}
+    </body>
+    </html>
+{% endwith %}
