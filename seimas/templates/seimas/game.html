@@ -81,3 +81,26 @@
         </div>
     </main>
 {% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let subscribeForm = $('#subscribe-form');
+            subscribeForm.submit(function () {
+                $.ajax({
+                    type: subscribeForm.attr('method'),
+                    url: subscribeForm.attr('action'),
+                    data: subscribeForm.serialize(),
+                    success: function (response) {
+                        $('#subscribe-message').text("E-mail subscription succeeded");
+                    },
+                    error: function (request, textStatus, errorThrown) {
+                        $('#subscribe-message').text('Unable to add your e-amil to subscription list. ' + request.responseText);
+                    }
+                });
+                return false;
+            });
+            return false;
+        });
+    </script>
+{% endblock %}
