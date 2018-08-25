@@ -33,6 +33,8 @@ ENABLE_DEBUG_DRAWER_IN_DEBUG = False
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY') if not DEBUG else 'DEBUG'
 
+GIT_COMMIT = 'DEBUG' if DEBUG else os.environ.get('GIT_COMMIT')
+
 ALLOWED_HOSTS = ['*']
 
 INTERNAL_IPS = ['127.0.0.1']
@@ -150,6 +152,7 @@ RAVEN_CONFIG = None
 if SENTRY_KEY and SENTRY_SECRET and SENTRY_PROJECT_ID:
     RAVEN_CONFIG = {
         'dsn': f'https://{SENTRY_KEY}:{SENTRY_SECRET}@sentry.io/{SENTRY_PROJECT_ID}',
+        'release': GIT_COMMIT,
         'ignore_exceptions': [
             'UnicodeDecodeError',
         ]
