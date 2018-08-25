@@ -1,5 +1,8 @@
 FROM python:3.7
 
+ARG GIT_COMMIT
+ENV GIT_COMMIT=$GIT_COMMIT
+
 RUN apt-get update && apt-get install -y \
   tidy
 
