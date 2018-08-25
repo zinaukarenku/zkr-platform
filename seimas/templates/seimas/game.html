@@ -63,6 +63,21 @@
                     </button>
                 </form>
             {% endif %}
+            <hr class="mt-4">
+            <div class="p-2">
+                <h4>Užsiprenumeruokite naujienlaišktį</h4>
+                <form id="subscribe-form" class="form-inline justify-content-center form-newsletter"
+                      action="{% url 'subscribe' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label class="sr-only">El. paštas</label>
+                        <input type="email" name="email" class="form-control mr-2 input--newsletter"
+                               placeholder="Jūsų el. paštas" required>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Prenumeruokite</button>
+                </form>
+                <div id="subscribe-message"></div>
+            </div>
         </div>
     </main>
 {% endblock %}
