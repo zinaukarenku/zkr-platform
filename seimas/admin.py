@@ -64,6 +64,7 @@ class PoliticianGameAdmin(VersionAdmin):
         return super().get_queryset(request).annotate_with_politicians_answered_count()
 
     search_fields = ['id']
+    date_hierarchy = 'created_at'
 
     list_display = ['id', 'user', 'email', 'politicians_answered_count', 'time_sec', 'first_politician',
                     'second_politician',
