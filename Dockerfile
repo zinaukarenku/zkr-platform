@@ -1,8 +1,5 @@
 FROM python:3.7
 
-ARG GIT_COMMIT
-ENV GIT_COMMIT=$GIT_COMMIT
-
 RUN apt-get update && apt-get install -y \
   tidy
 
@@ -16,5 +13,8 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
+
+ARG GIT_COMMIT
+ENV GIT_COMMIT=$GIT_COMMIT
 
 CMD ["/bin/sh", "config/start.sh"]
