@@ -1,6 +1,32 @@
-version: "3"
+version: "3.4"
 
 services:
+
+  postgres:
+    image: postgres:10.5
+    env_file:
+    - .env
+    networks:
+    - database_network
+    volumes:
+    - database_volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+  redis:
+    image: redis:4.0.11
+    networks:
+    - redis_network
+    volumes:
+    - redis_volume:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping"]
+    deploy:
+      restart_policy:
+        condition: on-failure
 
   platform:
     image: vycius/zkr-platform
@@ -9,11 +35,13 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8080/health/ || exit 1"]
     deploy:
+      replicas: 1
       restart_policy:
         condition: on-failure
       update_config:
         parallelism: 2
         delay: 15s
+        order: stop-first
     volumes:
     - static_volume:/srv/platform/static
     - media_volume:/srv/platform/media
@@ -38,32 +66,6 @@ services:
     - platform
     networks:
     - nginx_network
-    deploy:
-      restart_policy:
-        condition: on-failure
-
-  postgres:
-    image: postgres:10.5
-    env_file:
-    - .env
-    networks:
-    - database_network
-    volumes:
-    - database_volume:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD", "pg_isready"]
-    deploy:
-      restart_policy:
-        condition: on-failure
-
-  redis:
-    image: redis:4.0.11
-    networks:
-    - redis_network
-    volumes:
-    - redis_volume:/data
-    healthcheck:
-      test: ["CMD-SHELL", "redis-cli ping"]
     deploy:
       restart_policy:
         condition: on-failure
