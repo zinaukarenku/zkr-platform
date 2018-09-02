@@ -17,12 +17,10 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-from seimas.views import politician_game
 from zkr import settings
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
-                  path('', politician_game, name="seimas_politician_game"),
                   path('seimas/', include('seimas.urls')),
                   path('', include('web.urls')),
                   path('accounts/', include('allauth.urls')),
