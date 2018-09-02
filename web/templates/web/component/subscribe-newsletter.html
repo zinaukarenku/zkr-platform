@@ -1,13 +1,11 @@
-<div class="">
+<div class="card-body">
     <h4>Užsiprenumeruokite naujienlaikraštį</h4>
-    <form class="subscribe-form form-inline justify-content-center form-newsletter"
-          action="{% url 'subscribe' %}" method="post">
+    <form class="subscribe-form form-inline justify-content-center form-newsletter mt-4" action="{% url 'subscribe' %}" method="post">
         {% csrf_token %}
         <div class="form-group">
             <label class="sr-only">El. paštas</label>
-            <input type="email" name="email" class="form-control mr-2 input--newsletter"
-                   placeholder="Jūsų el. paštas" required>
+            <input type="email" name="email" class="form-control mr-2 input--newsletter" placeholder="Jūsų el. paštas" required>
         </div>
-        <button class="btn btn-primary" type="submit">Prenumeruokite</button>
+        <button class="btn btn-primary d-sm-block d-inline" type="submit">Prenumeruokite</button>
     </form>
 </div>

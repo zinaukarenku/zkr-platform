@@ -5,6 +5,7 @@ html {
 
 body {
     background-color: #fafafa;
+    font-size: 16px;
     -webkit-font-smoothing: antialiased;
     -webkit-font-smoothing--moz-osx-font-smoothing: grayscale
 }
@@ -75,6 +76,10 @@ h4 {
     font-weight: 300;
 }
 
+ul {
+    padding-left: 0px;
+}
+
 li {
     list-style: none;
 }
@@ -130,8 +135,9 @@ nav .container {
 }
 
 .banner--newsletter {
-    background-color: #fff;
-    border-radius: 4px;
+    background-color: #58397a;
+    border-radius: 0px;
+    color: #fff;
 }
 
 .banner--politicians {
@@ -433,6 +439,11 @@ footer ul:first {
     color: #59387a;
 }
 
+.banner--newsletter .form-group,
+.banner--newsletter button {
+    width: 100%;
+}
+
 @media screen and (min-width: 500px) {
     .container-content {
         padding-left: 15px;
@@ -442,7 +453,15 @@ footer ul:first {
         margin-left: -15px;
         margin-right: -15px;
     }
-    .card {
+    .card,
+    .banner--newsletter {
         border-radius: 5px;
+    }
+    .banner--newsletter .form-group,
+    .banner--newsletter button {
+        width: auto;
+    }
+    .banner--newsletter .form-group input {
+        width: 300px;
     }
 }

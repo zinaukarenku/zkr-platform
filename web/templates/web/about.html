@@ -1,72 +1,47 @@
-{% extends "base/base-regular-page.html" %}
-{% load static %}
-
-{% block banner_title %}{% block title %}Apie organizaciją{% endblock %}{% endblock %}
-{% block banner_description %}TODO description{% endblock %}
-
+{% extends "base/base-regular-page.html" %} 
+{% load static %} 
+{% block banner_title %}{% block title %}Apie organizaciją{% endblock %}{% endblock %} 
+{% block banner_description %}TODO description{% endblock %} 
 {% block main_content %}
 
-    {% regroup members by group as members_by_group %}
-    <hr>
-    <h2>Organizacijos nariai</h2>
+<main class="card">
+    <div class="card-body">
+        <h3 class="text-left mt-3">Mūsų tinklas</h3>
+        <p class="text-muted">„Žinau, ką renku“ tai nešališkas politikos stebėsenos tinklas, siekiantis atskaitingesnių politikų ir sąmoningo piliečių dalyvavimo viešajame gyvenime tiek prieš rinkimus, tiek po jų. Tinklo veiklą jau trečius metus vykdo jauni žmonės iš skirtingų
+            Lietuvos miestų ir miestelių. Siekdami padėti apsispręsti už ką balsuoti, remiantis argumentais ir faktais, o ne renkantis politiką pagal išvaizdą ir populistinius pažadus prieš rinkimus organizuojame debatus, o po rinkimų - viešus išrinktų
+            politikų susitikimus ir ataskaitas rinkėjams. Suprasdami, jog debatų negana, prieš rinkimus kiekvienam siūlėme galimybę viešai užduoti klausimus kandidatams ir susipažinti su jų atsakymais platformoje www.zinaukarenku.lt. Siekdami, jog visa
+            informacija susijusi su išrinktais politikais būtų aiški ir patogiai prieinama, po rinkimų atnaujinome platformą Seimo bei Vyriausybės veiklos stebėsenai, tam kad kiekvienas norintis galėtų kritiškai įvertinti ir analizuoti išrinktų politikų
+            veiklą.
+        </p>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>
-                Vardas
-            </th>
-            <th>
-                Rolė
-            </th>
-            <th>
-                Photo
-            </th>
-            <th>
-                LinkedIn
-            </th>
-            <th>
-                Facebook
-            </th>
-            <th>
-                Twitter
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for group, members in members_by_group %}
-            <tr>
-                <th class="text-center" colspan="6">
-                    {{ group.name }}
-                </th>
-            </tr>
-            {% for member in members %}
-                <tr>
-                    <td>
-                        {{ member.name }}
-                    </td>
-                    <td>
-                        {{ member.role }}
-                    </td>
-                    <td>
-                        <img src="{{ member.photo.url }}">
-                    </td>
-                    <td>
-                        {% if member.linkedin_url %}
-                            <a href="{{ member.linkedin_url }}">{{ member.linkedin_url }}</a> {% else %} - {% endif %}
-                    </td>
-                    <td>
-                        {% if member.facebook_url %}
-                            <a href="{{ member.facebook_url }}">{{ member.facebook_url }}</a> {% else %} - {% endif %}
-                    </td>
-                    <td>
-                        {% if member.twitter_url %}
-                            <a href="{{ member.twitter_url }}">{{ member.twitter_url }}</a> {% else %} - {% endif %}
-                    </td>
-                </tr>
-            {% endfor %} {% endfor %}
-        </tbody>
-    </table>
+        <h3 class="text-left mt-3">Kontaktai</h3>
+        <p class="text-muted">
+            Su mumis galite susisiketi rašydami mums <a href="mailto:info@zinaukarenku.lt">elektroniniu paštu</a> arba skambindami telefonu <a href="tel:+37061626387">+370 616 26 387</a>. Taip pat galite mus sekti socialiniuose tinkluose:
+        </p>
+        <div class="">
+            <a href="https://www.facebook.com/zinaukarenku/?fref=ts" class="mr-2" title="Facebook - Žinau, ką renku" target="_blank" rel="noreferrer"><i class="fab fa-facebook-square fa-lg" aria-hidden="true"></i></a>
+            <a href="https://twitter.com/zinaukarenku" class="mr-2" title="Twitter - Žinau, ką renku" target="_blank" rel="noreferrer"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+            <a href="https://www.instagram.com/zinaukarenku/" class="mr-2" title="Instagram - Žinau, ką renku" target="_blank" rel="noreferrer"><i class="fab fa-instagram fa-lg" aria-hidden="true"></i></a>
+        </div>
 
-
+        <h3 class="text-left mt-3">Mūsų komanda</h3>
+        <div class="d-flex flex-wrap">
+            {% for group, members in members_by_group %}
+            	<h4 class="text-left text-eyebrow">{{ group.name }}</h4>
+            	{% for member in members %}
+            	    <div class="d-flex">
+                        <span class="d-inline-block card-small-img" style="background-image:url('{{ member.photo.url }}');"></span>
+                        <span class="d-inline-block">
+	   	                <span class="d-block">{{ member.name }}</span>
+							<span class="d-inline-block text-muted mr-1">{{ member.role }}</span> 
+							{% if member.linkedin_url %}<a href="{{ member.linkedin_url }}" class="d-inline-block mr-1">{{ member.linkedin_url }}</a>{% endif %} 
+							{% if member.facebook_url %}<a href="{{ member.facebook_url }}" class="d-inline-block mr-1">{{ member.facebook_url }}</a>{% endif %} 
+		        			{% if member.twitter_url %}<a href="{{ member.twitter_url }}">{{ member.twitter_url }}</a>{% endif %}
+                    	</span>
+            		</div>
+            	{% endfor %} 
+	    	{% endfor %}
+        </div>
+    </div>
+</main>
 {% endblock %}

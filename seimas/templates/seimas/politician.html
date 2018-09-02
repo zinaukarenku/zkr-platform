@@ -12,7 +12,7 @@
                         <h2 class="text-center">{{ politician.name }}</h2>
                         <span class="d-block text-center text-muted">{{ politician.elected_party }}</span>
                         <!-- <span class="d-block text-center text-muted">{{ politician.start }}</span> -->
-                        <span class="d-block text-center text-eyebrow mt-3">Kontaktai</span>
+                        <span class="d-block text-eyebrow mt-3">Kontaktai</span>
                         <span class="d-block text-muted">
                             <i class="fas fa-at mr-1"></i>
                             {% if politician.email %}
@@ -23,7 +23,7 @@
                         </span>
                         <span class="d-block text-muted">
                             <i class="fas fa-phone mr-1"></i>
-                            {{ politician.phone|default:"Neturi telefono" }}
+                           {% if politician.phone %} (8 5) {% endif %}{{ politician.phone|default:"Neturi telefono" }}
                         </span>
                         <span class="d-block text-muted">
                             <i class="fas fa-globe mr-1"></i>
@@ -80,17 +80,16 @@
                                 <section class="mb-4">
                                     <h3>Patirtis</h3>
                                     <ul class="pl-0">
-                                        <li>
+                                        <li class="mb-2">
                                             <span class="d-block">Pozicija 1</span>
                                             <span class="d-inline-block text-muted mr-1">Patirties vieta 1</span>
                                             <span class="d-inline-block text-muted">2017.05.05 - 2018.01.19</span>
                                         </li>
-                                        <li>
-                                            <span class="d-block">Pozicija 2</span>
+                                        <li class="mb-2">                                            <span class="d-block">Pozicija 2</span>
                                             <span class="d-inline-block text-muted mr-1">Patirties vieta 2</span>
                                             <span class="d-inline-block text-muted">2017.05.05 - 2018.01.19</span>
                                         </li>
-                                        <li>
+                                        <li class="mb-2">
                                             <span class="d-block">Pozicija 3</span>
                                             <span class="d-inline-block text-muted mr-1">Patirties vieta 3</span>
                                             <span class="d-inline-block text-muted">2017.05.05 - 2018.01.19</span>
@@ -104,7 +103,7 @@
                                     {% if politician.politician_terms.all %}
                                         <ul class="pl-0">
                                             {% for politician_term in politician.politician_terms.all %}
-                                                <li>
+                                                <li class="mb-2">
                                                     <span class="d-block">{{ politician_term.elected_party }}</span>
                                                     <span class="d-inline-block text-muted mr-1">{{ politician_term.election_type }}</span>
                                                     <span class="d-inline-block text-muted mr-1">{{ politician_term.term }}</span>
@@ -121,7 +120,7 @@
                                     <h3>Frakcijos, komitetai ir komisijos</h3>
                                     <ul class="pl-0">
                                         {% for division in politician.divisions.all %}
-                                            <li>
+                                            <li class="mb-2">
                                                 <span class="d-block">{{ division.name }}</span>
                                                 <span class="d-inline-block text-muted mr-1">{{ division.role }}</span>
                                                 <span class="d-inline-block text-muted">{{ division.start|date:"SHORT_DATE_FORMAT" }} - {{ division.end|date:"SHORT_DATE_FORMAT"|default:"Nesibaigė" }}</span>
@@ -134,7 +133,7 @@
                                     <h3>Parlamentinės grupės</h3>
                                     <ul class="pl-0">
                                         {% for division in politician.divisions.all %}
-                                            <li>
+                                            <li class="mb-2">
                                                 <span class="d-block">{{ division.name }}</span>
                                                 <span class="d-inline-block text-muted mr-1">{{ division.role }}</span>
                                                 <span class="d-inline-block text-muted">{{ division.start|date:"SHORT_DATE_FORMAT" }} - {{ division.end|date:"SHORT_DATE_FORMAT"|default:"Nesibaigė" }}</span>
@@ -147,7 +146,7 @@
                                     <h3>Komandiruotės ir kelionės</h3>
                                     <ul class="pl-0">
                                         {% for trip in politician.business_trips.all %}
-                                            <li>
+                                            <li class="mb-2">
                                                 <span class="d-block">{{ trip.name }}</span>
                                                 <span class="d-inline-block text-muted mr-1">{{ trip.is_secondment|yesno:"Komandiruotė,Kelionė" }}</span>
                                                 <span class="d-inline-block text-muted">{{ trip.start|date:"SHORT_DATE_FORMAT" }} - {{ trip.end|date:"SHORT_DATE_FORMAT"|default:"No end date" }}</span>
@@ -158,6 +157,7 @@
                             </div>
                             <div id="communicate" class="tab-pane" aria-labelledby="communicate-tab">
                                 <h3>Klausimai ir atsakymai</h3>
+				<p class="text-muted"><i>Informacija yra ruošiama</i></p>
                             </div>
                         </div>
                     </div>

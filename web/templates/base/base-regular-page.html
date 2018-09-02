@@ -25,12 +25,12 @@
     {% endif %}
 
     <main class="pt-3 mb-3">
-        <div class="container">
+        <div class="container container-content">
             {% block main_content %}{% endblock %}
         </div>
 
-        <div class="container mt-3 mb-3">
-            <div class="banner--newsletter pt-4 pb-4 pl-2 pr-2">
+        <div class="container container-content mt-3 mb-3">
+            <div class="card banner--newsletter pt-4 pb-4 pl-2 pr-2">
                 {% include 'web/component/subscribe-newsletter.html' %}
             </div>
         </div>
