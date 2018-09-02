@@ -13,12 +13,32 @@
                         <span class="d-block text-center text-muted">{{ politician.elected_party }}</span>
                         <!-- <span class="d-block text-center text-muted">{{ politician.start }}</span> -->
                         <span class="d-block text-center text-eyebrow mt-3">Kontaktai</span>
-                        <span class="d-block text-muted"><i
-                                class="fas fa-at mr-1"></i>{{ politician.email|default:"Neturi el. pašto" }}</span>
-                        <span class="d-block text-muted"><i
-                                class="fas fa-phone mr-1"></i>{{ politician.phone|default:"Neturi telefono" }}</span>
-                        <span class="d-block text-muted"><i
-                                class="fas fa-globe mr-1"></i>{{ politician.personal_website|default:"Neturi asmeninio puslapio" }}</span>
+                        <span class="d-block text-muted">
+                            <i class="fas fa-at mr-1"></i>
+                            {% if politician.email %}
+                                {{ politician.email|urlize }}
+                            {% else %}
+                                Neturi el. pašto
+                            {% endif %}
+                        </span>
+                        <span class="d-block text-muted">
+                            <i class="fas fa-phone mr-1"></i>
+                            {{ politician.phone|default:"Neturi telefono" }}
+                        </span>
+                        <span class="d-block text-muted">
+                            <i class="fas fa-globe mr-1"></i>
+                            {% if politician.personal_website %}
+                                {{ politician.personal_website|urlize }}
+                            {% else %}
+                                Neturi asmeninio puslapio
+                            {% endif %}
+                        </span>
+                        {% if politician.bio_url %}
+                            <span class="d-block text-muted">
+                                <i class="fas fa-user mr-1"></i>
+                                <a href="{{ politician.bio_url }}" target="_blank">Seimas.lt biografija</a>
+                             </span>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -41,6 +61,7 @@
                         </ul>
                         <div id="politicianTabContent" class="tab-content">
                             <div id="bio" class="tab-pane fade show active" role="tabpanel" aria-labelledby="bio-tab">
+                                {% comment "Nemanau, kad iki relyzo sita turesim" %}
                                 <section class="mb-4">
                                     <h3>Biografija</h3>
                                     <p>
@@ -55,6 +76,7 @@
                                     <a href="{{ politician.bio_url }}" target="_blank">Šaltinis</a>
 
                                 </section>
+                                {% endcomment %}
 
                                 <section class="mb-4">
                                     <h3>Patirtis</h3>
@@ -86,7 +108,7 @@
                                                     <span class="d-block">{{ politician_term.elected_party }}</span>
                                                     <span class="d-inline-block text-muted mr-1">{{ politician_term.election_type }}</span>
                                                     <span class="d-inline-block text-muted mr-1">{{ politician_term.term }}</span>
-                                                    <span class="d-block text-muted">{{ politician_term.start }} - {{ politician_term.end|default:"Nesibaigė" }}</span>
+                                                    <span class="d-block text-muted">{{ politician_term.start|date:"SHORT_DATE_FORMAT" }} - {{ politician_term.end|date:"SHORT_DATE_FORMAT"|default:"Nesibaigė" }}</span>
                                                 </li>
                                             {% endfor %}
                                         </ul>
@@ -102,7 +124,7 @@
                                             <li>
                                                 <span class="d-block">{{ division.name }}</span>
                                                 <span class="d-inline-block text-muted mr-1">{{ division.role }}</span>
-                                                <span class="d-inline-block text-muted">{{ division.start }} - {{ division.end|default:"Nesibaigė" }}</span>
+                                                <span class="d-inline-block text-muted">{{ division.start|date:"SHORT_DATE_FORMAT" }} - {{ division.end|date:"SHORT_DATE_FORMAT"|default:"Nesibaigė" }}</span>
                                             </li>
                                         {% endfor %}
                                     </ul>
@@ -115,7 +137,7 @@
                                             <li>
                                                 <span class="d-block">{{ division.name }}</span>
                                                 <span class="d-inline-block text-muted mr-1">{{ division.role }}</span>
-                                                <span class="d-inline-block text-muted">{{ division.start }} - {{ division.end|default:"Nesibaigė" }}</span>
+                                                <span class="d-inline-block text-muted">{{ division.start|date:"SHORT_DATE_FORMAT" }} - {{ division.end|date:"SHORT_DATE_FORMAT"|default:"Nesibaigė" }}</span>
                                             </li>
                                         {% endfor %}
                                     </ul>
@@ -128,7 +150,7 @@
                                             <li>
                                                 <span class="d-block">{{ trip.name }}</span>
                                                 <span class="d-inline-block text-muted mr-1">{{ trip.is_secondment|yesno:"Komandiruotė,Kelionė" }}</span>
-                                                <span class="d-inline-block text-muted">{{ trip.start }} - {{ trip.end|default:"No end date" }}</span>
+                                                <span class="d-inline-block text-muted">{{ trip.start|date:"SHORT_DATE_FORMAT" }} - {{ trip.end|date:"SHORT_DATE_FORMAT"|default:"No end date" }}</span>
                                             </li>
                                         {% endfor %}
                                     </ul>
