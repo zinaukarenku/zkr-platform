@@ -8,6 +8,10 @@ from seimas.models import Politician, PoliticianTerm, PoliticianGame
 from seimas.utils import try_parse_int
 
 
+def index(request):
+    return render(request, 'seimas/index.html')
+
+
 def politician_game(request):
     if Politician.objects.count() == 0:
         return HttpResponse("No politicians")

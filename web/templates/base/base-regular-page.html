@@ -1,0 +1,39 @@
+{% extends "base/base-page.html" %}
+{% load static %}
+{% load capture_tags %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+
+{% block content %}
+    {% capture as banner_title silent %}{% block banner_title %}{% endblock %}{% endcapture %}
+    {% capture as banner_description silent %}{% block banner_description %}{% endblock %}{% endcapture %}
+
+    {% if banner_title or banner_description %}
+        <div class="banner banner--home d-flex align-items-center justify-content-center">
+            <div class="container text-center mt-4">
+                {% if banner_title %}
+                    <h2 class="text-600">{{ banner_title }}</h2>
+                {% endif %}
+                {% if banner_description %}
+                    <p>{{ banner_description }}</p>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+
+    <main class="pt-3 mb-3">
+        <div class="container">
+            {% block main_content %}{% endblock %}
+        </div>
+
+        <div class="container mt-3 mb-3">
+            <div class="banner--newsletter pt-4 pb-4 pl-2 pr-2">
+                {% include 'web/component/subscribe-newsletter.html' %}
+            </div>
+        </div>
+    </main>
+
+{% endblock %}
