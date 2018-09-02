@@ -1,15 +1,42 @@
 {% extends "base/base-page.html" %} {% block title %}Politikai{% endblock %} {% block description %}TODO description{% endblock %} {% block content %}
-<main style="padding-top: 75px">
-    <div class="container">
-        {% for politician in politicians %}
-        <div class="card mb-3">
-            <div class="card-body">
-                <span class="card-small-img mr-3" {% if politician.photo %} style="background-image:url('{{ politician.photo.url }}');" {% endif %}></span>
-                <a href="{{ politician.profile_url }}" class="card-title">{{ politician.name }}</a>
-                <span class="text-muted">{{ politician.elected_party }}</span>
-            </div>
-        </div>
-        {% endfor %}
+<header class="banner banner--politicians mb-4" style="padding-top: 50px">
+    <div class="container d-flex justify-content-center align-items-center flex-direction-column" style="height: 100%;">
+        <h2 class="">Lietuvos Respublikos Seimo nariai</h2>
     </div>
-</main>
+</header>
+<div class="container container-content">
+    <div class="row">
+        <div class="col-12">
+            <main>
+                {% for politician in politicians %}
+                <a href="{{ politician.profile_url}}" class="card mb-3">
+                    <div class="card-body d-flex">
+                        <span class="d-inline-block card-small-img mr-3" {% if politician.photo %} style="background-image:url('{{ politician.photo.url }}');" {% endif %}></span>
+                        <div class="d-inline-block">
+                            <h4 class="card-title text-left mb-0">{{ politician.name }}</h4>
+                            <p class="text-muted mb-0 text-80">{{ politician.elected_party }}</p>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </main>
+        </div>
+        <!-- <div class="col-lg-4 pr-0 d-none d-lg-block">
+            <aside class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Statistika</h4>
+                    <span class="d-inline-block text-center mr-2">
+                        <span class="d-block">7</span>
+                    <span class="d-block text-eyebrow">Frakcijos</span>
+                    </span>
+                    <span class="d-inline-block text-center">
+                        <span class="d-block">5</span>
+                    <span class="d-block text-eyebrow">Migrantai</span>
+                    </span>
+                </div>
+            </aside>
+        </div> -->
+    </div>
+</div>
+
 {% endblock %}

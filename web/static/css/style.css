@@ -9,6 +9,16 @@ body {
     -webkit-font-smoothing--moz-osx-font-smoothing: grayscale
 }
 
+.container-content {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.container-content .row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
 .overflow-hidden {
     overflow: hidden;
 }
@@ -63,6 +73,10 @@ h2,
 h3,
 h4 {
     font-weight: 300;
+}
+
+li {
+    list-style: none;
 }
 
 .text-eyebrow {
@@ -121,10 +135,20 @@ nav .container {
     border-radius: 4px;
 }
 
+.banner--politicians {
+    height: 300px;
+    background-color: rgba(5, 109, 255, .78);
+    color: #fff;
+}
+
 main h2,
 main h3,
 main h4 {
     text-align: center;
+}
+
+.text-80 {
+    font-size: 80%;
 }
 
 main .game_over {
@@ -224,6 +248,7 @@ main .game_over {
 
 .card {
     border: none;
+    border-radius: 0px;
 }
 
 .card-block-link {
@@ -282,12 +307,14 @@ main .game_over {
 
 .card-small-img {
     display: inline-block;
-    width: 80px;
-    height: 80px;
+    min-width: 52px;
+    max-width: 52px;
+    height: 72px;
     background-position: center top;
     background-color: #4141d8;
     background-repeat: no-repeat;
     background-size: cover;
+    border-radius: 5px
 }
 
 button.btn {
@@ -399,4 +426,18 @@ footer ul:first {
 #unkownPolitician {
     font-size: 150%;
     color: #59387a;
+}
+
+@media screen and (min-width: 500px) {
+    .container-content {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .container-content>.row {
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+    .card {
+        border-radius: 5px;
+    }
 }
