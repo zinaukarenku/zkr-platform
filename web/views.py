@@ -12,9 +12,14 @@ from web.models import EmailSubscription, OrganizationPartner, OrganizationMembe
 
 def index(request):
     partners = OrganizationPartner.objects.all()
-    members = OrganizationMember.objects.select_related('group').all()
     return render(request, 'web/index.html', {
-        'partners': partners,
+        'partners': partners
+    })
+
+
+def about(request):
+    members = OrganizationMember.objects.select_related('group').all()
+    return render(request, 'web/about.html', {
         'members': members
     })
 
