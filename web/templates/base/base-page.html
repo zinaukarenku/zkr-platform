@@ -1,65 +1,60 @@
 {% extends 'base/base.html' %} {% load static %} {% block main_container %}
-    <nav class="nav-main fixed-top">
-        <div class="container">
-            <h1 class="sr-only">Žinau, ką renku</h1>
-            <a class="navbar-brand" href="/">
-                <img src="{% static 'img/zkr-logo.png' %}" alt="Žinau, ką renku logotipas" class="d-inline-bl">
-            </a>
-            <div class="float-right d-none d-md-block"
-                 style="margin-top: 10px;">
-                <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'index' %}">
+<nav class="nav-main fixed-top">
+    <div class="container">
+        <h1 class="sr-only">Žinau, ką renku</h1>
+        <a class="navbar-brand" href="/">
+            <img src="{% static 'img/zkr-logo.png' %}" alt="Žinau, ką renku logotipas" class="d-inline-bl">
+        </a>
+        <div class="float-right d-none d-md-block" style="margin-top: 10px;">
+            <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'index' %}">
                     Organizacija
                 </a>
-                <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'seimas_politician_game' %}">Pažink
+            <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'seimas_politician_game' %}">Pažink
                     politiką</a>
-                <a class="text-center pr-1 pl-1" aria-current="false" href="http://www.zinaukarenku.lt/">Apie mus</a>
-            </div>
-            <button id="open_menu" class="d-md-none btn btn-menu">
+            <a class="text-center pr-1 pl-1" aria-current="false" href="http://www.zinaukarenku.lt/">Apie mus</a>
+        </div>
+        <button id="open_menu" class="d-md-none btn btn-menu">
                 <span class="bar lg-bar bar-m-one"></span>
                 <span class="bar md-bar bar-m-two"></span>
                 <span class="bar md-bar bar-m-three"></span>
             </button>
-            <button id="close_menu" class="d-none btn btn-close">
+        <button id="close_menu" class="d-none btn btn-close">
                 <span class="bar lg-bar bar-one"></span>
                 <span class="bar lg-bar bar-two"></span>
             </button>
-        </div>
-    </nav>
-    <div id="mobile_nav" class="d-none mobile-nav">
-        <div class="container">
-            <ul>
-                <li>
-                    <a class="text-center" aria-current="false" href="{% url 'seimas_politician_game' %}">
+    </div>
+</nav>
+<div id="mobile_nav" class="d-none mobile-nav">
+    <div class="container">
+        <ul class="pl-0">
+            <li>
+                <a class="text-center" aria-current="false" href="{% url 'seimas_politician_game' %}">
                         Pažink politiką
                     </a>
-                </li>
-                <li><a class="text-center" aria-current="false" href="http://www.zinaukarenku.lt/">Apie mus</a></li>
-            </ul>
-        </div>
+            </li>
+            <li><a class="text-center" aria-current="false" href="http://www.zinaukarenku.lt/">Apie mus</a></li>
+        </ul>
     </div>
-    {% block content %}{% endblock %}
+</div>
+{% block content %}{% endblock %}
 
-    <footer class="border-top pt-2 pb-2">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12 col-lg-8 d-flex justify-content-center justify-content-lg-start">
-                    <ul>
-                        <li><a href="https://medium.com/@Zinaukarenku" class="text-eyebrow"
-                               title="Tinklaraštis - Žinau, ką renku">Blog</a></li>
-                        <li><a href="https://eurohouse.lt" class="text-eyebrow" title="Europos Namai">Europos Namai</a>
-                        </li>
-                        <li><a href="https://www.facebook.com/zinaukarenku/?fref=ts" class="text-eyebrow"
-                               title="Facebook - Žinau, ką renku" target="_blank" rel="noreferrer">Facebook</a></li>
-                        <li><a href="https://twitter.com/zinaukarenku" class="text-eyebrow"
-                               title="Twitter - Žinau, ką renku" target="_blank" rel="noreferrer">Twitter</a></li>
-                        <li><a href="https://www.instagram.com/zinaukarenku/" class="text-eyebrow"
-                               title="Instagram - Žinau, ką renku" target="_blank" rel="noreferrer">Instagram</a></li>
-                    </ul>
-                </div>
-                <div class="col-sm-12 col-lg-4 d-flex justify-content-center justify-content-lg-end mb-2">
-                    <span class="text-muted text-eyebrow">© 2018 Žinau, ką renku</span>
-                </div>
+<footer class="pt-2 pb-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-lg-8 d-flex justify-content-center justify-content-lg-start">
+                <ul>
+                    <li><a href="https://medium.com/@Zinaukarenku" class="text-eyebrow" title="Tinklaraštis - Žinau, ką renku">Blog</a></li>
+                    <li><a href="https://eurohouse.lt" class="text-eyebrow" title="Europos Namai">Europos Namai</a>
+                    </li>
+                    <li><a href="https://www.facebook.com/zinaukarenku/?fref=ts" class="text-eyebrow" title="Facebook - Žinau, ką renku" target="_blank" rel="noreferrer">Facebook</a></li>
+                    <li><a href="https://twitter.com/zinaukarenku" class="text-eyebrow" title="Twitter - Žinau, ką renku" target="_blank" rel="noreferrer">Twitter</a></li>
+                    <li><a href="https://www.instagram.com/zinaukarenku/" class="text-eyebrow" title="Instagram - Žinau, ką renku" target="_blank" rel="noreferrer">Instagram</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-12 col-lg-4 d-flex justify-content-center justify-content-lg-end mb-2">
+                <span class="text-muted text-eyebrow">© 2018 Žinau, ką renku</span>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>
 {% endblock %}

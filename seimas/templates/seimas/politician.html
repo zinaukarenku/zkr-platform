@@ -1,85 +1,134 @@
-{% extends "base/base-page.html" %}
-
-{% block title %}{{ politician.name }}{% endblock %}
-{% block description %}TODO description{% endblock %}
-
+{% extends "base/base-page.html" %} 
+{% block title %}{{ politician.name }}{% endblock %} 
+{% block description %}TODO description{% endblock %} 
 {% block content %}
-    <h1>{{ politician.name }}</h1>
-    <p>
-        {{ politician.elected_party }}
-    </p>
-    <p>
-        Start {{ politician.start }}
-    </p>
-    <p>
-        Biourl <a href="{{ politician.bio_url }}">{{ politician.bio_url }}</a>
-    </p>
-    <p>
-        Email: {{ politician.email|default:"No e-mail" }}
-    </p>
-    <p>
-        Phone: {{ politician.phone|default:"No phone" }}
-    </p>
-    <p>
-        Personal website: {{ politician.personal_website|default:"No personal website" }}
-    </p>
+<div class="container container-content" style="padding-top: 75px;">
+    <div class="row">
+        <div class="col-sm-12 col-md-4">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="card-big-img ml-auto mr-auto mb-3" style="background-image:url('{{ politician.photo.url}}')"></div>
+                    <h2 class="text-center">{{ politician.name }}</h2>
+                    <span class="d-block text-center text-muted">{{ politician.elected_party }}</span>
+                    <!-- <span class="d-block text-center text-muted">{{ politician.start }}</span> -->
+                    <span class="d-block text-center text-eyebrow mt-3">Kontaktai</span>
+                    <span class="d-block text-muted"><i class="fas fa-at mr-1"></i>{{ politician.email|default:"Neturi el. pašto" }}</span>
+                    <span class="d-block text-muted"><i class="fas fa-phone mr-1"></i>{{ politician.phone|default:"Neturi telefono" }}</span>
+                    <span class="d-block text-muted"><i class="fas fa-globe mr-1"></i>{{ politician.personal_website|default:"Neturi asmeninio puslapio" }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <ul id="politicianTab" class="nav nav-pills nav-fill mb-5" role="tablist">
+                        <li class="nav-item">
+                            <a href="#bio" id="bio-tab" class="nav-link active" data-toggle="tab" aria-controls="bio" aria-selected="true">Biografija</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#activity" id="activity-tab" class="nav-link" data-toggle="tab" aria-controls="activity" aria-selected="true">Veikla</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#communicate" id="communicate-tab" class="nav-link" data-toggle="tab" aria-controls="communicate" aria-selected="true">Bendraukime</a>
+                        </li>
+                    </ul>
+                    <div id="politicianTabContent" class="tab-content">
+                        <div id="bio" class="tab-pane fade show active" role="tabpanel" aria-labelledby="bio-tab">
+                            <section class="mb-4">
+                                <h3>Biografija</h3>
+                                <p>
+                                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quasi nemo quisquam praesentium aut deleniti nihil? Iusto tempora, assumenda rem, distinctio dolor quos dolore facilis quia debitis consequuntur incidunt. Ea, expedita. Lorem ipsum, dolor sit amet
+                                    consectetur adipisicing elit. Nisi odit vel porro exercitationem labore earum fugiat corrupti distinctio itaque, aliquid accusantium necessitatibus, reprehenderit, quis nobis aperiam sequi illo? Odit, reiciendis. Explicabo
+                                </p>
+                                <a href="{{ politician.bio_url }}" target="_blank" noreferal>Šaltinis</a>
 
-    <h2>Elected</h2>
-    <table class="table">
-        <tbody>
-        {% for politician_term in politician.politician_terms.all %}
-            <tr>
-                <td>{{ politician_term.term }}</td>
-                <td>{{ politician_term.start }}</td>
-                <td>{{ politician_term.end|default:"No end date" }}</td>
-                <td>{{ politician_term.elected_party }}</td>
-                <td>{{ politician_term.election_type }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                            </section>
 
-    <h2>Divisions</h2>
-    <table class="table">
-        <tbody>
-        {% for division in politician.divisions.all %}
-            <tr>
-                <td>{{ division.name }}</td>
-                <td>{{ division.role }}</td>
-                <td>{{ division.start }}</td>
-                <td>{{ division.end|default:"No end date" }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                            <section class="mb-4">
+                                <h3>Patirtis</h3>
+                                <ul class="pl-0">
+                                    <li>
+                                        <span class="d-block">Pozicija 1</span>
+                                        <span class="d-inline-block text-muted mr-1">Patirties vieta 1</span>
+                                        <span class="d-inline-block text-muted">2017.05.05 - 2018.01.19</span>
+                                    </li>
+                                    <li>
+                                        <span class="d-block">Pozicija 2</span>
+                                        <span class="d-inline-block text-muted mr-1">Patirties vieta 2</span>
+                                        <span class="d-inline-block text-muted">2017.05.05 - 2018.01.19</span>
+                                    </li>
+                                    <li>
+                                        <span class="d-block">Pozicija 3</span>
+                                        <span class="d-inline-block text-muted mr-1">Patirties vieta 3</span>
+                                        <span class="d-inline-block text-muted">2017.05.05 - 2018.01.19</span>
+                                    </li>
+                                </ul>
+                            </section>
 
-    <h2>Parliament groups</h2>
-    <table class="table">
-        <tbody>
-        {% for group in politician.parliament_groups.all %}
-            <tr>
-                <td>{{ group.name }}</td>
-                <td>{{ group.role }}</td>
-                <td>{{ group.start }}</td>
-                <td>{{ group.end|default:"No end date" }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                            <section class="mb-4">
+                                <h3>Politinė patirtis</h3>
+                                {% if politician.politician_terms.all %}
+                                <ul class="pl-0">
+                                    {% for politician_term in politician.politician_terms.all %}
+                                    <li>
+                                        <span class="d-block">{{ politician_term.elected_party }}</span>
+                                        <span class="d-inline-block text-muted mr-1">{{ politician_term.election_type }}</span>
+                                        <span class="d-inline-block text-muted mr-1">{{ politician_term.term }}</span>
+                                        <span class="d-block text-muted">{{ politician_term.start }} - {{ politician_term.end|default:"Nesibaigė" }}</span>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+                            </section>
+                        </div>
+                        <div id="activity" class="tab-pane fade" aria-labelledby="activity-tab">
 
-    <h2>Business trips</h2>
-    <table class="table">
-        <tbody>
-        {% for trip in politician.business_trips.all %}
-            <tr>
-                <td>{{ trip.name }}</td>
-                <td>{{ trip.start }}</td>
-                <td>{{ trip.end|default:"No end date" }}</td>
-                <td>{{ trip.is_secondment|yesno:"Komandiruotė,Kelionė" }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                            <section class="mb-4">
+                                <h3>Frakcijos, komitetai ir komisijos</h3>
+                                <ul class="pl-0">
+                                    {% for division in politician.divisions.all %}
+                                    <li>
+                                        <span class="d-block">{{ division.name }}</span>
+                                        <span class="d-inline-block text-muted mr-1">{{ division.role }}</span>
+                                        <span class="d-inline-block text-muted">{{ division.start }} - {{ division.end|default:"Nesibaigė" }}</span>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </section>
 
+                            <section class="mb-4">
+                                <h3>Parlamentinės grupės</h3>
+                                <ul class="pl-0">
+                                    {% for division in politician.divisions.all %}
+                                    <li>
+                                        <span class="d-block">{{ division.name }}</span>
+                                        <span class="d-inline-block text-muted mr-1">{{ division.role }}</span>
+                                        <span class="d-inline-block text-muted">{{ division.start }} - {{ division.end|default:"Nesibaigė" }}</span>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </section>
 
+                            <section class="mb-4">
+                                <h3>Komandiruotės ir kelionės</h3>
+                                <ul class="pl-0">
+                                    {% for trip in politician.business_trips.all %}
+                                    <li>
+                                        <span class="d-block">{{ trip.name }}</td>
+											<span class="d-inline-block text-muted mr-1">{{ trip.is_secondment|yesno:"Komandiruotė,Kelionė" }}</span>
+                                        <span class="d-inline-block text-muted">{{ trip.start }} - {{ trip.end|default:"No end date" }}</span>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </section>
+                        </div>
+                        <div id="communicate" class="tab-pane" aria-labelledby="communicate-tab">
+                            <h3>Klausimai ir atsakymai</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

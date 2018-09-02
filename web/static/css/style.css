@@ -314,7 +314,17 @@ main .game_over {
     background-color: #4141d8;
     background-repeat: no-repeat;
     background-size: cover;
-    border-radius: 5px
+    border-radius: 5px;
+}
+
+.card-big-img {
+    width: 130px;
+    height: 200px;
+    background-position: center top;
+    background-color: #4141d8;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 5px;
 }
 
 button.btn {
