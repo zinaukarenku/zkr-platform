@@ -12,7 +12,8 @@ It's a standart Django based project. After cloning project:
 2. Install project requirements using pip e.g `pip install requirements.txt`
 3. Set environment variable `DEV=1`
 4. Create Sqlite database file `db.sqlite3` or Postgress database and apply migrations using `python manage.py migrate`
-5. Start project using `python manage.py runserver`
+5. Fetch some data by running `python manage.py fetch_seimas_data`
+6. Start project using `python manage.py runserver`
 
 Deploymenet
 ------------
@@ -26,6 +27,11 @@ POSTGRES_USER=[POSTGRES_USER]
 POSTGRES_PASSWORD=[POSTGRES_PASSWORD]
 POSTGRES_DB=[POSTGRES_DB]
 REDIS_PORT_6379_TCP_ADDR=[REDIS_PORT_6379_TCP_ADDR]
+SENTRY_KEY=[SENTRY_KEY]
+SENTRY_SECRET=[SENTRY_SECRET]
+SENTRY_PROJECT_ID=[SENTRY_PROJECT_ID]
+RECAPTCHA_PUBLIC_KEY=[RECAPTCHA_PUBLIC_KEY]
+RECAPTCHA_PRIVATE_KEY=[RECAPTCHA_PRIVATE_KEY]
 ```
 
 This file should be edited on the server. 
