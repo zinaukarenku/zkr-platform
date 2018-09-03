@@ -35,12 +35,10 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8080/health/ || exit 1"]
     deploy:
-      replicas: 1
       restart_policy:
         condition: on-failure
       update_config:
-        parallelism: 2
-        delay: 15s
+        delay: 5s
         order: stop-first
     volumes:
     - static_volume:/srv/platform/static
