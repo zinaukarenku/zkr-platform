@@ -2,11 +2,6 @@
 {% load static %}
 {% load capture_tags %}
 
-{% block head %}
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
-{% endblock %}
-
-
 {% block content %}
     {% capture as banner_title silent %}{% block banner_title %}{% endblock %}{% endcapture %}
     {% capture as banner_description silent %}{% block banner_description %}{% endblock %}{% endcapture %}
