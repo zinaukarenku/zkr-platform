@@ -1,24 +1,22 @@
 {% extends "base/base-regular-page.html" %}
 {% load static %}
-
 {% block title %}Politinės stebėsenos platforma{% endblock %}
-
 {% block banner_title %}Seimas{% endblock %}
 {% block banner_description %}TODO description{% endblock %}
 
 {% block main_content %}
+<div class="container container-content">
     <div class="row mb-2">
         <div class="col-md-6">
-            <a href="{% url 'seimas_politicians' %}"
-               class="card d-flex align-items-center justify-content-center card-block-link text-center">
-                Seimo nariai
-            </a>
+            <a href="{% url 'seimas_politicians' %}" class="card d-flex align-items-center justify-content-center card-block-link text-center">
+					Seimo nariai
+				</a>
         </div>
         <div class="col-md-6">
-            <a href="{% url 'seimas_politician_game' %}"
-               class="card d-flex align-items-center justify-content-center card-block-link text-center">
-                Pažink politiką
-            </a>
+            <a href="{% url 'seimas_politician_game' %}" class="card d-flex align-items-center justify-content-center card-block-link text-center">
+					Pažink politiką
+				</a>
         </div>
     </div>
+</div>
 {% endblock %}

@@ -116,6 +116,7 @@ nav .container {
     padding: 5px 0;
     background: red;
     color: #fff;
+    margin-top: 50px;
 }
 
 .note span {
@@ -128,6 +129,7 @@ nav .container {
     position: relative;
     background-size: cover;
     background: no-repeat 50%;
+    margin-top: 50px;
 }
 
 .banner--home {
@@ -142,11 +144,12 @@ nav .container {
     color: #fff;
 }
 
-main h2,
+
+/* main h2,
 main h3,
 main h4 {
     text-align: center;
-}
+} */
 
 main .game_over {
     color: #e20d0d;
@@ -256,8 +259,8 @@ main .game_over {
 
 .card-game {
     position: relative;
-    width: 135px;
-    height: 200px;
+    width: 130px;
+    height: 198px;
     background: #3c1053;
     border: none;
     border-radius: 5px;
@@ -283,7 +286,7 @@ main .game_over {
     position: absolute;
     background: #fff;
     width: 100%;
-    height: 60px;
+    height: 40px;
     bottom: -4px;
     padding-top: 5px;
     text-align: center;

@@ -2,14 +2,15 @@
 {% block title %}Pažink politiką{% endblock %}
 
 {% block main_content %}
-    <div class="mb-4">
-        <div class="note {% if game.is_game_ended %} visible {% else %} invisible {% endif %}">
-            <div class="container text-center"><span>Žaidimo Pabaiga</span></div>
-        </div>
+    <div class="note {% if game.is_game_ended %}visible mb-3{% else %} invisible {% endif %}">
+        <div class="container text-center"><span>Žaidimo Pabaiga</span></div>
+    </div>
 
-        <div class="container pt-3">
+    <div class="container container-content">
+		<div class="card mb-3" style="width:auto; max-width:420px; min-height:450px; margin:0 auto;">
+			<div class="card-body">
             {% if not game.is_game_ended %}
-                <h2>{{ game.correct_politician.name }}</h2>
+                <h2 class="text-center">{{ game.correct_politician.name }}</h2>
                 <div class="row mr-0 ml-0 mb-4 justify-content-center">
                     {% for card in game.polititian_cards %}
                         <div class="col-xs-6">
@@ -21,9 +22,9 @@
                         </div>
                     {% endfor %}
                 </div>
-                <h3>Atsakėte: {{ game.answered_count }}</h3>
+                <h3 class="text-center">Atsakėte: {{ game.answered_count }}</h3>
             {% else %}
-                <h2>{{ game.correct_politician.name }}</h2>
+                <h2 class="text-center">{{ game.correct_politician.name }}</h2>
                 <div class="row mr-0 ml-0 mb-4 justify-content-center">
                     {% for card in game.polititian_cards %}
                         <div class="col-xs-6">
@@ -31,7 +32,7 @@
                                 <i class="fas {{ card.is_correct|yesno:" fa-check-circle,fa-times-circle " }} fa-lg"></i>
                                 <img class="card-img-top" src="{{ card.photo }}">
                                 <div class="card-body">
-                                    <a class="card-link" href="{{ card.more_info }}">{{ card.name }}</a>
+                                    <a class="card-link" href="{{ card.more_info }}">Daugiau info</a>
                                 </div>
                             </div>
                         </div>
@@ -64,6 +65,7 @@
                     </button>
                 </form>
             {% endif %}
-        </div>
+			</div>
+		</div>
     </div>
 {% endblock %}
