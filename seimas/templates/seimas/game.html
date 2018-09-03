@@ -1,7 +1,8 @@
-{% extends "base/base-page.html" %}
+{% extends "base/base-regular-page.html" %}
 {% block title %}Pažink politiką{% endblock %}
-{% block content %}
-    <main style="padding-top: 50px;">
+
+{% block main_content %}
+    <div class="mb-4">
         <div class="note {% if game.is_game_ended %} visible {% else %} invisible {% endif %}">
             <div class="container text-center"><span>Žaidimo Pabaiga</span></div>
         </div>
@@ -63,8 +64,6 @@
                     </button>
                 </form>
             {% endif %}
-            <hr class="mt-4">
-            {% include 'web/component/subscribe-newsletter.html' %}
         </div>
-    </main>
+    </div>
 {% endblock %}

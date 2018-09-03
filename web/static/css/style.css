@@ -34,15 +34,6 @@ body {
     margin-bottom: 50px
 }
 
-.main-padding {
-    padding-top: 90px
-}
-
-.main-padding--single,
-.no-padding {
-    padding-top: 0
-}
-
 .text-600 {
     font-weight: 600
 }
@@ -124,7 +115,7 @@ nav .container {
 }
 
 .banner--home {
-    height: 300px;
+    height: 200px;
     background-color: rgba(5, 109, 255, .78);
     color: #fff;
 }

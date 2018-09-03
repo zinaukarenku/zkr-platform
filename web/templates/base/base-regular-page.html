@@ -7,7 +7,7 @@
     {% capture as banner_description silent %}{% block banner_description %}{% endblock %}{% endcapture %}
 
     {% if banner_title or banner_description %}
-        <div class="banner banner--home d-flex align-items-center justify-content-center">
+        <div class="banner banner--home d-flex align-items-center justify-content-center mb-3">
             <div class="container text-center mt-4">
                 {% if banner_title %}
                     <h2 class="text-600">{{ banner_title }}</h2>
@@ -19,7 +19,7 @@
         </div>
     {% endif %}
 
-    <main class="pt-3 mb-3">
+    <main class="mb-3">
         <div class="container container-content">
             {% block main_content %}{% endblock %}
         </div>
