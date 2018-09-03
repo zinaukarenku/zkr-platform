@@ -15,13 +15,21 @@ Including another URLconf
 """
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
 from django.urls import path, include
 
 from zkr import settings
+from zkr.sitemap import StaticViewSitemap, SeimasPoliticianSitemap
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('seimas/', include('seimas.urls')),
+                  path(
+                      'sitemap.xml/',
+                      sitemap,
+                      {'sitemaps': {'static': StaticViewSitemap, 'seimas': SeimasPoliticianSitemap}},
+                      name='django.contrib.sitemaps.views.sitemap'
+                  ),
                   path('', include('web.urls')),
                   path('accounts/', include('allauth.urls')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
