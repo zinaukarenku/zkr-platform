@@ -42,8 +42,24 @@ body {
     font-size: 80%
 }
 
+.text-size-90 {
+    font-size: 90%;
+}
+
+.text-size-120 {
+    font-size: 120%;
+}
+
 .text-size-sm-60-md-80 {
     font-size: 60%
+}
+
+.text-lh-125 {
+    line-height: 1.25;
+}
+
+.text-lh-1 {
+    line-height: 1;
 }
 
 a:active,
@@ -130,10 +146,6 @@ main h2,
 main h3,
 main h4 {
     text-align: center;
-}
-
-.text-80 {
-    font-size: 80%;
 }
 
 main .game_over {
