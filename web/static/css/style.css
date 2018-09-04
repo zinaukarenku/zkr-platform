@@ -6,6 +6,7 @@ html {
 body {
     background-color: #fafafa;
     font-size: 16px;
+    padding-top: 50px;
     -webkit-font-smoothing: antialiased;
     -webkit-font-smoothing--moz-osx-font-smoothing: grayscale
 }
@@ -28,6 +29,10 @@ body {
 .col-lg-8 {
     padding-left: 0;
     padding-right: 0
+}
+
+.mt-25 {
+    margin-top: 25px
 }
 
 .mb-50 {
@@ -108,7 +113,6 @@ nav .container {
     padding: 5px 0;
     background: red;
     color: #fff;
-    margin-top: 50px;
 }
 
 .note span {
@@ -121,7 +125,6 @@ nav .container {
     position: relative;
     background-size: cover;
     background: no-repeat 50%;
-    margin-top: 50px;
 }
 
 .banner--home {
@@ -210,7 +213,7 @@ main .game_over {
     background-color: #fff;
     position: fixed;
     height: 100vh;
-    padding-top: 75px;
+    padding-top: 25px;
     top: 0;
     left: 0;
     right: 0;
