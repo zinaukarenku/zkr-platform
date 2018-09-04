@@ -18,7 +18,7 @@ def index(request):
 
 
 def about(request):
-    members = OrganizationMember.objects.select_related('group').all()
+    members = OrganizationMember.objects.select_related('group').order_by('group__order', 'order')
     return render(request, 'web/about.html', {
         'members': members
     })
