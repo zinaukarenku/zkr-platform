@@ -12,6 +12,7 @@ class EmailSubscriptionForm(forms.Form):
 
 
 class LoginForm(AllAuthLoginForm):
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
@@ -23,6 +24,11 @@ class LoginForm(AllAuthLoginForm):
                 css_class='row'
             ),
         )
+
+        self.fields['login'].label = "El. paštas"
+        self.fields['login'].widget.attrs['placeholder'] = "El. pašto adresas"
+        self.fields['password'].label = "Slaptažodis"
+        self.fields['password'].widget.attrs['placeholder'] = "Slaptažodis"
 
 
 class SignupForm(AllAuthSignupForm):
@@ -42,6 +48,15 @@ class SignupForm(AllAuthSignupForm):
             ),
         )
 
+        self.fields['email'].label = "El. paštas"
+        self.fields['email'].widget.attrs['placeholder'] = "El. pašto adresas"
+
+        self.fields['password1'].label = "Slaptažodis"
+        self.fields['password1'].widget.attrs['placeholder'] = self.fields['password1'].label
+
+        self.fields['password2'].label = "Slaptažodis (dar kartą)"
+        self.fields['password2'].widget.attrs['placeholder'] = self.fields['password2'].label
+
 
 class ResetPasswordForm(AllAuthResetPasswordForm):
     def __init__(self, *args, **kwargs):
@@ -55,6 +70,9 @@ class ResetPasswordForm(AllAuthResetPasswordForm):
             ),
         )
 
+        self.fields['email'].label = "El. paštas"
+        self.fields['email'].widget.attrs['placeholder'] = "El. pašto adresas"
+
 
 class SocialSignupForm(AllAuthSocialSignupForm):
     def __init__(self, *args, **kwargs):
@@ -67,3 +85,6 @@ class SocialSignupForm(AllAuthSocialSignupForm):
                 css_class='row'
             ),
         )
+
+        self.fields['email'].label = "El. paštas"
+        self.fields['email'].widget.attrs['placeholder'] = "El. pašto adresas"
