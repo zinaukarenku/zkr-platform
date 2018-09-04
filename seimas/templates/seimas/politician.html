@@ -102,7 +102,7 @@
                             <section class="mb-4">
                                 <h3>Politinė patirtis</h3>
                                 {% if politician.politician_terms.all %}
-                                    <ul class="pl-0">
+                                    <ul class="pl-0 list-unstyled">
                                         {% for politician_term in politician.politician_terms.all %}
                                             <li class="mb-2">
                                                 <span class="d-block">{{ politician_term.elected_party }}</span>
@@ -119,7 +119,7 @@
 
                             <section class="mb-4">
                                 <h3>Frakcijos, komitetai ir komisijos</h3>
-                                <ul class="pl-0">
+                                <ul class="pl-0 list-unstyled">
                                     {% for division in politician.divisions.all %}
                                         <li class="mb-2">
                                             <span class="d-block">{{ division.name }}</span>
@@ -132,7 +132,7 @@
 
                             <section class="mb-4">
                                 <h3>Parlamentinės grupės</h3>
-                                <ul class="pl-0">
+                                <ul class="pl-0 list-unstyled">
                                     {% for division in politician.divisions.all %}
                                         <li class="mb-2">
                                             <span class="d-block">{{ division.name }}</span>
@@ -145,7 +145,7 @@
 
                             <section class="mb-4">
                                 <h3>Komandiruotės ir kelionės</h3>
-                                <ul class="pl-0">
+                                <ul class="pl-0 list-unstyled">
                                     {% for trip in politician.business_trips.all %}
                                         <li class="mb-2">
                                             <span class="d-block">{{ trip.name }}</span>

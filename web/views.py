@@ -24,6 +24,10 @@ def about(request):
     })
 
 
+def join_us(request):
+    return render(request, 'web/join-us.html')
+
+
 @require_http_methods(["POST"])
 def subscribe(request):
     form = EmailSubscriptionForm(request.POST)
