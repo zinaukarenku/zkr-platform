@@ -51,13 +51,16 @@
 					<span class="d-block text-size-120 text-lh-125">{{ member.name }}</span>
                 	<span class="d-block text-muted text-size-90 text-lh-1 mr-1">{{ member.role }}</span>
                                     {% if member.linkedin_url %}
-                                        <a href="{{ member.linkedin_url }}" class="d-inline-block text-size-90 mr-1">LinkedIn</a>
+                                        <a href="{{ member.linkedin_url }}" target="_blank"
+                                           class="d-inline-block text-size-90 mr-1">LinkedIn</a>
                                     {% endif %}
                                     {% if member.facebook_url %}
-                                        <a href="{{ member.facebook_url }}" class="d-inline-block text-size-90 mr-1">Facebook</a>
+                                        <a href="{{ member.facebook_url }}" target="_blank"
+                                           class="d-inline-block text-size-90 mr-1">Facebook</a>
                                     {% endif %}
                                     {% if member.twitter_url %}
-                                        <a href="{{ member.twitter_url }}" class="text-size-90">Twitter</a>
+                                        <a href="{{ member.twitter_url }}" target="_blank"
+                                           class="text-size-90">Twitter</a>
                                     {% endif %}
                 </span>
                             </div>
