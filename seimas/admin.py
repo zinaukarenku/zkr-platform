@@ -48,6 +48,7 @@ class PoliticianAdmin(VersionAdmin):
     search_fields = ['first_name', 'last_name']
     list_display = ['first_name', 'last_name', 'is_active', 'elected_party', 'is_male']
     list_select_related = ['elected_party']
+    exclude = ['legal_act_documents']
     list_filter = ['elected_party', 'is_active']
 
     inlines = [
