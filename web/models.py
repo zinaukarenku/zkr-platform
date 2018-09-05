@@ -76,12 +76,14 @@ class OrganizationMember(models.Model):
         return join('img', 'zkr', 'member', filename)
 
     name = models.CharField(max_length=128)
+    role = models.CharField(max_length=256)
+
     photo = ResizedImageField(upload_to=_organization_member_photo_file, crop=['middle', 'center'], size=[256, 256])
+
+    group = models.ForeignKey(OrganizationMemberGroup, on_delete=models.CASCADE, related_name="members")
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True,
                                 related_name="organization_member")
-    group = models.ForeignKey(OrganizationMemberGroup, on_delete=models.CASCADE, related_name="members")
-    role = models.CharField(max_length=256)
 
     linkedin_url = models.URLField(blank=True, null=True)
     facebook_url = models.URLField(blank=True, null=True)
