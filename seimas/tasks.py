@@ -1,10 +1,11 @@
 import logging
 import re
+from time import sleep
 
 from celery import shared_task
 
 from seimas.models import Term, Session, Party, Politician, PoliticianParliamentGroup, PoliticianDivision, \
-    PoliticianBusinessTrip, PoliticianTerm, ElectionType
+    PoliticianBusinessTrip, PoliticianTerm, ElectionType, LegalActDocumentType, LegalAct, LegalActDocument
 from seimas.utils import requests_retry_session, parse_invalid_xml
 
 logger = logging.getLogger(__name__)
@@ -251,6 +252,52 @@ def fetch_business_trips():
                 created += 1
             else:
                 updated += 1
+
+    return {
+        'created': created,
+        'updated': updated
+    }
+
+
+@shared_task(soft_time_limit=600)
+def fetch_politician_documents():
+    created = 0
+    updated = 0
+
+    for politician in Politician.objects.all():
+        req = requests_retry_session().get("http://apps.lrs.lt/sip/p2b.statistika_snk", params={
+            'p_iid': politician.asm_id
+        })
+        req.raise_for_status()
+
+        soup = parse_invalid_xml(req.text)
+        documents_xml = soup.find_all('Dokumentas')
+
+        legal_act_documents = []
+
+        for document_xml in documents_xml:
+            legal_act_document_type, _ = LegalActDocumentType.objects.get_or_create(name=document_xml['tipas'].strip())
+            legal_act, _ = LegalAct.objects.get_or_create(number=document_xml['numeris'])
+
+            legal_act_document, is_created = LegalActDocument.objects \
+                .update_or_create(doc_id=document_xml['dok_id'],
+                                  defaults={
+                                      'name': document_xml[
+                                          'pavadinimas'].strip(),
+                                      'date': document_xml['data'],
+                                      'legal_act': legal_act,
+                                      'document_type': legal_act_document_type
+                                  })
+
+            legal_act_documents.append(legal_act_document)
+
+            if is_created:
+                created += 1
+            else:
+                updated += 1
+
+        politician.legal_act_documents.set(legal_act_documents, clear=True)
+        sleep(2)
 
     return {
         'created': created,

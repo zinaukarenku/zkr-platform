@@ -69,6 +69,42 @@ class ElectionType(models.Model):
         return self.name
 
 
+class LegalAct(models.Model):
+    number = models.CharField(max_length=32, unique=True)
+
+    class Meta:
+        verbose_name_plural = "Legal acts"
+
+    def __str__(self):
+        return self.number
+
+
+class LegalActDocumentType(models.Model):
+    name = models.CharField(max_length=128, unique=True)
+
+    class Meta:
+        verbose_name_plural = "Legal act document types"
+
+    def __str__(self):
+        return self.name
+
+
+class LegalActDocument(models.Model):
+    doc_id = models.IntegerField(unique=True)
+    legal_act = models.ForeignKey(LegalAct, on_delete=models.CASCADE, related_name='documents')
+    document_type = models.ForeignKey(LegalActDocumentType, on_delete=models.CASCADE, related_name='documents')
+
+    name = models.CharField(max_length=1024)
+    date = models.DateField(db_index=True)
+
+    class Meta:
+        verbose_name_plural = "Legal act documents"
+        ordering = ['-date', '-doc_id']
+
+    def __str__(self):
+        return f"{self.doc_id} - {self.name}"
+
+
 class PoliticianQuerySet(models.QuerySet):
     pass
 
@@ -98,6 +134,7 @@ class Politician(models.Model):
     is_male = models.BooleanField(default=True)
 
     elected_party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name="politicians")
+    legal_act_documents = models.ManyToManyField(LegalActDocument, related_name="politicians")
 
     start = models.DateField()
     end = models.DateField(blank=True, null=True)
