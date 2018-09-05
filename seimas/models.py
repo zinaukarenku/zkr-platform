@@ -97,6 +97,9 @@ class LegalActDocument(models.Model):
     name = models.CharField(max_length=1024)
     date = models.DateField(db_index=True)
 
+    def url(self):
+        return f"http://www3.lrs.lt/pls/inter/dokpaieska.showdoc_l?p_id={self.doc_id}"
+
     class Meta:
         verbose_name_plural = "Legal act documents"
         ordering = ['-date', '-doc_id']

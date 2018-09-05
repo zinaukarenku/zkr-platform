@@ -56,6 +56,11 @@
                                    aria-controls="activity" aria-selected="true">Veikla</a>
                             </li>
                             <li class="nav-item">
+                                <a href="#legal-act-projects" id="activity-tab" class="nav-link" data-toggle="tab"
+                                   role="tab"
+                                   aria-controls="activity" aria-selected="true">Teisės aktų projektai</a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="#communicate" id="communicate-tab" class="nav-link" data-toggle="tab"
                                    role="tab"
                                    aria-controls="communicate" aria-selected="true">Bendraukime</a>
@@ -152,6 +157,23 @@
                                                 <span class="d-block">{{ trip.name }}</span>
                                                 <span class="d-inline-block text-muted mr-1">{{ trip.is_secondment|yesno:"Komandiruotė,Kelionė" }}</span>
                                                 <span class="d-inline-block text-muted">{{ trip.start|date:"SHORT_DATE_FORMAT" }} - {{ trip.end|date:"SHORT_DATE_FORMAT"|default:"No end date" }}</span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </section>
+                            </div>
+                            <div id="legal-act-projects" class="tab-pane" aria-labelledby="legal-act-projects-tab">
+
+                                <section class="mb-4">
+                                    <ul class="pl-0 list-unstyled">
+                                        {% for document in politician.legal_act_documents.all %}
+                                            <li class="mb-2">
+                                                <a class="d-block" href="{{ document.url }}" target="_blank"
+                                                   rel="nofollow">
+                                                    {{ document.name }}
+                                                </a>
+                                                <span class="d-inline-block text-muted mr-1">{{ document.document_type }}</span>
+                                                <span class="d-inline-block text-muted">{{ document.date|date:"SHORT_DATE_FORMAT" }}</span>
                                             </li>
                                         {% endfor %}
                                     </ul>

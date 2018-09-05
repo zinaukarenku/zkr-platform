@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from ipware import get_client_ip
 
 from seimas.forms import PrizeFrom
-from seimas.models import Politician, PoliticianTerm, PoliticianGame
+from seimas.models import Politician, PoliticianTerm, PoliticianGame, LegalActDocument
 from seimas.utils import try_parse_int
 
 
@@ -74,10 +74,14 @@ def politician(request, slug):
         .prefetch_related('divisions',
                           'parliament_groups',
                           'business_trips',
-                          Prefetch('politician_terms',
-                                   PoliticianTerm.objects.select_related('term',
-                                                                         'elected_party',
-                                                                         'election_type'))
+                          Prefetch(
+                              'politician_terms',
+                              PoliticianTerm.objects.select_related('term', 'elected_party', 'election_type')
+                          ),
+                          Prefetch(
+                              'legal_act_documents',
+                              LegalActDocument.objects.select_related('legal_act', 'document_type')
+                          )
                           ).first()
 
     if selected_politician is None:
