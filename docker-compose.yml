@@ -35,6 +35,7 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8080/health/ || exit 1"]
     deploy:
+      replicas: 2
       restart_policy:
         condition: on-failure
       update_config:
