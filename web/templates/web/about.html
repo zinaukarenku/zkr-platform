@@ -50,6 +50,13 @@
                                 <span class="d-inline-block">
 					<span class="d-block text-size-120 text-lh-125">{{ member.name }}</span>
                 	<span class="d-block text-muted text-size-90 text-lh-1 mr-1">{{ member.role }}</span>
+                                    {% if member.email %}
+                                        <a href="mailto:{{ member.email }}" target="_blank"
+                                           class="d-inline-block text-size-90 mr-1">
+                                            El. paštas
+                                        </a>
+
+                                    {% endif %}
                                     {% if member.linkedin_url %}
                                         <a href="{{ member.linkedin_url }}" target="_blank"
                                            class="d-inline-block text-size-90 mr-1">LinkedIn</a>
