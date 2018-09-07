@@ -13,6 +13,7 @@ services:
     healthcheck:
       test: ["CMD", "pg_isready"]
     deploy:
+      replicas: 1
       restart_policy:
         condition: on-failure
 
@@ -25,6 +26,7 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "redis-cli ping"]
     deploy:
+      replicas: 1
       restart_policy:
         condition: on-failure
 
@@ -53,7 +55,7 @@ services:
     - redis
 
   nginx:
-    image: nginx
+    image: nginx:1.15
     ports:
     - 80:80
     - 443:443
@@ -67,6 +69,7 @@ services:
     networks:
     - nginx_network
     deploy:
+      replicas: 1
       restart_policy:
         condition: on-failure
 
@@ -87,6 +90,7 @@ services:
     - postgres
     - redis
     deploy:
+      replicas: 1
       restart_policy:
         condition: on-failure
 
@@ -107,6 +111,7 @@ services:
     - postgres
     - redis
     deploy:
+      replicas: 1
       restart_policy:
         condition: on-failure
 
