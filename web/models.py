@@ -85,6 +85,7 @@ class OrganizationMember(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True,
                                 related_name="organization_member")
 
+    email = models.EmailField(blank=True, null=True)
     linkedin_url = models.URLField(blank=True, null=True)
     facebook_url = models.URLField(blank=True, null=True)
     twitter_url = models.URLField(blank=True, null=True)
