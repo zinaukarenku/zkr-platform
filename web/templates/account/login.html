@@ -1,47 +1,37 @@
-{% extends 'base/base-regular-page.html' %}
-{% load crispy_forms_tags %}
-
-{% load account socialaccount %}
-
-{% block title %}Prisijungti{% endblock %}
-
-
+{% extends 'base/base-regular-page.html' %} 
+{% load static %} {% load crispy_forms_tags %} 
+{% load account socialaccount %} 
+{% block title %}Prisijungti{% endblock %} 
 {% block main_content %}
-    <div class="container container-content">
-        <div class="row justify-content-center mt-25">
-            <div class="col-12 text-center">
-                <h3 class="fw-400 font-dosis mb-20">Prisijunk</h3>
-                <p class="lead fw-400 opacity-65">Prisijunk per Facebook arba Google arba paprastu prisijungimu.<br>
-                    Neturi paskyros ? <a href="{{ signup_url }}">Užsiregistruok</a></p>
-            </div>
-            <div style="max-width: 450px; min-width: 400px;">
-                <div class="card">
-                    <div class="card-body">
-                        {% include 'account/social-buttons.html' %}
 
-                        <hr>
 
-                        <form class="login" method="POST" action="{% url 'account_login' %}">
-                            {% crispy form %}
-                            {% if redirect_field_value %}
-                                <input type="hidden" name="{{ redirect_field_name }}"
-                                       value="{{ redirect_field_value }}"/>
-                            {% endif %}
-                            <div class="form-actions">
-                                <button class="btn btn-block btn-bold btn-primary" type="submit">
-                                    Prisijungti
-                                </button>
-                                <a class="btn btn-block"
-                                   href="{% url 'account_reset_password' %}">Pamiršau slaptažodį</a>
+<main class="container container-content d-flex justify-content-center align-items-center mt-3 mb-3">
+    <div class="card" style="max-width: 450px; min-width: 320px; min-height: 400px; margin: 0 auto;">
+        <div class="card-body text-center">
 
-                            </div>
-                        </form>
-                    </div>
-                    <footer class="card-footer text-center">
-                        <a class="text-info opacity-70" href="{{ signup_url }}">Registracija</a>
-                    </footer>
+            <img src="{% static 'img/zkr-medium-logo.png' %}" class="d-block mb-4" width="120" style="margin: 0 auto;">
+
+            <form class="login text-left" method="POST" action="{% url 'account_login' %}">
+                {% crispy form %} {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" /> {% endif %}
+                <div class="form-actions">
+                    <button class="btn btn-block btn-bold btn-primary" type="submit">Prisijungti</button>
+                    <a class="btn btn-block" href="{% url 'account_reset_password' %}">Pamiršau slaptažodį</a>
                 </div>
+            </form>
+
+
+            <hr class="mt-4 mb-4">
+
+
+            <div id="socialLogin">
+                {% include 'account/social-buttons.html' %}
             </div>
+
+            <span class="d-inline-block text-muted mt-3 mr-1">Neturi paskyros?</span>
+            <a class="text-info opacity-70" href="{{ signup_url }}">Susikurk naują</a>
+
         </div>
     </div>
+</main>
 {% endblock %}

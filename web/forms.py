@@ -17,14 +17,6 @@ class LoginForm(AllAuthLoginForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
-        self.helper.layout = Layout(
-            Div(
-                Div('login', css_class='col-12'),
-                Div('password', css_class='col-12'),
-                css_class='row'
-            ),
-        )
-
         self.fields['login'].label = "El. paštas"
         self.fields['login'].widget.attrs['placeholder'] = "El. pašto adresas"
         self.fields['password'].label = "Slaptažodis"

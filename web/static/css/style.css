@@ -28,7 +28,7 @@ body {
 .col-12,
 .col-lg-8 {
     padding-left: 0;
-    padding-right: 0
+    padding-right: 0;
 }
 
 .mt-25 {
@@ -105,11 +105,15 @@ nav {
     box-shadow: 0 0 1px 1px #c4ced2;
 }
 
+.navbar {
+    padding: 0px
+}
+
 nav .container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 15px;
+    padding: 0 5px;
     height: 50px;
 }
 
@@ -217,7 +221,7 @@ main .game_over {
     background-color: #fff;
     position: fixed;
     height: 100vh;
-    padding-top: 25px;
+    padding-top: 60px;
     top: 0;
     left: 0;
     right: 0;
@@ -393,7 +397,7 @@ button.btn {
 .btn-google,
 .btn-facebook {
     color: #fff;
-    width: 230px;
+    width: 100%;
 }
 
 .btn-google:hover,
@@ -439,7 +443,27 @@ footer ul:first {
     width: 100%;
 }
 
+
+/* forms */
+
+.hr-bar {
+    height: 1px;
+    width: 120px;
+    background-color: lightgray;
+}
+
+#div_id_login label.col-form-label,
+#div_id_password label.col-form-label {
+    width: 1px;
+    height: 1px;
+    font-size: 0px;
+    position: absolute;
+}
+
 @media screen and (min-width: 500px) {
+    .nav .container {
+        padding: 0 15px;
+    }
     .container-content {
         padding-left: 15px;
         padding-right: 15px;
