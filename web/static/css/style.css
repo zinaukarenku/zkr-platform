@@ -452,14 +452,6 @@ footer ul:first {
     background-color: lightgray;
 }
 
-#div_id_login label.col-form-label,
-#div_id_password label.col-form-label {
-    width: 1px;
-    height: 1px;
-    font-size: 0px;
-    position: absolute;
-}
-
 @media screen and (min-width: 500px) {
     .nav .container {
         padding: 0 15px;
