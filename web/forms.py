@@ -17,7 +17,7 @@ class LoginForm(AllAuthLoginForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
-        self.helper.form_show_labels = False
+        self.helper.label_class = 'sr-only'
 
         self.fields['login'].label = "El. paštas"
         self.fields['login'].widget.attrs['placeholder'] = "El. pašto adresas"
