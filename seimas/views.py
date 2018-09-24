@@ -61,7 +61,7 @@ def politician_game(request):
 
 
 def politicians(request):
-    politicians_all = Politician.active.select_related('elected_party')
+    politicians_all = Politician.active.select_related('elected_party').order_by('last_name', 'first_name')
 
     return render(request, 'seimas/politicians.html', {
         'politicians': politicians_all
