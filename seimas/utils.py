@@ -1,16 +1,15 @@
 from logging import getLogger
 from urllib.parse import urlsplit
 
-import requests
 from bs4 import BeautifulSoup
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
 from django.utils.timezone import now
-from requests.adapters import HTTPAdapter
 from tidylib import tidy_document
-from urllib3 import Retry
 from urllib.parse import urlencode, unquote, urlparse, parse_qsl, ParseResult
 from json import dumps
+
+from zkr.utils import requests_retry_session
 
 logger = getLogger(__name__)
 
@@ -39,26 +38,6 @@ def save_image_from_url(field, url):
         logger.warning("Unable to save image from url", exc_info=True)
 
     return False
-
-
-def requests_retry_session(
-        retries=3,
-        backoff_factor=0.3,
-        status_forcelist=(500, 502, 504),
-        session=None,
-):
-    session = session or requests.Session()
-    retry = Retry(
-        total=retries,
-        read=retries,
-        connect=retries,
-        backoff_factor=backoff_factor,
-        status_forcelist=status_forcelist,
-    )
-    adapter = HTTPAdapter(max_retries=retry)
-    session.mount('http://', adapter)
-    session.mount('https://', adapter)
-    return session
 
 
 def parse_invalid_xml(xml_text):

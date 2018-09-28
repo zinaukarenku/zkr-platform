@@ -1,11 +1,8 @@
 from django.contrib import admin
-from django.contrib.auth.decorators import login_required
 from reversion.admin import VersionAdmin
 
 from seimas.models import Term, Session, Politician, PoliticianDivision, PoliticianParliamentGroup, \
-    PoliticianBusinessTrip, PoliticianTerm, PoliticianGame, LegalActDocument
-
-admin.site.login = login_required(admin.site.login)
+    PoliticianBusinessTrip, PoliticianTerm, PoliticianGame
 
 
 class SessionsInline(admin.StackedInline):

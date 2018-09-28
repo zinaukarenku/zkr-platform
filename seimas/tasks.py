@@ -6,7 +6,8 @@ from celery import shared_task
 
 from seimas.models import Term, Session, Party, Politician, PoliticianParliamentGroup, PoliticianDivision, \
     PoliticianBusinessTrip, PoliticianTerm, ElectionType, LegalActDocumentType, LegalAct, LegalActDocument
-from seimas.utils import requests_retry_session, parse_invalid_xml
+from seimas.utils import parse_invalid_xml
+from zkr.utils import requests_retry_session
 
 logger = logging.getLogger(__name__)
 

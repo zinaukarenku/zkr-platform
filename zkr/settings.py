@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'captcha',
 
     'seimas',
+    'elections',
     'web',
 
     'allauth',
@@ -297,6 +298,14 @@ CELERY_BEAT_SCHEDULE = {
     'fetch_politician_documents': {
         'task': 'seimas.tasks.fetch_politician_documents',
         'schedule': crontab(minute='30', hour='*')
+    },
+    'fetch_vrk_elections': {
+        'task': 'elections.tasks.fetch_vrk_elections',
+        'schedule': crontab(minute='30', hour='*')
+    },
+    'fetch_vrk_election_results': {
+        'task': 'elections.tasks.fetch_vrk_election_results',
+        'schedule': crontab(minute='*/5', hour='*')
     },
 }
 

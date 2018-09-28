@@ -6,8 +6,10 @@ from django.db.models import Count
 from reversion.admin import VersionAdmin
 
 from web.models import OrganizationMember, OrganizationMemberGroup, EmailSubscription, OrganizationPartner, User
+from zkr import settings
 
-admin.site.login = login_required(admin.site.login)
+if not settings.DEBUG:
+    admin.site.login = login_required(admin.site.login)
 
 admin.site.register(User, UserAdmin)
 
