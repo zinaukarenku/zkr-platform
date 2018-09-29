@@ -7,7 +7,7 @@ from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django_resized import ResizedImageField
 
-from seimas.utils import file_extension
+from zkr.utils import file_extension
 from zkr import settings
 
 

@@ -200,7 +200,12 @@ logging.config.dictConfig({
             'propagate': False,
         },
         'seimas': {
-            'level': 'WARNING',
+            'level': 'INFO' if DEBUG else 'WARNING',
+            'handlers': LOGGER_HANDLERS,
+            'propagate': False,
+        },
+        'elections': {
+            'level': 'INFO' if DEBUG else 'WARNING',
             'handlers': LOGGER_HANDLERS,
             'propagate': False,
         },

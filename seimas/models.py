@@ -9,7 +9,8 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 
-from seimas.utils import file_extension, django_now, add_url_params
+from seimas.utils import django_now, add_url_params
+from zkr.utils import file_extension
 from zkr import settings
 
 logger = logging.getLogger(__name__)

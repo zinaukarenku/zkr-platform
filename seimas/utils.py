@@ -1,53 +1,18 @@
 from logging import getLogger
-from urllib.parse import urlsplit
 
 from bs4 import BeautifulSoup
-from django.core.files import File
-from django.core.files.temp import NamedTemporaryFile
 from django.utils.timezone import now
 from tidylib import tidy_document
 from urllib.parse import urlencode, unquote, urlparse, parse_qsl, ParseResult
 from json import dumps
 
-from zkr.utils import requests_retry_session
-
 logger = getLogger(__name__)
-
-
-def save_image_from_url(field, url):
-    r = requests_retry_session().get(url)
-
-    if r.ok:
-        img_temp = NamedTemporaryFile(delete=True)
-        img_temp.write(r.content)
-        img_temp.flush()
-
-        img_filename = urlsplit(url).path[1:]
-        try:
-            field.save(img_filename, File(img_temp), save=True)
-        except OSError:
-            return False
-        except ValueError as ex:
-            logger.warning(ex, exc_info=True)
-            return False
-
-        return True
-    elif r.status_code == 404:
-        return False
-    else:
-        logger.warning("Unable to save image from url", exc_info=True)
-
-    return False
 
 
 def parse_invalid_xml(xml_text):
     content, _ = tidy_document(xml_text, {"input_xml": True})
 
     return BeautifulSoup(content, 'xml')
-
-
-def file_extension(file_name):
-    return file_name.split('.')[-1]
 
 
 def django_now():
