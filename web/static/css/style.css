@@ -67,6 +67,11 @@ body {
     line-height: 1;
 }
 
+.text--light {
+    font-size: 110%;
+    font-weight: 400;
+}
+
 a:active,
 a:hover {
     text-decoration: none
@@ -265,10 +270,23 @@ main .game_over {
     width: 130px;
     height: 198px;
     background: #3c1053;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     border: none;
     border-radius: 5px;
     margin: 0 5px;
     overflow: hidden
+}
+
+.card-election {
+    width: 130px;
+    height: 180px;
+    background-color: #3c1053;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0px auto;
 }
 
 .card-game i {
@@ -444,6 +462,14 @@ footer ul:first {
 }
 
 
+/* timer */
+
+.counter-time {
+    font-size: 220%;
+    color: #59387a;
+}
+
+
 /* forms */
 
 .hr-bar {
@@ -474,5 +500,9 @@ footer ul:first {
     }
     .banner--newsletter .form-group input {
         width: 300px;
+    }
+    .card-election {
+        width: 150px;
+        height: 225px;
     }
 }

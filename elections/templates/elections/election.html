@@ -1,39 +1,36 @@
-{% extends "base/base-regular-page.html" %}
-
-{% block banner_title %}
-    {% block title %}{{ election.name }}{% endblock %}
-{% endblock %}
-
-{% block main_content %}
-    <main class="container container-content">
-        <div class="card">
-            <div class="card-body">
-                <div class="row mr-0 ml-0 mb-4 justify-content-center">
-                    {% for result in election.results.all %}
-                        <div class="col-sm-3">
-                            <div>
-                                <img class="card-img-top" src="{{ result.photo.url }}">
-                                <div class="card-body">
-                                    <div class="card-link">
-                                        {{ result.name }}
-                                        <strong>
-                                            {{ result.percent_ballot_paper }}%
-                                        </strong>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
+{% extends "base/base-regular-page.html" %} {% block title %}{{ election.name }}{% endblock %} {% block main_content %}
+<main class="container container-content mt-3">
+    <div class="card mb-3" style="width:auto; max-width:420px; min-height:450px; margin:0 auto;">
+        <h2 class="text-center pt-3 pb-3 mb-2">{{ election.name }}</h3>
+            <div class="row">
+                {% for result in election.results.all %}
+                <div class="col-xs-6 text-center" style="margin:0px auto; max-width: 150px">
+                    <div class="card-game card-election" style="background-image:url('{{result.photo.url}}'); margin: 0px auto"></div>
+                    <h3 class="text--light mt-3">{{ result.name }}</h3>
+                    {% if result.total_votes > 0 %}
+                    <h4 class="mb-0">{{ result.total_votes }}</h4>
+                    <span class="d-block text-eyebrow text-muted">Balsai</span>
+                    <span class="d-inline-block badge badge-secondary pl-2 pr-2">{{ result.percent_voters }}%</span> {% endif %}
                 </div>
-
-                <div class="h3 text-center">Paskutinį kartą atnaujinta: {{ election.last_results_update|date:"Y-m-d H:i" }}</div>
-
+                {% endfor %}
             </div>
-        </div>
-    </main>
-    <div class="container container-content mt-3 mb-3">
-        <div class="card banner--newsletter pt-4 pb-4 pl-2 pr-2">
-            {% include 'web/component/subscribe-newsletter.html' %}
-        </div>
+
+            {% if election.results.total_votes > 0 %}
+            <h4 class="text-eyebrow text-center mt-4 pb-4">Paskutinį kartą atnaujinta: {{ election.last_results_update|date:"Y-m-d H:i" }}</h4>
+            {% endif %}
+            <div class="timer-container text-center mt-2 mb-3">
+                <h4 class="text-eyebrow mt-3 mb-2">Iki apylinkių uždarymo liko</h4>
+                <span id="hours" class="counter-time">00</span>
+                <span class="counter-time">:</span>
+                <span id="minutes" class="counter-time">00</span>
+                <span class="counter-time">:</span>
+                <span id="seconds" class="counter-time">00</span>
+            </div>
     </div>
+</main>
+<div class="container container-content mt-3 mb-3">
+    <div class="card banner--newsletter pt-4 pb-4 pl-2 pr-2">
+        {% include 'web/component/subscribe-newsletter.html' %}
+    </div>
+</div>
 {% endblock %}

@@ -115,5 +115,8 @@ class ElectionResult(models.Model):
         ordering = ['-percent_ballot_paper']
         unique_together = ['election', 'candidate_id']
 
+    def total_votes(self):
+        return self.postal_votes + self.ballot_votes
+
     def __str__(self):
         return self.name
