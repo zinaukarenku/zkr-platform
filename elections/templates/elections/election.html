@@ -1,0 +1,37 @@
+{% extends "base/base-regular-page.html" %}
+
+{% block banner_title %}
+    {% block title %}{{ election.name }}{% endblock %}
+{% endblock %}
+
+{% block main_content %}
+    <main class="container container-content">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="text-center">{{ result.name }}</h2>
+                <div class="row mr-0 ml-0 mb-4 justify-content-center">
+                    {% for result in election.results.all %}
+                        <div class="col-sm-3">
+                            <div>
+                                <img class="card-img-top" src="{{ result.photo.url }}">
+                                <div class="card-body">
+                                    <div class="card-link">
+                                        {{ result.name }}
+                                        <small>
+                                            {{ result.percent_ballot_paper }}%
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+    <div class="container container-content mt-3 mb-3">
+        <div class="card banner--newsletter pt-4 pb-4 pl-2 pr-2">
+            {% include 'web/component/subscribe-newsletter.html' %}
+        </div>
+    </div>
+{% endblock %}
