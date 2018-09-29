@@ -99,7 +99,7 @@ class ElectionResult(models.Model):
     party = models.CharField(max_length=256, null=True, blank=True)
     photo = models.ImageField(null=True, blank=True, upload_to=_candidate_photo_file)
 
-    candidate_id = models.PositiveIntegerField(unique=True)
+    candidate_id = models.PositiveIntegerField()
 
     postal_votes = models.PositiveIntegerField()
     ballot_votes = models.PositiveIntegerField()
@@ -113,6 +113,7 @@ class ElectionResult(models.Model):
     class Meta:
         verbose_name_plural = "Election results"
         ordering = ['-percent_ballot_paper']
+        unique_together = ['election', 'candidate_id']
 
     def __str__(self):
         return self.name
