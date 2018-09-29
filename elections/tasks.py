@@ -12,7 +12,7 @@ def fetch_vrk_elections():
     updated = 0
 
     vrk = VRK()
-    for election in vrk.elections()[1:]:
+    for election in vrk.elections():
         _, is_created = Election.objects.update_or_create(
             election_id=election.election_id,
             defaults={
