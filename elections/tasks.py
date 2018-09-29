@@ -52,7 +52,9 @@ def fetch_vrk_election_results():
 
             raise ex
 
+        last_update = None
         for election_result in election_results.single_districts_results:
+            last_update = election_result.last_update
             for candidate in election_result.candidates:
                 result, is_created = ElectionResult.objects.update_or_create(
                     election=election,
@@ -75,6 +77,10 @@ def fetch_vrk_election_results():
                     created += 1
                 else:
                     updated += 1
+
+        if last_update != election.last_results_update:
+            election.last_results_update = last_update
+            election.save()
 
     return {
         'created': created,
