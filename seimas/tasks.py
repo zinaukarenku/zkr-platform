@@ -111,7 +111,7 @@ def fetch_politicians():
             'elected_party': party,
             'start': politician_xml['data_nuo'],
             'end': politician_xml['data_iki'] or None,
-            'bio_url': politician_xml['biografija']
+            'bio_url': politician_xml['biografijos_nuoroda']
         }
 
         for contact_xml in politician_xml.find_all('Kontaktai', recursive=False):
