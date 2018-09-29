@@ -25,7 +25,7 @@ body {
     overflow: hidden;
 }
 
-.col-12,
+.col-sm-12,
 .col-lg-8 {
     padding-left: 0;
     padding-right: 0;
@@ -150,6 +150,13 @@ nav .container {
     background-color: #58397a;
     border-radius: 0;
     color: #fff;
+}
+
+.banner--elections {
+    background-image: url("../img/zanavykai-banner.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 
 
@@ -490,8 +497,13 @@ footer ul:first {
         margin-left: -15px;
         margin-right: -15px;
     }
+    .col-sm-12 {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
     .card,
-    .banner--newsletter {
+    .banner--newsletter,
+    .banner--elections {
         border-radius: 5px;
     }
     .banner--newsletter .form-group,
@@ -500,6 +512,9 @@ footer ul:first {
     }
     .banner--newsletter .form-group input {
         width: 300px;
+    }
+    .banner--elections {
+        height: 150px;
     }
     .card-election {
         width: 150px;
