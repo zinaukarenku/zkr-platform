@@ -8,7 +8,6 @@
     <main class="container container-content">
         <div class="card">
             <div class="card-body">
-                <h2 class="text-center">{{ result.name }}</h2>
                 <div class="row mr-0 ml-0 mb-4 justify-content-center">
                     {% for result in election.results.all %}
                         <div class="col-sm-3">
@@ -17,15 +16,18 @@
                                 <div class="card-body">
                                     <div class="card-link">
                                         {{ result.name }}
-                                        <small>
+                                        <strong>
                                             {{ result.percent_ballot_paper }}%
-                                        </small>
+                                        </strong>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     {% endfor %}
                 </div>
+
+                <div class="h3 text-center">Paskutinį kartą atnaujinta: {{ election.last_results_update|date:"Y-m-d H:i" }}</div>
+
             </div>
         </div>
     </main>
