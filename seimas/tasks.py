@@ -42,7 +42,7 @@ def fetch_terms():
 
 @shared_task(soft_time_limit=30)
 def fetch_sessions():
-    req = requests_retry_session().get("http://apps.lrs.lt/sip/p2b.ad_seimo_sesijos?p_visos=T")
+    req = requests_retry_session().get("http://apps.lrs.lt/sip/p2b.ad_seimo_sesijos?ar_visos=T")
     req.raise_for_status()
 
     soup = parse_invalid_xml(req.text)
@@ -111,7 +111,7 @@ def fetch_politicians():
             'elected_party': party,
             'start': politician_xml['data_nuo'],
             'end': politician_xml['data_iki'] or None,
-            'bio_url': politician_xml['biografija']
+            'bio_url': politician_xml['biografijos_nuoroda']
         }
 
         for contact_xml in politician_xml.find_all('Kontaktai', recursive=False):
@@ -189,7 +189,7 @@ def fetch_and_match_sessions_with_politicians():
     updated = 0
     for term in Term.objects.all():
         req = requests_retry_session().get("http://apps.lrs.lt/sip/p2b.ad_seimo_nariai", params={
-            'p_kade_id': term.kad_id
+            'kadencijos_id': term.kad_id
         })
         req.raise_for_status()
 

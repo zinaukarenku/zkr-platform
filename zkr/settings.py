@@ -35,7 +35,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY') if not DEBUG else 'DEBUG'
 
 GIT_COMMIT = 'DEBUG' if DEBUG else os.environ.get('GIT_COMMIT')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(',') if not DEBUG else []
 
 INTERNAL_IPS = ['127.0.0.1']
 
