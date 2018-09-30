@@ -82,7 +82,7 @@ class Election(models.Model):
 
     @property
     def is_results_available(self):
-        return self.last_results_update is not None
+        return self.last_results_update is not None and any([r for r in self.results.all() if r.total_votes()])
 
     class Meta:
         verbose_name_plural = "Elections"

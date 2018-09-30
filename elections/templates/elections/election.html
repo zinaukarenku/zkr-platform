@@ -23,7 +23,7 @@
                 {% endfor %}
             </div>
 
-            {% if election.is_results_available is False %}
+            {% if election.is_results_available %}
                 <h4 class="text-eyebrow text-center mt-4 pb-4">
                     Paskutinį kartą atnaujinta: {{ election.last_results_update|date:"Y-m-d H:i" }}
                 </h4>
