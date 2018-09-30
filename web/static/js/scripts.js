@@ -36,70 +36,14 @@ $(document).ready(function () {
                 url: subscribeForm.attr('action'),
                 data: subscribeForm.serialize(),
                 success: function (response) {
-                    toastr.success('E-mail subscription succeeded!');
+                    toastr.success('Naujienlaiškis užprenumeruotas!');
                 },
                 error: function (request, textStatus, errorThrown) {
-                    toastr.error(request.responseText, 'Error occurred');
+                    toastr.error(request.responseText, 'Klaida');
                 }
             });
             return false;
         });
     });
-
-	const countDownClock = (hours, minutes, Seconds) => {
-  
-		const d = document;
-		const hoursElement = d.querySelector('#hours');
-		const minutesElement = d.querySelector('#minutes');
-		const secondsElement = d.querySelector('#seconds');
-		let countdown;
-		let hoursInSeconds = hours * 60 * 60;
-		let minutesInSeconds = minutes * 60;
-		let seconds = hoursInSeconds + minutesInSeconds + Seconds;
-		
-		const timer = (seconds) => {
-			
-			const now = Date.now();
-			const then = now + seconds * 1000;
-			
-			countdown = setInterval(() => {
-			const secondsLeft = Math.round((then - Date.now())/ 1000);
-			
-			if(secondsLeft <= 0) {
-				clearInterval(countdown);
-				return;
-			}
-			
-			displayTimeLeft(secondsLeft);
-			
-			}, 1000);
-			
-			const displayTimeLeft = (seconds) => {
-			if (hoursElement || minutesElement || secondsElement) {
-				hoursElement.textContent = Math.floor((seconds % 86400)/ 3600) < 10 ? `0${Math.floor((seconds % 86400)/ 3600)}` : Math.floor((seconds % 86400)/ 3600);
-				minutesElement.textContent = Math.floor((seconds % 86400) % 3600/60) % 60 < 10 ? `0${Math.floor((seconds % 86400) % 3600/60)}` : Math.floor((seconds % 86400) % 3600/60);
-				secondsElement.textContent = seconds % 60 < 10 ? `0${seconds % 60}` : seconds % 60;
-			}
-			
-			};
-			
-		};  
-		
-		timer(seconds);
-	
-	}
-
-	const setTimer = () => {
-		let currentTime = new Date();
-		let deadline = new Date(2018, 9, 16, 19, 0, 0);
-		let timeLeft = deadline - currentTime;
-		let hours = (timeLeft/(1000*60*60)) % 24;
-		let minutes = (timeLeft/(1000*60)) % 60;
-		let seconds = (timeLeft/1000) % 60;
-
-		countDownClock(hours, minutes, seconds);
-	}
-
-	setTimer();
 
 });

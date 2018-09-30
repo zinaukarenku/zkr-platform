@@ -61,6 +61,9 @@ class ActiveElectionsManager(models.Manager):
 
 class Election(models.Model):
     name = models.CharField(max_length=256)
+
+    seo_title = models.CharField(max_length=256, blank=True, default='')
+    seo_description = models.CharField(max_length=512, blank=True, default='')
     slug = models.SlugField(unique=True, blank=True, null=True)
     is_active = models.BooleanField(default=False, db_index=True)
 
@@ -76,6 +79,10 @@ class Election(models.Model):
 
     objects = ElectionsQuerySet.as_manager()
     active = ActiveElectionsManager()
+
+    @property
+    def is_results_available(self):
+        return self.last_results_update is not None and any([r for r in self.results.all() if r.total_votes()])
 
     class Meta:
         verbose_name_plural = "Elections"

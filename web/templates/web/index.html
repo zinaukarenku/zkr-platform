@@ -1,45 +1,57 @@
-{% extends "base/base-regular-page.html" %} {% load static %} {% block title %}Politinės stebėsenos platforma{% endblock %} {% block banner_title %}Žinau, ką renku{% endblock %} {% block banner_description %}Politinės stebėsenos platforma{% endblock %}
+{% extends "base/base-regular-page.html" %}
+
+{% load static %}
+
+{% block title %}Politinės stebėsenos platforma{% endblock %}
+{% block banner_title %}Žinau, ką renku{% endblock %}
+{% block banner_description %}Politinės stebėsenos platforma{% endblock %}
+
 {% block main_content %}
 
-<main class="container container-content mt-3">
-    <div class="row mb-2">
-        <div class="col-sm-12 col-md-6">
-            <a href="{% url 'seimas_politician_game' %}" class="card d-flex align-items-center justify-content-center card-block-link text-center">Pažink
+    <main class="container container-content mt-3">
+        <div class="row mb-2">
+            <div class="col-sm-12 col-md-6">
+                <a href="{% url 'seimas_politician_game' %}"
+                   class="card d-flex align-items-center justify-content-center card-block-link text-center">Pažink
                     politiką</a>
-        </div>
-        <div class="col-sm-12 col-md-6">
-            <a href="{% url 'seimas_politicians' %}" class="card d-flex align-items-center justify-content-center card-block-link text-center">Seimo
-                    nariai</a>
-        </div>
-        <div class="col-sm-12 col-md-6">
-            <a href="{% url 'join_us' %}" class="card d-flex align-items-center justify-content-center card-block-link text-center">Prisijunk</a>
-        </div>
-        <div class="col-sm-12 col-md-6">
-            <a href="{% url 'user_profile' %}" class="card d-flex align-items-center justify-content-center card-block-link text-center">Vartotojo
-                    profilis</a>
-        </div>
-    </div>
-</main>
-<div class="container container-content mt-3 mb-3">
-    <a href="" class="d-block card banner--elections pt-5 pb-5 pl-2 pr-2 mb-3"></a>
-    <div class="card banner--newsletter pt-4 pb-4 pl-2 pr-2">
-        {% include 'web/component/subscribe-newsletter.html' %}
-    </div>
-</div>
-<div class="draugai">
-    <div class="container">
-        <h3 class="text-center">Mūsų draugai</h3>
-        <div class="row flex-wrap">
-            {% for partner in partners %}
-            <div class="col-md-6 d-flex pb-3">
-                <a href="{{ partner.url }}" class="mx-auto my-auto" target="_blank" rel="noopener" title="{{ partner.name }}">
-                    <img src="{{ partner.logo.url }}" alt="{{ partner.name }}">
-                </a>
             </div>
-
-            {% endfor %}
+            <div class="col-sm-12 col-md-6">
+                <a href="{% url 'seimas_politicians' %}"
+                   class="card d-flex align-items-center justify-content-center card-block-link text-center">Seimo
+                    nariai</a>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <a href="{% url 'join_us' %}"
+                   class="card d-flex align-items-center justify-content-center card-block-link text-center">Prisijunk</a>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <a href="{% url 'user_profile' %}"
+                   class="card d-flex align-items-center justify-content-center card-block-link text-center">Vartotojo
+                    profilis</a>
+            </div>
+        </div>
+    </main>
+    <div class="container container-content mt-3 mb-3">
+        <a href="{% url 'election' 'zanavykai' %}" class="d-block card banner--elections pt-5 pb-5 pl-2 pr-2 mb-3"></a>
+        <div class="card banner--newsletter pt-4 pb-4 pl-2 pr-2">
+            {% include 'web/component/subscribe-newsletter.html' %}
         </div>
     </div>
-</div>
+    <div class="draugai">
+        <div class="container">
+            <h3 class="text-center">Mūsų draugai</h3>
+            <div class="row flex-wrap">
+                {% for partner in partners %}
+                    <div class="col-md-6 d-flex pb-3">
+                        <a href="{{ partner.url }}" class="mx-auto my-auto" target="_blank" rel="noopener"
+                           title="{{ partner.name }}">
+                            <img src="{{ partner.logo.url }}" alt="{{ partner.name }}">
+                        </a>
+                    </div>
+
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
