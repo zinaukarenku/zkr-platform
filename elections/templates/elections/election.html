@@ -1,10 +1,11 @@
 {% extends "base/base-regular-page.html" %}
-{% block title %}{{ election.name }}{% endblock %}
+{% block title %}{{ election.seo_title }}{% endblock %}
+{% block description %}{{ election.seo_description }}{% endblock %}
 
 {% block main_content %}
     <main class="container container-content mt-3">
         <div class="card mb-3" style="width:auto; max-width:420px; min-height:450px; margin:0 auto;">
-            <h2 class="text-center pt-3 pb-3 mb-2">{{ election.name }}</h2>
+            <h2 class="text-center pt-3 pb-3 mb-2">{{ election.seo_title }}</h2>
             <div class="row">
                 {% for result in election.results.all %}
                     <div class="col-xs-6 text-center" style="margin:0 auto; max-width: 150px">

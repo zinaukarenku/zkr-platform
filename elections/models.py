@@ -61,6 +61,9 @@ class ActiveElectionsManager(models.Manager):
 
 class Election(models.Model):
     name = models.CharField(max_length=256)
+
+    seo_title = models.CharField(max_length=256, blank=True, default='')
+    seo_description = models.CharField(max_length=512, blank=True, default='')
     slug = models.SlugField(unique=True, blank=True, null=True)
     is_active = models.BooleanField(default=False, db_index=True)
 
