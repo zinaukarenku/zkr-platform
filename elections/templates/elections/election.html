@@ -7,9 +7,9 @@
             <h2 class="text-center pt-3 pb-3 mb-2">{{ election.name }}</h2>
             <div class="row">
                 {% for result in election.results.all %}
-                    <div class="col-xs-6 text-center" style="margin:0px auto; max-width: 150px">
+                    <div class="col-xs-6 text-center" style="margin:0 auto; max-width: 150px">
                         <div class="card-game card-election"
-                             style="background-image:url('{{ result.photo.url }}'); margin: 0px auto"></div>
+                             style="background-image:url('{{ result.photo.url }}'); margin: 0 auto"></div>
                         <h3 class="text--light mt-3">{{ result.name }}</h3>
                         {% if result.total_votes > 0 %}
                             <h4 class="mb-0">{{ result.total_votes }}</h4>
@@ -87,7 +87,7 @@
 
             timer(seconds);
 
-        }
+        };
 
         const setTimer = () => {
             let currentTime = new Date();
@@ -98,7 +98,7 @@
             let seconds = (timeLeft / 1000) % 60;
 
             countDownClock(hours, minutes, seconds);
-        }
+        };
 
         setTimer();
     </script>
