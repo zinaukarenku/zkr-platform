@@ -77,6 +77,10 @@ class Election(models.Model):
     objects = ElectionsQuerySet.as_manager()
     active = ActiveElectionsManager()
 
+    @property
+    def is_results_available(self):
+        return self.last_results_update is not None
+
     class Meta:
         verbose_name_plural = "Elections"
         ordering = ['-election_date']
