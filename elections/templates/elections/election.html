@@ -15,9 +15,9 @@
                 {% endfor %}
             </div>
 
-            {% if election.results.total_votes > 0 %}
+            {% if election.last_results_update.time > '20:00' %}
             <h4 class="text-eyebrow text-center mt-4 pb-4">Paskutinį kartą atnaujinta: {{ election.last_results_update|date:"Y-m-d H:i" }}</h4>
-            {% endif %}
+            {% else %}
             <div class="timer-container text-center mt-2 mb-3">
                 <h4 class="text-eyebrow mt-3 mb-2">Iki apylinkių uždarymo liko</h4>
                 <span id="hours" class="counter-time">00</span>
@@ -26,6 +26,7 @@
                 <span class="counter-time">:</span>
                 <span id="seconds" class="counter-time">00</span>
             </div>
+            {% endif %}
     </div>
 </main>
 <div class="container container-content mt-3 mb-3">

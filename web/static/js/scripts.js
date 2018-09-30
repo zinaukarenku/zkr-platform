@@ -91,7 +91,7 @@ $(document).ready(function () {
 
 	const setTimer = () => {
 		let currentTime = new Date();
-		let deadline = new Date(2018, 9, 16, 20, 0, 0);
+		let deadline = new Date(2018, 9, 16, 19, 0, 0);
 		let timeLeft = deadline - currentTime;
 		let hours = (timeLeft/(1000*60*60)) % 24;
 		let minutes = (timeLeft/(1000*60)) % 60;
