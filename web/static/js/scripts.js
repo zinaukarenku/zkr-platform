@@ -36,10 +36,10 @@ $(document).ready(function () {
                 url: subscribeForm.attr('action'),
                 data: subscribeForm.serialize(),
                 success: function (response) {
-                    toastr.success('E-mail subscription succeeded!');
+                    toastr.success('Naujienlaiškis užprenumeruotas!');
                 },
                 error: function (request, textStatus, errorThrown) {
-                    toastr.error(request.responseText, 'Error occurred');
+                    toastr.error(request.responseText, 'Klaida');
                 }
             });
             return false;

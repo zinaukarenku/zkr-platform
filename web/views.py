@@ -40,9 +40,9 @@ def subscribe(request):
 
             EmailSubscription(email=email, user_ip=user_ip, user_agent=user_agent).save()
         else:
-            return HttpResponse(status=HTTP_422_UNPROCESSABLE_ENTITY, content='Invalid e-mail')
+            return HttpResponse(status=HTTP_422_UNPROCESSABLE_ENTITY, content='El. paštas neteisingas')
     except IntegrityError:
-        return HttpResponse(status=HTTP_409_CONFLICT, content='E-mail is already registered.')
+        return HttpResponse(status=HTTP_409_CONFLICT, content='El. paštas jau registruotas.')
 
     return HttpResponse(status=HTTP_201_CREATED)
 
