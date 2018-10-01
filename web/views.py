@@ -1,3 +1,5 @@
+from logging import getLogger
+
 from allauth.socialaccount.forms import DisconnectForm
 from django.db import IntegrityError
 from django.http import HttpResponse
@@ -10,8 +12,13 @@ from web.forms import EmailSubscriptionForm
 from web.models import EmailSubscription, OrganizationPartner, OrganizationMember
 from zkr.utils import request_country
 
+logger = getLogger(__name__)
+
 
 def index(request):
+    logger.warning("Meta headers", extra={
+        'headers': request.META
+    })
     partners = OrganizationPartner.objects.all()
     return render(request, 'web/index.html', {
         'partners': partners
