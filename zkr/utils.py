@@ -57,3 +57,9 @@ def save_image_from_url(field, url):
         logger.warning("Unable to save image from url", exc_info=True)
 
     return False
+
+
+def request_country(request):
+    country = request.META.get('CF-IPCountry', None)
+
+    return country if country != 'XX' else None

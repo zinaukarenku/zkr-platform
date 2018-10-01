@@ -8,6 +8,7 @@ from rest_framework.status import HTTP_422_UNPROCESSABLE_ENTITY, HTTP_409_CONFLI
 
 from web.forms import EmailSubscriptionForm
 from web.models import EmailSubscription, OrganizationPartner, OrganizationMember
+from zkr.utils import request_country
 
 
 def index(request):
@@ -37,8 +38,9 @@ def subscribe(request):
 
             user_ip, _ = get_client_ip(request)
             user_agent = request.META.get('HTTP_USER_AGENT', None)
+            user_country = request_country(request)
 
-            EmailSubscription(email=email, user_ip=user_ip, user_agent=user_agent).save()
+            EmailSubscription(email=email, user_ip=user_ip, user_agent=user_agent, user_country=user_country).save()
         else:
             return HttpResponse(status=HTTP_422_UNPROCESSABLE_ENTITY, content='El. paštas neteisingas')
     except IntegrityError:
