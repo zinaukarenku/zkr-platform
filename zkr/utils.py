@@ -60,6 +60,6 @@ def save_image_from_url(field, url):
 
 
 def request_country(request):
-    country = request.META.get('CF-IPCountry', None)
+    country = request.META.get('HTTP_CF_IPCOUNTRY', None)
 
     return country if country != 'XX' else None

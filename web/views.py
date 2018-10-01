@@ -1,3 +1,4 @@
+import json
 from logging import getLogger
 
 from allauth.socialaccount.forms import DisconnectForm
@@ -16,9 +17,6 @@ logger = getLogger(__name__)
 
 
 def index(request):
-    logger.warning("Meta headers", extra={
-        'headers': request.META
-    })
     partners = OrganizationPartner.objects.all()
     return render(request, 'web/index.html', {
         'partners': partners
