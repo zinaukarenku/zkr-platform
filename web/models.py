@@ -84,7 +84,7 @@ class OrganizationMember(models.Model):
 
     group = models.ForeignKey(OrganizationMemberGroup, on_delete=models.CASCADE, related_name="members")
 
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True,
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True,
                                 related_name="organization_member")
 
     email = models.EmailField(blank=True, null=True)
