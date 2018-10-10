@@ -129,6 +129,8 @@ class PoliticianInfo(models.Model):
 
     seimas_politician = models.OneToOneField(SeimasPolitician, on_delete=models.PROTECT, null=True, blank=True,
                                              related_name="politician_info")
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True,
+                                related_name="politician_info")
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
