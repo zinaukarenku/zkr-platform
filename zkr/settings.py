@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'seimas',
     'elections',
     'web',
+    'questions',
 
     'allauth',
     'allauth.account',
@@ -312,6 +313,10 @@ CELERY_BEAT_SCHEDULE = {
     },
     'fetch_vrk_election_results': {
         'task': 'elections.tasks.fetch_vrk_election_results',
+        'schedule': crontab(minute='*/5', hour='*')
+    },
+    'sync_politician_information': {
+        'task': 'web.tasks.sync_politician_information',
         'schedule': crontab(minute='*/5', hour='*')
     },
 }

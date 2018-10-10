@@ -1,0 +1,20 @@
+{% extends "base/base-regular-page.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block banner_title %}{% block title %}Klausimas politikui{% endblock %}{% endblock %}
+{% block main_content %}
+
+    <main class="container container-content mt-3">
+        <article class="card">
+            <div class="card-body">
+                {% crispy new_question_form %}
+            </div>
+        </article>
+    </main>
+    <div class="container container-content mt-3 mb-3">
+        <div class="card banner--newsletter pt-4 pb-4 pl-2 pr-2">
+            {% include 'web/component/subscribe-newsletter.html' %}
+        </div>
+    </div>
+{% endblock %}

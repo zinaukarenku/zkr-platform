@@ -7,6 +7,7 @@ from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django_resized import ResizedImageField
 
+from seimas.models import Politician as SeimasPolitician
 from zkr.utils import file_extension
 from zkr import settings
 
@@ -118,6 +119,23 @@ class OrganizationPartner(models.Model):
     class Meta:
         verbose_name_plural = "Organization partners"
         ordering = ['order']
+
+    def __str__(self):
+        return self.name
+
+
+class PoliticianInfo(models.Model):
+    name = models.CharField(max_length=256, db_index=True)
+
+    seimas_politician = models.OneToOneField(SeimasPolitician, on_delete=models.PROTECT, null=True, blank=True,
+                                             related_name="politician_info")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = "Politician information"
+        ordering = ['-created_at', 'name']
 
     def __str__(self):
         return self.name

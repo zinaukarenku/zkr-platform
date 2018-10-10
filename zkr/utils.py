@@ -1,8 +1,10 @@
+from typing import Optional
 from urllib.parse import urlsplit
 
 import requests
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
+from ipware import get_client_ip
 from requests.adapters import HTTPAdapter
 from urllib3 import Retry
 
@@ -14,7 +16,7 @@ def requests_retry_session(
         backoff_factor=0.3,
         status_forcelist=(500, 502, 504),
         session=None,
-):
+) -> requests.Session:
     session = session or requests.Session()
     retry = Retry(
         total=retries,
@@ -29,11 +31,11 @@ def requests_retry_session(
     return session
 
 
-def file_extension(file_name):
+def file_extension(file_name) -> str:
     return file_name.split('.')[-1]
 
 
-def save_image_from_url(field, url):
+def save_image_from_url(field, url) -> bool:
     r = requests_retry_session().get(url)
 
     if r.ok:
@@ -59,7 +61,17 @@ def save_image_from_url(field, url):
     return False
 
 
-def request_country(request):
+def request_country(request) -> Optional[str]:
     country = request.META.get('HTTP_CF_IPCOUNTRY', None)
 
     return country if country != 'XX' else None
+
+
+def request_user_agent(request) -> Optional[str]:
+    return request.META.get('HTTP_USER_AGENT', None)
+
+
+def request_ip(request) -> str:
+    user_ip, _ = get_client_ip(request)
+
+    return user_ip

@@ -5,7 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from reversion.admin import VersionAdmin
 
-from web.models import OrganizationMember, OrganizationMemberGroup, EmailSubscription, OrganizationPartner, User
+from web.models import OrganizationMember, OrganizationMemberGroup, EmailSubscription, OrganizationPartner, User, \
+    PoliticianInfo
 from zkr import settings
 
 if not settings.DEBUG:
@@ -45,5 +46,16 @@ class EmailSubscriptionAdmin(admin.ModelAdmin):
     list_display = ['email', 'user_ip', 'user_agent', 'created_at']
 
     search_fields = ['email', 'user_ip']
+    list_filter = ['created_at', ]
+    date_hierarchy = 'created_at'
+
+
+@admin.register(PoliticianInfo)
+class PoliticianInfoAdmin(admin.ModelAdmin):
+    list_display = ['name', 'seimas_politician', 'created_at', 'updated_at']
+
+    list_select_related = ['seimas_politician']
+    raw_id_fields = ['seimas_politician']
+    search_fields = ['name']
     list_filter = ['created_at', ]
     date_hierarchy = 'created_at'

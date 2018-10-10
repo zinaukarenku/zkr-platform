@@ -25,6 +25,7 @@ urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('seimas/', include('seimas.urls')),
                   path('rinkimai/', include('elections.urls')),
+                  path('klausimai/', include('questions.urls')),
                   path(
                       'sitemap.xml/',
                       sitemap,

@@ -1,4 +1,3 @@
-import json
 from logging import getLogger
 
 from allauth.socialaccount.forms import DisconnectForm
@@ -6,12 +5,11 @@ from django.db import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
-from ipware import get_client_ip
 from rest_framework.status import HTTP_422_UNPROCESSABLE_ENTITY, HTTP_409_CONFLICT, HTTP_201_CREATED
 
 from web.forms import EmailSubscriptionForm
 from web.models import EmailSubscription, OrganizationPartner, OrganizationMember
-from zkr.utils import request_country
+from zkr.utils import request_country, request_ip, request_user_agent
 
 logger = getLogger(__name__)
 
@@ -41,8 +39,8 @@ def subscribe(request):
         if form.is_valid():
             email = form.cleaned_data['email']
 
-            user_ip, _ = get_client_ip(request)
-            user_agent = request.META.get('HTTP_USER_AGENT', None)
+            user_ip = request_ip(request)
+            user_agent = request_user_agent(request)
             user_country = request_country(request)
 
             EmailSubscription(email=email, user_ip=user_ip, user_agent=user_agent, user_country=user_country).save()
