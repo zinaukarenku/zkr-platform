@@ -56,7 +56,7 @@ class Question(models.Model):
         verbose_name_plural = "Questions"
 
     def __str__(self):
-        return self.name
+        return self.name or str(self.pk)
 
 
 class Answer(models.Model):
