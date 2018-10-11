@@ -10,7 +10,7 @@ from api.views import PoliticianInfoListView
 from zkr import settings
 
 public_api_url_patterns = [
-    path('v1/politicians/', PoliticianInfoListView.as_view()),
+    path('v1/politicians/', PoliticianInfoListView.as_view(), name="api_politicians_list"),
 ]
 
 private_api_url_patterns = []

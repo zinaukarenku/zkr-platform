@@ -3,6 +3,11 @@
 {% load crispy_forms_tags %}
 
 {% block banner_title %}{% block title %}Klausimas politikui{% endblock %}{% endblock %}
+
+{% block head %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" rel="stylesheet"/>
+{% endblock %}
+
 {% block main_content %}
 
     <main class="container container-content mt-3">
@@ -17,4 +22,89 @@
             {% include 'web/component/subscribe-newsletter.html' %}
         </div>
     </div>
+{% endblock %}
+
+{% block script %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/i18n/lt.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+                function formatPolitician(politician) {
+                    if (politician.loading) {
+                        return politician.name;
+                    }
+
+                    let image_markup = null;
+                    if (politician.photo) {
+                        image_markup = $('<img>', {
+                            src: politician.photo,
+                            width: 36,
+                            height: 36
+                        });
+                    }
+
+                    return $('<div>', {
+                        class: "media clearfix"
+                    }).append(
+                        $('<div>', {
+                            class: 'avatar'
+                        }).append(image_markup)
+                    ).append(
+                        $('<div>', {
+                            class: 'media-body'
+                        }).append(
+                            $('<p>').append(
+                                $('<strong>', {
+                                    text: politician.name
+                                })
+                            )
+                        ).append($('<p>', {
+                            text: politician.short_description
+                        })));
+                }
+
+                $("#id_politician").select2({
+                    ajax: {
+                        url: "{% url 'api_politicians_list' %}",
+                        dataType: 'json',
+                        delay: 250,
+                        data: function (params) {
+                            return {
+                                name: params.term,
+                                page: params.page || 1
+                            };
+                        },
+                        processResults: function (data, params) {
+                            console.log(params.page);
+                            params.page = params.page || 1;
+
+
+                            const processed_data = $.map(data.results, function (item) {
+                                item.text = item.name;
+
+                                return item;
+                            });
+
+                            return {
+                                results: processed_data,
+                                pagination: {
+                                    more: data.next !== null
+                                }
+                            };
+
+                        },
+                        cache: true
+                    },
+                    placeholder: 'Pasirinkite politiką',
+                    escapeMarkup: function (markup) {
+                        return markup;
+                    },
+                    minimumInputLength: 1,
+                    templateResult: formatPolitician
+                });
+            }
+        )
+    </script>
 {% endblock %}
