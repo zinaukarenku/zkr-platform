@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'django.contrib.sitemaps',
     'django.contrib.sites',
+    'django.contrib.postgres',
 
     'raven.contrib.django.raven_compat',
 
