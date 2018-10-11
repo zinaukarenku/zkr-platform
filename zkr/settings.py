@@ -55,6 +55,12 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'raven.contrib.django.raven_compat',
+
+    'rest_framework',
+    'django_filters',
+    'drf_yasg',
+    'rest_framework_tracking',
+
     'crispy_forms',
     'django_celery_results',
     'adminsortable2',
@@ -66,6 +72,7 @@ INSTALLED_APPS = [
     'elections',
     'web',
     'questions',
+    'api',
 
     'allauth',
     'allauth.account',
@@ -217,6 +224,11 @@ logging.config.dictConfig({
             'propagate': False,
         },
         'utils': {
+            'level': 'INFO' if DEBUG else 'WARNING',
+            'handlers': LOGGER_HANDLERS,
+            'propagate': False,
+        },
+        'api': {
             'level': 'INFO' if DEBUG else 'WARNING',
             'handlers': LOGGER_HANDLERS,
             'propagate': False,
@@ -381,3 +393,25 @@ RECAPTCHA_PUBLIC_KEY = \
 RECAPTCHA_PRIVATE_KEY = \
     os.environ.get('RECAPTCHA_PRIVATE_KEY') if not DEBUG else '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
 NOCAPTCHA = True
+
+BASE_DOMAIN = "https://www.zinaukarenku.lt/" if not DEBUG else "http://localhost:8000/"
+
+EMAIL = "info@zinaukarenku.lt"
+
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 30,
+    'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%SZ",
+}

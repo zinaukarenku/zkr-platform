@@ -1,4 +1,5 @@
 from os.path import join
+from typing import Optional
 
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth.models import AbstractUser
@@ -134,6 +135,16 @@ class PoliticianInfo(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def photo(self) -> Optional[models.ImageField]:
+        if hasattr(self, 'seimas_politician'):
+            seimas_politician = self.seimas_politician
+            return self.seimas_politician.photo if seimas_politician else None
+
+    @property
+    def short_description(self) -> Optional[str]:
+        return "TODO description"
 
     class Meta:
         verbose_name_plural = "Politician information"

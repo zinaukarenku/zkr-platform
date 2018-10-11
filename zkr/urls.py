@@ -26,6 +26,7 @@ urlpatterns = [
                   path('seimas/', include('seimas.urls')),
                   path('rinkimai/', include('elections.urls')),
                   path('klausimai/', include('questions.urls')),
+                  path('api/', include('api.urls')),
                   path(
                       'sitemap.xml/',
                       sitemap,
