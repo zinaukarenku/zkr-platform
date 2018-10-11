@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'reversion',
     'captcha',
 
+    'utils',
     'seimas',
     'elections',
     'web',
@@ -210,9 +211,14 @@ logging.config.dictConfig({
             'handlers': LOGGER_HANDLERS,
             'propagate': False,
         },
-        'tidylib': {
-            'level': 'ERROR',
-            'handlers': ['console'],
+        'questions': {
+            'level': 'INFO' if DEBUG else 'WARNING',
+            'handlers': LOGGER_HANDLERS,
+            'propagate': False,
+        },
+        'utils': {
+            'level': 'INFO' if DEBUG else 'WARNING',
+            'handlers': LOGGER_HANDLERS,
             'propagate': False,
         },
         # Default runserver request logging

@@ -6,7 +6,7 @@ from dateutil import parser
 
 from elections.models import ElectionItem, ElectionResultsItem, SingleDistrictElectionResultsItem, \
     CandidateWithVotesItem
-from zkr.utils import requests_retry_session
+from utils.utils import requests_retry_session
 
 logger = logging.getLogger(__name__)
 

@@ -8,7 +8,7 @@ from django.utils.text import slugify
 from django_resized import ResizedImageField
 
 from seimas.models import Politician as SeimasPolitician
-from zkr.utils import file_extension
+from utils.utils import file_extension
 from zkr import settings
 
 

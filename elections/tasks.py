@@ -3,7 +3,7 @@ from requests import HTTPError
 
 from elections.models import Election, ElectionResult
 from elections.vrk import VRK
-from zkr.utils import save_image_from_url
+from utils.utils import save_image_from_url
 
 
 @shared_task(soft_time_limit=60)

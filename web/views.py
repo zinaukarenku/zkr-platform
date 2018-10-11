@@ -7,9 +7,9 @@ from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
 from rest_framework.status import HTTP_422_UNPROCESSABLE_ENTITY, HTTP_409_CONFLICT, HTTP_201_CREATED
 
+from utils.utils import get_request_information
 from web.forms import EmailSubscriptionForm
 from web.models import EmailSubscription, OrganizationPartner, OrganizationMember
-from zkr.utils import request_country, request_ip, request_user_agent
 
 logger = getLogger(__name__)
 
@@ -38,12 +38,14 @@ def subscribe(request):
     try:
         if form.is_valid():
             email = form.cleaned_data['email']
+            request_info = get_request_information(request)
 
-            user_ip = request_ip(request)
-            user_agent = request_user_agent(request)
-            user_country = request_country(request)
-
-            EmailSubscription(email=email, user_ip=user_ip, user_agent=user_agent, user_country=user_country).save()
+            EmailSubscription(
+                email=email,
+                user_ip=request_info.client_ip,
+                user_agent=request_info.client_user_agent,
+                user_country=request_info.client_country
+            ).save()
         else:
             return HttpResponse(status=HTTP_422_UNPROCESSABLE_ENTITY, content='El. paštas neteisingas')
     except IntegrityError:

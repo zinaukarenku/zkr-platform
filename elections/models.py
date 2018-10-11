@@ -6,7 +6,7 @@ from typing import Optional, List
 from django.db import models
 from django.utils.text import slugify
 
-from zkr.utils import file_extension
+from utils.utils import file_extension
 
 
 @dataclass(frozen=True)

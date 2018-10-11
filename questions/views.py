@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from questions.forms import NewQuestionForm
 from questions.models import Question
-from zkr.utils import request_country, request_user_agent, request_ip
+from utils.utils import get_request_information
 
 
 def index(request):
@@ -13,11 +13,14 @@ def new_question(request):
     # TODO Redirect if user is not logged in
 
     user = request.user
-    user_ip = request_ip(request)
-    user_agent = request_user_agent(request)
-    user_country = request_country(request)
+    request_info = get_request_information(request)
 
-    question = Question(created_by=user, user_ip=user_ip, user_agent=user_agent, user_country=user_country)
+    question = Question(
+        created_by=user,
+        user_ip=request_info.client_ip,
+        user_agent=request_info.client_user_agent,
+        user_country=request_info.client_country
+    )
 
     new_question_form = NewQuestionForm(instance=question)
     success = None

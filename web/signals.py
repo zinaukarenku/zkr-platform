@@ -5,7 +5,7 @@ from allauth.socialaccount.models import SocialAccount
 from django.dispatch import receiver
 
 from seimas.models import PoliticianGame
-from zkr.utils import save_image_from_url
+from utils.utils import save_image_from_url
 
 logger = getLogger(__name__)
 
