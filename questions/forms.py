@@ -30,3 +30,6 @@ class NewQuestionForm(ModelForm):
                     ),
             ),
         )
+
+        self.fields['politician'].widget.choices = []
+
