@@ -59,8 +59,8 @@ class Question(models.Model):
         return self.name or str(self.pk)
 
 
-class Answer(models.Model):
-    question = models.OneToOneField(Question, on_delete=models.PROTECT, related_name='question')
+class PoliticianAnswer(models.Model):
+    question = models.OneToOneField(Question, on_delete=models.PROTECT, related_name='politian_answer')
 
     text = models.TextField()
 

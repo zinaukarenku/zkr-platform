@@ -2,11 +2,11 @@ from django.contrib import admin
 from enumfields.admin import EnumFieldListFilter
 from reversion.admin import VersionAdmin
 
-from questions.models import Question, Answer, Category
+from questions.models import Question, PoliticianAnswer, Category
 
 
-class AnswerInline(admin.StackedInline):
-    model = Answer
+class PoliticianAnswerInline(admin.StackedInline):
+    model = PoliticianAnswer
     raw_id_fields = ['created_by']
 
 
@@ -22,7 +22,7 @@ class QuestionsAdmin(VersionAdmin):
     date_hierarchy = 'created_at'
 
     inlines = [
-        AnswerInline
+        PoliticianAnswerInline
     ]
 
 
