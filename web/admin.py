@@ -43,10 +43,10 @@ class OrganizationPartnersAdmin(SortableAdminMixin, VersionAdmin):
 
 @admin.register(EmailSubscription)
 class EmailSubscriptionAdmin(admin.ModelAdmin):
-    list_display = ['email', 'user_ip', 'user_agent', 'created_at']
+    list_display = ['email', 'user_ip', 'user_country', 'user_agent', 'created_at']
 
     search_fields = ['email', 'user_ip']
-    list_filter = ['created_at', ]
+    list_filter = ['created_at', 'user_country', ]
     date_hierarchy = 'created_at'
 
 

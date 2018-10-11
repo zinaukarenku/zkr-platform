@@ -43,7 +43,7 @@ class EmailSubscription(models.Model):
     user_ip = models.GenericIPAddressField()
     user_agent = models.TextField(blank=True, null=True)
 
-    user_country = models.TextField(blank=True, null=True)
+    user_country = models.CharField(max_length=30, blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
 
