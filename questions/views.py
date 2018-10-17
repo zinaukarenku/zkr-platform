@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from questions.forms import NewQuestionForm
@@ -9,9 +10,8 @@ def index(request):
     return render(request, 'seimas/index.html')
 
 
+@login_required
 def new_question(request):
-    # TODO Redirect if user is not logged in
-
     user = request.user
     request_info = get_request_information(request)
 
