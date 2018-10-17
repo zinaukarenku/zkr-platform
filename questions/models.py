@@ -7,17 +7,6 @@ from web.models import PoliticianInfo
 from zkr import settings
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=128)
-
-    class Meta:
-        ordering = ['name']
-        verbose_name_plural = "Question categories"
-
-    def __str__(self):
-        return self.name
-
-
 @unique
 class QuestionStatus(Enum):
     WAITING_APPROVAL = 1
@@ -36,8 +25,6 @@ class Question(models.Model):
 
     status = EnumIntegerField(QuestionStatus, db_index=True, default=QuestionStatus.WAITING_APPROVAL)
     rejected_reason = models.TextField(blank=True, null=True)
-
-    category = models.ForeignKey(Category, on_delete=models.PROTECT, null=True, related_name='questions')
 
     politician = models.ForeignKey(PoliticianInfo, on_delete=models.PROTECT, related_name='questions')
 
