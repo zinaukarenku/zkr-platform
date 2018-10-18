@@ -173,6 +173,11 @@ class Politician(models.Model):
         super().save(force_insert, force_update, using, update_fields)
 
     @property
+    def politician_fraction_nullable(self):
+        if hasattr(self, 'politician_fraction'):
+            return self.politician_fraction
+
+    @property
     def profile_url(self):
         return reverse('seimas_politician', kwargs={'slug': self.slug})
 

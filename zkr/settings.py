@@ -97,6 +97,7 @@ AUTH_USER_MODEL = 'web.User'
 if DEBUG and ENABLE_DEBUG_DRAWER_IN_DEBUG:
     INSTALLED_APPS.append('debug_toolbar')
     MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
+    MIDDLEWARE.append('zkr.middleware.NonHtmlDebugToolbarMiddleware')
     DEBUG_TOOLBAR_PANELS = [
         'debug_toolbar.panels.versions.VersionsPanel',
         'debug_toolbar.panels.timer.TimerPanel',

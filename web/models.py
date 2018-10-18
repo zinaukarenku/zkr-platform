@@ -144,7 +144,10 @@ class PoliticianInfo(models.Model):
 
     @property
     def short_description(self) -> Optional[str]:
-        return "TODO description"
+        if self.seimas_politician:
+            politician_fraction_nullable = self.seimas_politician.politician_fraction_nullable
+            if politician_fraction_nullable:
+                return politician_fraction_nullable.fraction.name
 
     class Meta:
         verbose_name_plural = "Politician information"
