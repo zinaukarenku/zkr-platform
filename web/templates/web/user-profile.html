@@ -11,11 +11,29 @@
                 </div>
             {% endif %}
             <div class="row justify-content-center align-items-center" style="height: 100%;">
-                <div class="col-sm-12 col-lg-4 col-md-6">
+                {% if user.is_staff %}
+                    <div class="col-md-6">
+                        <div class="card">
+                            <h4 class="card-header card-title">Mano klausimai</h4>
+                            {% include 'component/questions-media-list.html' with questions=user_questions show_politician_info=True %}
+                            <div class="card-footer">
+                                <div class="text-center bt-1 border-light p-2">
+                                    <a class="text-uppercase d-block fs-10 fw-500 ls-1" href="{% url 'new_question' %}">
+                                        Užduoti naują klausimą politikui
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="col-md-6">
                     <div class="card pt-5 pb-5">
                         <img src="{% static 'img/zkr-medium-logo.png' %}" width="120" style="margin: 0 auto;">
                         <h4 class="card-title text-center">
-                            Prisijungti
+                            Papildomi prisijungimo būdai
+                            <small class="subtitle">
+                                Dažnai pamiršti slaptažodį? Prisijunk vieno mygtuko paspaudimu.
+                            </small>
                         </h4>
                         <div class="card-body">
                             {% include 'account/social-buttons.html' with process="connect" %}

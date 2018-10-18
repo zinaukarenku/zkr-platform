@@ -159,7 +159,6 @@ nav .container {
     background-size: cover;
 }
 
-
 /* main h2,
 main h3,
 main h4 {
@@ -185,8 +184,8 @@ main .game_over {
     background-color: rgba(0, 0, 0, 0);
 }
 
-.btn-menu:hover>.bar,
-.btn-close:hover>.bar {
+.btn-menu:hover > .bar,
+.btn-close:hover > .bar {
     background-color: #add8e6;
 }
 
@@ -375,8 +374,8 @@ button.btn {
     background-color: rgba(0, 0, 0, 0);
 }
 
-.btn-menu:hover>.bar,
-.btn-close:hover>.bar {
+.btn-menu:hover > .bar,
+.btn-close:hover > .bar {
     background-color: #add8e6;
 }
 
@@ -468,6 +467,10 @@ footer ul:first {
     width: 100%;
 }
 
+.subtitle {
+    display: block;
+    margin-top: 8px;
+}
 
 /* timer */
 
@@ -475,7 +478,6 @@ footer ul:first {
     font-size: 220%;
     color: #59387a;
 }
-
 
 /* forms */
 
@@ -489,33 +491,41 @@ footer ul:first {
     .nav .container {
         padding: 0 15px;
     }
+
     .container-content {
         padding-left: 15px;
         padding-right: 15px;
     }
-    .container-content>.row {
+
+    .container-content > .row {
         margin-left: -15px;
         margin-right: -15px;
     }
+
     .col-sm-12 {
         padding-left: 15px;
         padding-right: 15px;
     }
+
     .card,
     .banner--newsletter,
     .banner--elections {
         border-radius: 5px;
     }
+
     .banner--newsletter .form-group,
     .banner--newsletter button {
         width: auto;
     }
+
     .banner--newsletter .form-group input {
         width: 300px;
     }
+
     .banner--elections {
         height: 150px;
     }
+
     .card-election {
         width: 150px;
         height: 225px;

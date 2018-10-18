@@ -1,0 +1,29 @@
+{% extends "base/base-regular-page.html" %}
+{% load static %}
+{% block title %}{% block banner_title %}Klausimai politikams{% endblock %}{% endblock %}
+
+{% block main_content %}
+    <main class="container container-content mt-3">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <!-- TODO Pagination -->
+                    {% include 'component/questions-media-list.html' with questions=questions show_politician_info=True %}
+                    <div class="card-footer">
+                        <div class="text-center bt-1 border-light p-2">
+                            <a class="text-uppercase d-block fs-10 fw-500 ls-1" href="{% url 'new_question' %}">
+                                Užduoti naują klausimą politikui
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+    </main>
+    <div class="container container-content mt-3 mb-3">
+        <div class="card banner--newsletter pt-4 pb-4 pl-2 pr-2">
+            {% include 'web/component/subscribe-newsletter.html' %}
+        </div>
+    </div>
+{% endblock %}

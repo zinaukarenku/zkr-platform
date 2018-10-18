@@ -181,7 +181,21 @@
                             </div>
                             <div id="communicate" class="tab-pane" aria-labelledby="communicate-tab">
                                 <h3>Klausimai ir atsakymai</h3>
-                                <p class="text-muted"><i>Informacija yra ruošiama</i></p>
+                                {% if user.is_staff %}
+                                    <div class="card">
+                                        {% include 'component/questions-media-list.html' with questions=questions show_politician_info=False %}
+                                        <div class="card-footer">
+                                            <div class="text-center bt-1 border-light p-2">
+                                                <a class="text-uppercase d-block fs-10 fw-500 ls-1"
+                                                   href="{% url 'new_question' %}">
+                                                    Užduoti naują klausimą politikui
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <p class="text-muted"><i>Informacija yra ruošiama</i></p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

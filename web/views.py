@@ -1,12 +1,14 @@
 from logging import getLogger
 
 from allauth.socialaccount.forms import DisconnectForm
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
 from rest_framework.status import HTTP_422_UNPROCESSABLE_ENTITY, HTTP_409_CONFLICT, HTTP_201_CREATED
 
+from questions.models import Question
 from utils.utils import get_request_information
 from web.forms import EmailSubscriptionForm
 from web.models import EmailSubscription, OrganizationPartner, OrganizationMember
@@ -54,12 +56,9 @@ def subscribe(request):
     return HttpResponse(status=HTTP_201_CREATED)
 
 
+@login_required
 def user_profile(request):
-    user = request.user
-
-    if user is None or user.is_authenticated is False:
-        return redirect('account_login')
-
+    user_questions = Question.objects.filter_questions_by_user(request.user)
     error = None
     if request.method == 'POST':
         disconnect_form = DisconnectForm(request.POST, request=request)
@@ -70,7 +69,8 @@ def user_profile(request):
             error = "Unable to disconnect social account. Try again."
 
     return render(request, 'web/user-profile.html', {
-        'error': error
+        'error': error,
+        'user_questions': user_questions
     })
 
 

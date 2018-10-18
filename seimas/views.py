@@ -3,6 +3,7 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect
 from ipware import get_client_ip
 
+from questions.models import Question
 from seimas.forms import PrizeFrom
 from seimas.models import Politician, PoliticianTerm, PoliticianGame, LegalActDocument
 from seimas.utils import try_parse_int
@@ -70,7 +71,7 @@ def politicians(request):
 
 def politician(request, slug):
     selected_politician = Politician.objects.filter(slug=slug) \
-        .select_related('elected_party') \
+        .select_related('elected_party', 'politician_info') \
         .prefetch_related('divisions',
                           'parliament_groups',
                           'business_trips',
@@ -81,12 +82,16 @@ def politician(request, slug):
                           Prefetch(
                               'legal_act_documents',
                               LegalActDocument.objects.select_related('legal_act', 'document_type')
-                          )
+                          ),
                           ).first()
 
     if selected_politician is None:
         raise Http404("Politician does not exist")
 
+    questions = Question.active.select_related('politician', 'politian_answer', 'created_by').filter(
+        politician__seimas_politician=selected_politician).order_by('-updated_at')
+
     return render(request, 'seimas/politician.html', {
-        'politician': selected_politician
+        'politician': selected_politician,
+        'questions': questions
     })

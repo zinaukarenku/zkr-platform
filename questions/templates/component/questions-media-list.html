@@ -1,0 +1,24 @@
+{% load humanize %}
+
+<div class="media-list media-list-divided">
+    {% for question in questions %}
+        <a href="{% url 'question' question.id %}" class="d-block">
+            <div class="media">
+                {% if show_politician_info and question.politician_photo_url %}
+                    <img src="{{ question.politician_photo_url }}" class="m-2" width="36"
+                         alt="{{ question.politician_name }}">
+                {% endif %}
+                <div class="media-body">
+                    <p><strong>{{ question.name }}</strong>
+                        <time class="float-right hover-primary">{{ question.last_activity|naturaltime }}</time>
+                    </p>
+                    {% if show_politician_info %}
+                        <p>{{ question.politician_name }}</p>
+                    {% endif %}
+
+                    <p>{{ question.status_text }}</p>
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+</div>
