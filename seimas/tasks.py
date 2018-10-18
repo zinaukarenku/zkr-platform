@@ -7,7 +7,7 @@ from celery import shared_task
 from seimas.models import Term, Session, Party, Politician, PoliticianParliamentGroup, PoliticianDivision, \
     PoliticianBusinessTrip, PoliticianTerm, ElectionType, LegalActDocumentType, LegalAct, LegalActDocument, Fraction, \
     PoliticianFraction
-from seimas.utils import parse_invalid_xml, sanitize_text, parse_xml
+from seimas.utils import parse_xml, sanitize_text, parse_xml
 from utils.utils import requests_retry_session
 
 logger = logging.getLogger(__name__)
@@ -18,7 +18,7 @@ def fetch_terms():
     req = requests_retry_session().get("http://apps.lrs.lt/sip/p2b.ad_seimo_kadencijos")
     req.raise_for_status()
 
-    soup = parse_invalid_xml(req.text)
+    soup = parse_xml(req.text)
     terms_xml = soup.find_all('SeimoKadencija')
 
     created = 0
@@ -46,7 +46,7 @@ def fetch_sessions():
     req = requests_retry_session().get("http://apps.lrs.lt/sip/p2b.ad_seimo_sesijos?ar_visos=T")
     req.raise_for_status()
 
-    soup = parse_invalid_xml(req.text)
+    soup = parse_xml(req.text)
     terms_xml = soup.find_all('SeimoKadencija')
 
     created = 0
@@ -98,7 +98,7 @@ def fetch_politicians():
     req = requests_retry_session().get("http://apps.lrs.lt/sip/p2b.ad_seimo_nariai")
     req.raise_for_status()
 
-    soup = parse_invalid_xml(req.text)
+    soup = parse_xml(req.text)
     politicians_xml = soup.find_all('SeimoNarys')
     for politician_xml in politicians_xml:
         asm_id = politician_xml['asmens_id']
@@ -194,7 +194,7 @@ def fetch_and_match_sessions_with_politicians():
         })
         req.raise_for_status()
 
-        soup = parse_invalid_xml(req.text)
+        soup = parse_xml(req.text)
         politicians_xml = soup.find_all('SeimoNarys')
 
         for politician_xml in politicians_xml:
@@ -289,7 +289,7 @@ def fetch_business_trips():
     req = requests_retry_session().get("http://apps.lrs.lt/sip/p2b.ad_seimo_nariu_komandiruotes")
     req.raise_for_status()
 
-    soup = parse_invalid_xml(req.text)
+    soup = parse_xml(req.text)
     politicians_xml = soup.find_all('SeimoNarys')
 
     for politician_xml in politicians_xml:
@@ -331,7 +331,7 @@ def fetch_politician_documents():
         })
         req.raise_for_status()
 
-        soup = parse_invalid_xml(req.text)
+        soup = parse_xml(req.text)
         documents_xml = soup.find_all('Dokumentas')
 
         legal_act_documents = []
