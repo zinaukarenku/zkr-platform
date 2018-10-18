@@ -5,8 +5,9 @@ from time import sleep
 from celery import shared_task
 
 from seimas.models import Term, Session, Party, Politician, PoliticianParliamentGroup, PoliticianDivision, \
-    PoliticianBusinessTrip, PoliticianTerm, ElectionType, LegalActDocumentType, LegalAct, LegalActDocument
-from seimas.utils import parse_invalid_xml
+    PoliticianBusinessTrip, PoliticianTerm, ElectionType, LegalActDocumentType, LegalAct, LegalActDocument, Fraction, \
+    PoliticianFraction
+from seimas.utils import parse_invalid_xml, sanitize_text, parse_xml
 from utils.utils import requests_retry_session
 
 logger = logging.getLogger(__name__)
@@ -219,6 +220,65 @@ def fetch_and_match_sessions_with_politicians():
         'created': created,
         'updated': updated
     }
+
+
+@shared_task(soft_time_limit=600)
+def fetch_and_match_fractions_with_politicians():
+    statistics = {
+        'politician_fractions': {
+            'created': 0,
+            'updated': 0
+        },
+        'fractions': {
+            'created': 0,
+            'updated': 0
+        },
+    }
+    req = requests_retry_session().get("http://apps.lrs.lt/sip/p2b.ad_seimo_frakcijos")
+    req.raise_for_status()
+
+    soup = parse_xml(req.text)
+    terms_xml = soup.find_all('SeimoKadencija')
+
+    for term_xml in terms_xml:
+        term = Term.objects.filter(kad_id=term_xml['kadencijos_id']).first()
+
+        if term:
+            fractions_xml = term_xml.find_all('SeimoFrakcija')
+
+            for fraction_xml in fractions_xml:
+                fraction, is_fraction_created = Fraction.objects.update_or_create(
+                    seimas_pad_id=fraction_xml['padalinio_id'],
+                    defaults={
+                        'name': sanitize_text(fraction_xml['padalinio_pavadinimas']),
+                        'short_name': sanitize_text(fraction_xml['padalinio_pavadinimo_santrumpa']),
+                    }
+                )
+
+                if is_fraction_created:
+                    statistics['fractions']['created'] += 1
+                else:
+                    statistics['fractions']['updated'] += 1
+
+                members_xml = fraction_xml.find_all('SeimoFrakcijosNarys')
+                for member_xml in members_xml:
+                    politician = Politician.objects.filter(asm_id=member_xml['asmens_id']).first()
+
+                    if politician:
+                        _, is_politician_fraction_created = PoliticianFraction.objects.update_or_create(
+                            politician=politician,
+                            defaults={
+                                'position': sanitize_text(member_xml['pareigos']),
+                                'fraction': fraction
+                            }
+                        )
+
+                        if is_politician_fraction_created:
+                            statistics['politician_fractions']['created'] += 1
+                        else:
+                            statistics['politician_fractions']['updated'] += 1
+
+    return statistics
 
 
 @shared_task(soft_time_limit=300)

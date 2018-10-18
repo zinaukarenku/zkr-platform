@@ -49,6 +49,20 @@ class Session(models.Model):
         return self.name
 
 
+class Fraction(models.Model):
+    name = models.CharField(max_length=128)
+    short_name = models.CharField(max_length=32)
+
+    seimas_pad_id = models.IntegerField(unique=True)
+
+    class Meta:
+        verbose_name_plural = "Fractions"
+        ordering = ['seimas_pad_id']
+
+    def __str__(self):
+        return self.name
+
+
 class Party(models.Model):
     name = models.CharField(max_length=128, unique=True)
 
@@ -171,6 +185,19 @@ class Politician(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class PoliticianFraction(models.Model):
+    fraction = models.ForeignKey(Fraction, on_delete=models.CASCADE, related_name="politicians")
+    politician = models.OneToOneField(Politician, on_delete=models.CASCADE, related_name="politician_fraction")
+
+    position = models.CharField(max_length=128)
+
+    class Meta:
+        verbose_name_plural = "Politician fractions"
+
+    def __str__(self):
+        return str(self.politician)
 
 
 class PoliticianTerm(models.Model):

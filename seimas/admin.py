@@ -2,7 +2,7 @@ from django.contrib import admin
 from reversion.admin import VersionAdmin
 
 from seimas.models import Term, Session, Politician, PoliticianDivision, PoliticianParliamentGroup, \
-    PoliticianBusinessTrip, PoliticianTerm, PoliticianGame
+    PoliticianBusinessTrip, PoliticianTerm, PoliticianGame, PoliticianFraction, Fraction
 
 
 class SessionsInline(admin.StackedInline):
@@ -30,6 +30,11 @@ class PoliticianTermsInline(admin.StackedInline):
     extra = 0
 
 
+class PoliticianFractionInline(admin.StackedInline):
+    model = PoliticianFraction
+    extra = 0
+
+
 @admin.register(Term)
 class TermAdmin(VersionAdmin):
     search_fields = ['name', 'kad_id']
@@ -49,10 +54,20 @@ class PoliticianAdmin(VersionAdmin):
     list_filter = ['elected_party', 'is_active']
 
     inlines = [
+        PoliticianFractionInline,
         PoliticianTermsInline,
         PoliticianDivisionsInline,
         PoliticianParliamentGroupsInline,
         PoliticianBusinessTripsInline
+    ]
+
+
+@admin.register(Fraction)
+class FractionAdmin(VersionAdmin):
+    list_display = ['name', 'short_name', 'seimas_pad_id']
+
+    inlines = [
+        PoliticianFractionInline
     ]
 
 

@@ -304,6 +304,10 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'seimas.tasks.fetch_politicians',
         'schedule': crontab(minute='0', hour='*')
     },
+    'fetch_and_match_fractions_with_politicians': {
+        'task': 'seimas.tasks.fetch_and_match_fractions_with_politicians',
+        'schedule': crontab(minute='10', hour='*')
+    },
     'fetch_terms': {
         'task': 'seimas.tasks.fetch_terms',
         'schedule': crontab(minute='30', hour='11')
@@ -328,10 +332,10 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'elections.tasks.fetch_vrk_elections',
         'schedule': crontab(minute='30', hour='*')
     },
-    'fetch_vrk_election_results': {
-        'task': 'elections.tasks.fetch_vrk_election_results',
-        'schedule': crontab(minute='*/5', hour='*')
-    },
+    # 'fetch_vrk_election_results': {
+    #     'task': 'elections.tasks.fetch_vrk_election_results',
+    #     'schedule': crontab(minute='*/5', hour='*')
+    # },
     'sync_politician_information': {
         'task': 'web.tasks.sync_politician_information',
         'schedule': crontab(minute='*/5', hour='*')
