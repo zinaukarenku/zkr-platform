@@ -6,4 +6,4 @@ pull:
 	git pull
 
 deploy:
-	docker-compose up -d
+	docker stack deploy zkr-platform --compose-file docker-compose.yml
