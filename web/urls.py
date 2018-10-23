@@ -11,4 +11,6 @@ urlpatterns = [
     path('accounts/social/connections/', RedirectView.as_view(pattern_name="user_profile", permanent=False)),
     path('health/', health_check, name="health_check"),
     path('subscribe/', subscribe, name="subscribe"),
+    path('viktorina/', RedirectView.as_view(url="https://play.kahoot.it/#/k/cd0603d8-b717-432c-bf99-a2f3be7c3b5b")),
+    path('viktorina2/', RedirectView.as_view(url="https://play.kahoot.it/#/k/e0d6944f-bed5-4406-80de-fb5791250a52")),
 ]
