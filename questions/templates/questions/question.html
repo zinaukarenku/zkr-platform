@@ -1,31 +1,32 @@
-{% extends "base/base-regular-page.html" %}
-{% load static %}
-{% load crispy_forms_tags %}
-
-{% block banner_title %}{% block title %}Klausimas politikui{% endblock %}{% endblock %}
-
+{% extends "base/base-regular-page.html" %} 
+{% load static %} 
+{% load crispy_forms_tags %} 
+{% block banner_title %}{% block title %}Klausimas politikui{% endblock %}{% endblock %} 
 {% block head %}
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" rel="stylesheet"/>
-{% endblock %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" rel="stylesheet" /> 
+{% endblock %} 
+{% block main_content %} 
 
-{% block main_content %}
+{% if question.rejected_reason %}
+<div class="note text-center">
+    <span class="d-block">Klausimas atmestas</span>
+    <p class="mb-0">{{ question.rejected_reason }}</p>
+</div>
+{% endif %}
 
-    <main class="container container-content mt-3">
-        {% if question.rejected_reason %}
-            <p>{{ question.rejected_reason }}</p>
-        {% endif %}
-        <article class="card">
-            <div class="card-header">
-                {{ question.name }}
-            </div>
-            <div class="card-body">
-                {{ question.text }}
-            </div>
-        </article>
-    </main>
-    <div class="container container-content mt-3 mb-3">
-        <div class="card banner--newsletter pt-4 pb-4 pl-2 pr-2">
-            {% include 'web/component/subscribe-newsletter.html' %}
+<main class="container container-content mt-3">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">{{ question.name }}</h3>
+            <p class="card-text">{{ question.text }}</p>
+            <span class="d-block text-muted">{{question.plitian_answer.created_by}}</span>
+            <p>{{question.politian_answer.text}}</p>
         </div>
     </div>
+</main>
+<div class="container container-content mt-3 mb-3">
+    <div class="card banner--newsletter pt-4 pb-4 pl-2 pr-2">
+        {% include 'web/component/subscribe-newsletter.html' %}
+    </div>
+</div>
 {% endblock %}
