@@ -75,7 +75,7 @@ class Question(models.Model):
     @cached_property
     def last_activity(self):
         if self.has_politician_answer:
-            return self.nullable_politician_answer.created_by
+            return self.nullable_politician_answer.created_at
         return self.updated_at
 
     @property
