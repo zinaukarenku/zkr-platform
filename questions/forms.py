@@ -16,6 +16,9 @@ class NewQuestionForm(ModelForm):
             'politician': "Politikas",
             'text': "Klausimo tekstas"
         }
+        help_texts = {
+            'politician': None,
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -8,6 +8,7 @@ from questions.models import Question, PoliticianAnswer
 class PoliticianAnswerInline(admin.StackedInline):
     model = PoliticianAnswer
     raw_id_fields = ['created_by']
+    readonly_fields = ['user_ip', 'user_agent', 'user_country']
 
 
 @admin.register(Question)
@@ -17,6 +18,7 @@ class QuestionsAdmin(VersionAdmin):
     list_filter = [('status', EnumFieldListFilter), ]
     raw_id_fields = ['politician', 'created_by']
     list_select_related = ['politician', 'created_by']
+    readonly_fields = ['user_ip', 'user_agent', 'user_country']
 
     date_hierarchy = 'created_at'
 
