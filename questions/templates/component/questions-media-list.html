@@ -6,13 +6,13 @@
         {% if show_politician_info and question.politician_photo_url %}
         <span class="d-inline-block card-small-img mr-3" style="background-image:url('{{ question.politician_photo_url }}');"></span> 
 		{% endif %}
+
         <div class="d-inline-block">
             <h3 class="card-title card-title--question text-left mb-0">{{ question.name }}</h3>
-            <time class="d-inline-block text-muted">{{ question.last_activity|naturaltime }}</time> 
-			{% if show_politician_info %}
-            <span class="d-inline-block text-muted">{{ question.politician_name }}</span> 
-			{% endif %}
-            <span class="d-block text-muted text-eyebrow">{{ question.status_text }}</span>
+            {% if show_politician_info %}
+            <span class="d-inline-block text-muted">{{ question.politician_name }} &bull; </span> {% endif %}
+            <time class="d-inline-block text-muted">{{ question.last_activity|naturaltime }}</time>
+            <span class="d-block text-muted text-eyebrow mt-1">{{ question.status_text }}</span>
         </div>
 
     </div>

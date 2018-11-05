@@ -1,42 +1,41 @@
-{% extends "base/base-regular-page.html" %}
-{% load static %}
-{% load crispy_forms_tags %}
-{% block banner_title %}{% block title %}Klausimas politikui{% endblock %}{% endblock %}
-{% block head %}
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" rel="stylesheet"/>
-{% endblock %}
-{% block main_content %}
+{% extends "base/base-regular-page.html" %} {% load static %} {% load crispy_forms_tags %} {% block banner_title %}{% block title %}Klausimas politikui{% endblock %}{% endblock %} {% load humanize %} {% block head %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" rel="stylesheet" /> {% endblock %} {% block main_content %} {% if question.rejected_reason %}
+<div class="note text-center">
+    <span class="d-block">Klausimas atmestas</span>
+    <p class="mb-0">{{ question.rejected_reason }}</p>
+</div>
+{% endif %}
 
-    {% if question.rejected_reason %}
-        <div class="note text-center">
-            <span class="d-block">Klausimas atmestas</span>
-            <p class="mb-0">{{ question.rejected_reason }}</p>
-        </div>
-    {% endif %}
+<main class="container container-content mt-3">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title mb-0">{{ question.name|default:question.status_text }}</h3>
+            <span class="d-inline-block text-muted">{{ question.created_by }} &bull;</span>
+            <time class="d-inline-block text-muted">{{ question.last_activity|naturaltime }}</time>
 
-    <main class="container container-content mt-3">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">{{ question.name|default:question.status_text }}</h3>
-                <div class="card-text">{{ question.text|linebreaks }}</div>
-                <span class="d-block text-muted">{{ question.plitian_answer.created_by }}</span>
-                {% if question.has_politician_answer %}
-                    <div>{{ question.politian_answer.text|linebreaks }}</div>
-                {% endif %}
-            </div>
-        </div>
-        {% if politician_answer_form %}
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">Atsakyti į klausimą</h3>
-                    {% crispy politician_answer_form politician_answer_form.form.helper %}
-                </div>
-            </div>
-        {% endif %}
-    </main>
-    <div class="container container-content mt-3 mb-3">
-        <div class="card banner--newsletter pt-4 pb-4 pl-2 pr-2">
-            {% include 'web/component/subscribe-newsletter.html' %}
+            <p class="card-text mt-3">{{ question.text|linebreaks }}</p>
+
+            {% if question.has_politician_answer %}
+            <h4 class="card-title mt-5 mb-0">Atsakymas</h4>
+            <span class="d-inline-block text-muted">{{ question.politian_answer.created_by }} &bull;</span>
+            <time class="d-inline-block text-muted">{{ question.politian_answer.created_at|naturaltime }}</time>
+
+            <p class="card-text mt-3">{{ question.politian_answer.text|linebreaks }}</p>
+            {% endif %}
         </div>
     </div>
+    {% if politician_answer_form %}
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Atsakyti į klausimą</h3>
+            {% crispy politician_answer_form politician_answer_form.form.helper %}
+        </div>
+    </div>
+    {% endif %}
+</main>
+<div class="container container-content mt-3 mb-3">
+    <div class="card banner--newsletter pt-4 pb-4 pl-2 pr-2">
+        {% include 'web/component/subscribe-newsletter.html' %}
+    </div>
+</div>
 {% endblock %}
