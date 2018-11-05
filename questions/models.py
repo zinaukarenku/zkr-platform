@@ -1,6 +1,7 @@
 from enum import unique
 from typing import Optional
 
+from django.core.validators import MinLengthValidator
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
@@ -86,7 +87,7 @@ class Question(models.Model):
 
         raise ValueError(f"Unknown question status: {self.status}")
 
-    @cached_property
+    @property
     def nullable_politician_answer(self):
         if hasattr(self, 'politian_answer') and self.politian_answer is not None:
             return self.politian_answer
@@ -95,6 +96,12 @@ class Question(models.Model):
     @property
     def has_politician_answer(self):
         return self.nullable_politician_answer is not None
+
+    def is_question_for_user(self, user):
+        if not user.is_anonymous and self.politician.user == user:
+            return True
+
+        return False
 
     class Meta:
         ordering = ['-created_at']
@@ -107,7 +114,7 @@ class Question(models.Model):
 class PoliticianAnswer(models.Model):
     question = models.OneToOneField(Question, on_delete=models.PROTECT, related_name='politian_answer')
 
-    text = models.TextField()
+    text = models.TextField(validators=[MinLengthValidator(10)])
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT,
                                    related_name="question_answers")
