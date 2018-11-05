@@ -19,6 +19,7 @@ class QuestionsAdmin(VersionAdmin):
     raw_id_fields = ['politician', 'created_by']
     list_select_related = ['politician', 'created_by']
     readonly_fields = ['user_ip', 'user_agent', 'user_country']
+    view_on_site = True
 
     date_hierarchy = 'created_at'
 

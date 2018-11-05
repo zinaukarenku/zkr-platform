@@ -3,6 +3,7 @@ from typing import Optional
 
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.db import models
+from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
 from enumfields import EnumIntegerField, Enum
@@ -109,6 +110,9 @@ class Question(models.Model):
             return True
 
         return False
+
+    def get_absolute_url(self):
+        return reverse("question", kwargs={'question_id': self.id})
 
     class Meta:
         ordering = ['-created_at']
