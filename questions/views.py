@@ -38,8 +38,7 @@ def new_question(request):
 
         if new_question_form.is_valid():
             new_question_form.save()
-            redirect('question', question_id=question.id)
-            success = True
+            return redirect('question', question_id=question.id)
 
     return render(request, 'questions/new-question.html', {
         'new_question_form': new_question_form,
