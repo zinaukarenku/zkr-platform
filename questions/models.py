@@ -127,10 +127,10 @@ class PoliticianAnswer(models.Model):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT,
                                    related_name="question_answers", verbose_name=gettext("Atsakymo autorius"))
     user_ip = models.GenericIPAddressField(verbose_name=gettext("Atsakymo autoriaus IP"))
-    user_agent = models.TextField(blank=True, null=True, verbose_name=gettext("Atsakymo autoriaus user-agent"))
+    user_agent = models.TextField(blank=True, null=True, verbose_name=gettext("Atsakymo autoriaus User-agent"))
 
     user_country = models.CharField(max_length=30, blank=True, null=True,
-                                    verbose_name=gettext("Atsakymo autoriaus user-country"))
+                                    verbose_name=gettext("Atsakymo autoriaus šalis"))
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
