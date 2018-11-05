@@ -17,7 +17,7 @@
     <main class="container container-content mt-3">
         <div class="card">
             <div class="card-body">
-                <h3 class="card-title">{{ question.name }}</h3>
+                <h3 class="card-title">{{ question.name|default:question.status_text }}</h3>
                 <div class="card-text">{{ question.text|linebreaks }}</div>
                 <span class="d-block text-muted">{{ question.plitian_answer.created_by }}</span>
                 {% if question.has_politician_answer %}
