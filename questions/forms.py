@@ -34,7 +34,7 @@ class NewQuestionForm(ModelForm):
             ),
         )
 
-        self.fields['politician'].widget.choices = []
+        # self.fields['politician'].widget.choices = []
 
 
 class PoliticianAnswerForm(ModelForm):
