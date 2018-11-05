@@ -1,3 +1,4 @@
+from gettext import gettext
 from os.path import join
 from typing import Optional
 
@@ -126,12 +127,18 @@ class OrganizationPartner(models.Model):
 
 
 class PoliticianInfo(models.Model):
-    name = models.CharField(max_length=256, db_index=True)
+    name = models.CharField(max_length=256, db_index=True, verbose_name=gettext("Politiko vardas"))
 
     seimas_politician = models.OneToOneField(SeimasPolitician, on_delete=models.PROTECT, null=True, blank=True,
-                                             related_name="politician_info")
+                                             related_name="politician_info",
+                                             verbose_name=gettext("Seimo politiko profilis"),
+                                             help_text=gettext("Sujungia seimo narį su politiku"))
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True,
-                                related_name="politician_info")
+                                related_name="politician_info",
+                                verbose_name=gettext("Vartotojas"),
+                                help_text=gettext(
+                                    "Nustatytas vartotojas galės atsakinėti į klausimus skirtus politikui")
+                                )
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -150,7 +157,8 @@ class PoliticianInfo(models.Model):
                 return politician_fraction_nullable.fraction.name
 
     class Meta:
-        verbose_name_plural = "Politician information"
+        verbose_name_plural = "Politikų informacija"
+        verbose_name = "Politiko informacija"
         ordering = ['-created_at', 'name']
 
     def __str__(self):
