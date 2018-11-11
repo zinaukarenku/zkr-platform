@@ -1,3 +1,4 @@
+import hashlib
 from json import dumps
 from logging import getLogger
 from urllib.parse import urlsplit, unquote, urlparse, parse_qsl, urlencode, ParseResult
@@ -125,3 +126,10 @@ def add_url_params(url, params):
     ).geturl()
 
     return new_url
+
+
+def gravatar_url(email, size):
+    gravatar_hash = hashlib.md5(email.lower().encode('utf-8')).hexdigest()
+    gravatar_arguments = urlencode({'s': str(size), 'd': 'mp'})
+
+    return f"https://www.gravatar.com/avatar/{gravatar_hash}?{gravatar_arguments}"

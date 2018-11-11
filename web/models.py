@@ -10,7 +10,7 @@ from django.utils.text import slugify
 from django_resized import ResizedImageField
 
 from seimas.models import Politician as SeimasPolitician
-from utils.utils import file_extension
+from utils.utils import file_extension, gravatar_url
 from zkr import settings
 
 
@@ -22,6 +22,13 @@ class User(AbstractUser):
             self.username = self.email
 
         super().save(*args, **kwargs)
+
+    @cached_property
+    def photo_url(self):
+        if self.photo:
+            return self.photo.url
+
+        return gravatar_url(self.email, 200)
 
     @cached_property
     def all_social_accounts(self):
