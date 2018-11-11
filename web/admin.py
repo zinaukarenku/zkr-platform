@@ -8,9 +8,18 @@ from reversion.admin import VersionAdmin
 from web.models import OrganizationMember, OrganizationMemberGroup, EmailSubscription, OrganizationPartner, User, \
     PoliticianInfo
 from zkr import settings
+from django.utils.translation import gettext_lazy as _
 
 if not settings.DEBUG:
     admin.site.login = login_required(admin.site.login)
+
+UserAdmin.fieldsets = (
+    (None, {'fields': ('username', 'password')}),
+    (_('Personal info'), {'fields': ('first_name', 'last_name', 'email', 'photo')}),
+    (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+                                   'groups', 'user_permissions')}),
+    (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+)
 
 admin.site.register(User, UserAdmin)
 
