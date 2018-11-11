@@ -149,6 +149,10 @@ class PoliticianInfo(models.Model):
             seimas_politician = self.seimas_politician
             return self.seimas_politician.photo if seimas_politician else None
 
+    def get_absolute_url(self):
+        if self.seimas_politician is not None:
+            return self.seimas_politician.profile_url
+
     @property
     def short_description(self) -> Optional[str]:
         if self.seimas_politician:
