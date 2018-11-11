@@ -59,3 +59,4 @@ class PoliticianInfoAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_filter = ['created_at', ]
     date_hierarchy = 'created_at'
+    view_on_site = True
