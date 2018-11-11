@@ -1,13 +1,14 @@
-{% extends "base/base-regular-page.html" %} 
-{% load static %} {% load crispy_forms_tags %} 
-{% block banner_title %}{% block title %}{{ question.name|default:question.status_text }}{% endblock %}{% endblock %} 
+{% extends "base/base-regular-page.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block banner_title %}{% block title %}{{ question.name|default:question.status_text }}{% endblock %}{% endblock %}
 {% load humanize %}
 
 {% block head %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" rel="stylesheet" />
 {% endblock %}
 
-{% block main_content %} 
+{% block main_content %}
 {% if question.rejected_reason %}
 <div class="note text-center">
     <span class="d-block">Klausimas atmestas</span>
@@ -19,17 +20,17 @@
     <div class="card">
         <div class="card-body">
             <div class="d-flex">
-                <span class="d-inline-block card-small-img mr-3" style="background-image:url();"></span>
+
+                <span class="d-inline-block card-small-img mr-3" {% if question.created_by.photo %} style="background-image:url('{{question.created_by.photo.url}}');" {% endif %}></span>
                 <div class="d-inline-block">
                     <h3 class="card-title mb-0">{{ question.created_by }}</h3>
                     <time class="d-inline-block text-muted">{{ question.last_activity|naturaltime }} &bull;</time>
-                    <span class="d-inline-block text-muted">Klausimas skirtas: </span>
-
-					{% if question.politician.get_absolute_url %}
-                    <a href="{{question.politician.get_absolute_url}}">{{question.politician}}</a>
-					{% else %}
-                    <span class="d-inline-block text-muted">{{question.politician}}</span>
-					{% endif %}
+                    <span class="d-inline-block text-muted">Klausimas skirtas: </span> 
+				{% if question.politician.get_absolute_url %}
+                    <a href="{{question.politician.get_absolute_url}}">{{question.politician}}</a> 
+				{% else %}
+                    <span class="d-inline-block text-muted">{{question.politician}}</span> 
+				{% endif %}
                     <p class="card-text mt-3">{{ question.text|linebreaks }}</p>
                 </div>
             </div>
@@ -38,7 +39,7 @@
             <h4 class="card-title mt-5 mb-2">Atsakymas</h4>
 
             <div class="d-flex">
-                <span class="d-inline-block card-small-img mr-3" style="background-image:url();"></span>
+                <span class="d-inline-block card-small-img mr-3" style="background-image:url('{{ question.politician_photo_url }}');"></span>
                 <div class="d-inline-block">
                     <h3 class="card-title m-0">{{ question.politian_answer.created_by }}</h3>
                     <time class="d-inline-block text-muted">{{ question.politian_answer.created_at|naturaltime }}</time>
@@ -46,7 +47,7 @@
                 </div>
             </div>
             {% else %}
-            	<span class="d-block text-muted text-eyebrow mt-1" style="padding-left: 70px;">{{ question.status_text }}</span>
+            <span class="d-block text-muted text-eyebrow mt-1" style="padding-left: 70px;">{{ question.status_text }}</span>
 			{% endif %}
         </div>
     </div>
