@@ -1,4 +1,4 @@
-{% extends "base/base-regular-page.html" %} {% load static %} {% load crispy_forms_tags %} {% block banner_title %}{% block title %}Klausimas politikui{% endblock %}{% endblock %} {% load humanize %} {% block head %}
+{% extends "base/base-regular-page.html" %} {% load static %} {% load crispy_forms_tags %} {% block banner_title %}{% block title %}{{ question.name|default:question.status_text }}{% endblock %}{% endblock %} {% load humanize %} {% block head %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" rel="stylesheet" /> {% endblock %} {% block main_content %} {% if question.rejected_reason %}
 <div class="note text-center">
     <span class="d-block">Klausimas atmestas</span>
@@ -9,9 +9,15 @@
 <main class="container container-content mt-3">
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title mb-0">{{ question.name|default:question.status_text }}</h3>
-            <span class="d-inline-block text-muted">{{ question.created_by }} &bull;</span>
-            <time class="d-inline-block text-muted">{{ question.last_activity|naturaltime }}</time>
+            <div class="d-flex">
+                <span class="d-inline-block card-small-img mr-3" style="background-image:url('{{ question.politician_photo_url }}');"></span>
+                <div class="d-inline-block">
+                    <h3 class="card-title mb-0">{{ question.created_by }}</h3>
+                    <time class="d-inline-block text-muted">{{ question.last_activity|naturaltime }} &bull;</time>
+                    <span class="d-inline-block text-muted">Klausimas skirtas: {{question.politician}}</span>
+                </div>
+            </div>
+
 
             <p class="card-text mt-3">{{ question.text|linebreaks }}</p>
 
