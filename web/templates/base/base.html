@@ -71,8 +71,6 @@
         });
     </script>
     {% block head %}{% endblock %}
-    {% recaptcha_init %}
-    {% recaptcha_ready %}
 </head>
 
 <body>
@@ -156,6 +154,8 @@
 {% endblock %}
 
 <script src="{% static 'js/raven.min.js' %}?v={{ GIT_COMMIT }}"></script>
+{% recaptcha_init %}
+{% recaptcha_ready %}
 <script>Raven.config('{% sentry_public_dsn 'https' %}').install()</script>
 <script src="{% static 'js/jquery.min.js' %}?v={{ GIT_COMMIT }}"></script>
 <script src="{% static 'js/popper.min.js' %}?v={{ GIT_COMMIT }}"></script>

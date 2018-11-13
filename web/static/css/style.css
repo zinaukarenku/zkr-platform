@@ -538,3 +538,7 @@ footer ul:first {
         height: 225px;
     }
 }
+/* Disable Google Recaptcha badge */
+.grecaptcha-badge {
+    display: none;
+}
