@@ -1,4 +1,3 @@
-from gettext import gettext
 from os.path import join
 from typing import Optional
 
@@ -7,6 +6,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.text import slugify
+from django.utils.translation import gettext_lazy as _
 from django_resized import ResizedImageField
 
 from seimas.models import Politician as SeimasPolitician
@@ -44,19 +44,25 @@ class User(AbstractUser):
             if social_account.provider == 'google':
                 return social_account
 
+    class Meta:
+        verbose_name_plural = _("Registruoti vartotojai")
+        verbose_name = _("Registruotas vartotojas")
+
 
 class EmailSubscription(models.Model):
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=True, verbose_name=_("El. paštas"))
 
-    user_ip = models.GenericIPAddressField()
+    user_ip = models.GenericIPAddressField(verbose_name=_("IP adresas"))
     user_agent = models.TextField(blank=True, null=True)
 
-    user_country = models.CharField(max_length=30, blank=True, null=True)
+    user_country = models.CharField(max_length=30, blank=True, null=True, verbose_name=_("Šalis"))
 
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name_plural = "E-mail subscriptions"
+        verbose_name_plural = _("El. pašto prenumeratos")
+        verbose_name = _("El. pašto prenumerata")
+
         ordering = ['-created_at']
 
     def __str__(self):
@@ -68,11 +74,12 @@ class EmailSubscription(models.Model):
 
 
 class OrganizationMemberGroup(models.Model):
-    name = models.CharField(max_length=128, unique=True)
+    name = models.CharField(max_length=128, unique=True, verbose_name=_("Komandos pavadinimas"))
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
-        verbose_name_plural = "Organization member groups"
+        verbose_name_plural = _("Organizacijos narių komandos")
+        verbose_name = _("Organizacijos narių komanda")
         ordering = ['order']
 
     def __str__(self):
@@ -87,25 +94,28 @@ class OrganizationMember(models.Model):
         filename = f"{slug}-photo.{ext}"
         return join('img', 'zkr', 'member', filename)
 
-    name = models.CharField(max_length=128)
-    role = models.CharField(max_length=256)
+    name = models.CharField(max_length=128, verbose_name=_("Vardas"))
+    role = models.CharField(max_length=256, verbose_name=_("Nario rolė"))
 
-    photo = ResizedImageField(upload_to=_organization_member_photo_file, crop=['middle', 'center'], size=[256, 256])
+    photo = ResizedImageField(upload_to=_organization_member_photo_file, crop=['middle', 'center'], size=[256, 256],
+                              verbose_name=_("Nuotrauka"))
 
     group = models.ForeignKey(OrganizationMemberGroup, on_delete=models.CASCADE, related_name="members")
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True,
-                                related_name="organization_member")
+                                related_name="organization_member", verbose_name=_("Registruotas vartotojas"),
+                                help_text=_("Nustatyti šį laukelį, kad žmogus galėtų prisijungti prie admino"))
 
-    email = models.EmailField(blank=True, null=True)
-    linkedin_url = models.URLField(blank=True, null=True)
-    facebook_url = models.URLField(blank=True, null=True)
-    twitter_url = models.URLField(blank=True, null=True)
+    email = models.EmailField(blank=True, null=True, verbose_name=_("El. pašto adresas"))
+    linkedin_url = models.URLField(blank=True, null=True, verbose_name=_("LinkedIn"))
+    facebook_url = models.URLField(blank=True, null=True, verbose_name=_("Facebook"))
+    twitter_url = models.URLField(blank=True, null=True, verbose_name=_("Twitter"))
 
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
-        verbose_name_plural = "Organization members"
+        verbose_name_plural = _("Organizacijos nariai")
+        verbose_name = _("Organizacijos narys")
         ordering = ['order']
 
     def __str__(self):
@@ -120,13 +130,14 @@ class OrganizationPartner(models.Model):
         filename = f"{slug}-photo.{ext}"
         return join('img', 'zkr', 'partners', filename)
 
-    name = models.CharField(max_length=256)
-    logo = models.ImageField(upload_to=_organization_partner_logo_file)
-    url = models.URLField()
+    name = models.CharField(max_length=256, verbose_name=_("Pavadinimas"))
+    logo = models.ImageField(upload_to=_organization_partner_logo_file, verbose_name=_("Logotipas"))
+    url = models.URLField(verbose_name=_("Nuoroda į organizacijos puslapį"))
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
-        verbose_name_plural = "Organization partners"
+        verbose_name_plural = _("Organizacijos partneriai")
+        verbose_name = _("Organizacijos partneris")
         ordering = ['order']
 
     def __str__(self):
@@ -134,16 +145,16 @@ class OrganizationPartner(models.Model):
 
 
 class PoliticianInfo(models.Model):
-    name = models.CharField(max_length=256, db_index=True, verbose_name=gettext("Politiko vardas"))
+    name = models.CharField(max_length=256, db_index=True, verbose_name=_("Politiko vardas"))
 
     seimas_politician = models.OneToOneField(SeimasPolitician, on_delete=models.PROTECT, null=True, blank=True,
                                              related_name="politician_info",
-                                             verbose_name=gettext("Seimo politiko profilis"),
-                                             help_text=gettext("Sujungia seimo narį su politiku"))
+                                             verbose_name=_("Seimo politiko profilis"),
+                                             help_text=_("Sujungia seimo narį su politiku"))
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True,
                                 related_name="politician_info",
-                                verbose_name=gettext("Vartotojas"),
-                                help_text=gettext(
+                                verbose_name=_("Vartotojas"),
+                                help_text=_(
                                     "Nustatytas vartotojas galės atsakinėti į klausimus skirtus politikui")
                                 )
 
@@ -168,8 +179,8 @@ class PoliticianInfo(models.Model):
                 return politician_fraction_nullable.fraction.name
 
     class Meta:
-        verbose_name_plural = "Politikų informacija"
-        verbose_name = "Politiko informacija"
+        verbose_name_plural = _("Politikų informacija")
+        verbose_name = _("Politiko informacija")
         ordering = ['-created_at', 'name']
 
     def __str__(self):

@@ -5,8 +5,8 @@ from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.db import models
 from django.urls import reverse
 from django.utils.functional import cached_property
-from django.utils.translation import gettext
 from enumfields import EnumIntegerField, Enum
+from django.utils.translation import gettext_lazy as _
 
 from web.models import PoliticianInfo
 from zkr import settings
@@ -19,9 +19,9 @@ class QuestionStatus(Enum):
     APPROVED = 3
 
     class Labels:
-        WAITING_APPROVAL = gettext('Laukia patvirtinimo')
-        REJECTED = gettext('Atmestas')
-        APPROVED = gettext("Pavirtintas")
+        WAITING_APPROVAL = _('Laukia patvirtinimo')
+        REJECTED = _('Atmestas')
+        APPROVED = _("Pavirtintas")
 
 
 class QuestionsQuerySet(models.QuerySet):
@@ -38,30 +38,30 @@ class ActiveQuestionsManager(models.Manager):
 
 
 class Question(models.Model):
-    name = models.CharField(max_length=128, null=True, verbose_name=gettext("Klausimo pavadinimas"))
+    name = models.CharField(max_length=128, null=True, verbose_name=_("Klausimo pavadinimas"))
     text = models.TextField(validators=[MinLengthValidator(30), MaxLengthValidator(2000)],
-                            verbose_name=gettext("Klausimo tekstas"))
+                            verbose_name=_("Klausimo tekstas"))
 
     status = EnumIntegerField(QuestionStatus, db_index=True, default=QuestionStatus.WAITING_APPROVAL,
-                              verbose_name=gettext("Klausimo būsena"))
-    rejected_reason = models.TextField(blank=True, null=True, verbose_name=gettext("Klausimo atmetimo priežastis"),
-                                       help_text=gettext("Būtina užpildyti jei klausimas yra atmetamas"))
+                              verbose_name=_("Klausimo būsena"))
+    rejected_reason = models.TextField(blank=True, null=True, verbose_name=_("Klausimo atmetimo priežastis"),
+                                       help_text=_("Būtina užpildyti jei klausimas yra atmetamas"))
 
     politician = models.ForeignKey(PoliticianInfo, on_delete=models.PROTECT, related_name='questions',
-                                   verbose_name=gettext("Politikas"),
-                                   help_text=gettext("Nurodo politiką, kuriam skirtas klausimas"))
+                                   verbose_name=_("Politikas"),
+                                   help_text=_("Nurodo politiką, kuriam skirtas klausimas"))
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT,
                                    related_name="questions",
-                                   verbose_name=gettext("Klausimo autorius"))
-    user_ip = models.GenericIPAddressField(verbose_name=gettext("Klausimo autoriaus IP"))
-    user_agent = models.TextField(blank=True, null=True, verbose_name=gettext("Klausimo autoriaus User-agent"))
+                                   verbose_name=_("Klausimo autorius"))
+    user_ip = models.GenericIPAddressField(verbose_name=_("Klausimo autoriaus IP"))
+    user_agent = models.TextField(blank=True, null=True, verbose_name=_("Klausimo autoriaus User-agent"))
 
     user_country = models.CharField(max_length=30, blank=True, null=True,
-                                    verbose_name=gettext("Klausimo autoriaus šalis"))
+                                    verbose_name=_("Klausimo autoriaus šalis"))
 
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=gettext("Klausimas sukūrimo data"))
-    updated_at = models.DateTimeField(auto_now=True, verbose_name=gettext("Klausimo atnaujinimo data"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Klausimas sukūrimo data"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Klausimo atnaujinimo data"))
 
     objects = QuestionsQuerySet.as_manager()
     active = ActiveQuestionsManager()
@@ -85,13 +85,13 @@ class Question(models.Model):
     @property
     def status_text(self):
         if self.status == QuestionStatus.WAITING_APPROVAL:
-            return gettext("Laukia moderatoriaus patvirtinimo")
+            return _("Laukia moderatoriaus patvirtinimo")
         if self.status == QuestionStatus.REJECTED:
-            return gettext("Klausimas atmestas")
+            return _("Klausimas atmestas")
         if self.status == QuestionStatus.APPROVED:
             if self.has_politician_answer:
-                return gettext("Klausimas atsakytas")
-            return gettext("Klausimas laukia politiko atsakymo")
+                return _("Klausimas atsakytas")
+            return _("Klausimas laukia politiko atsakymo")
 
         raise ValueError(f"Unknown question status: {self.status}")
 
@@ -116,8 +116,8 @@ class Question(models.Model):
 
     class Meta:
         ordering = ['-created_at']
-        verbose_name_plural = gettext("Klausimai politikams")
-        verbose_name = gettext("Klausimas politikui")
+        verbose_name_plural = _("Klausimai politikams")
+        verbose_name = _("Klausimas politikui")
 
     def __str__(self):
         return self.name or str(self.id)
@@ -126,20 +126,20 @@ class Question(models.Model):
 class PoliticianAnswer(models.Model):
     question = models.OneToOneField(Question, on_delete=models.PROTECT, related_name='politian_answer')
 
-    text = models.TextField(validators=[MinLengthValidator(10)], verbose_name=gettext("Politiko atsakymas"))
+    text = models.TextField(validators=[MinLengthValidator(10)], verbose_name=_("Politiko atsakymas"))
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT,
-                                   related_name="question_answers", verbose_name=gettext("Atsakymo autorius"))
-    user_ip = models.GenericIPAddressField(verbose_name=gettext("Atsakymo autoriaus IP"))
-    user_agent = models.TextField(blank=True, null=True, verbose_name=gettext("Atsakymo autoriaus User-agent"))
+                                   related_name="question_answers", verbose_name=_("Atsakymo autorius"))
+    user_ip = models.GenericIPAddressField(verbose_name=_("Atsakymo autoriaus IP"))
+    user_agent = models.TextField(blank=True, null=True, verbose_name=_("Atsakymo autoriaus User-agent"))
 
     user_country = models.CharField(max_length=30, blank=True, null=True,
-                                    verbose_name=gettext("Atsakymo autoriaus šalis"))
+                                    verbose_name=_("Atsakymo autoriaus šalis"))
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['-created_at']
-        verbose_name_plural = gettext("Politikų atsakymai")
-        verbose_name = gettext("Politiko atsakymas")
+        verbose_name_plural = _("Politikų atsakymai")
+        verbose_name = _("Politiko atsakymas")
