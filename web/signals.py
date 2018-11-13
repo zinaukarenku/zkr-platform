@@ -2,10 +2,13 @@ from logging import getLogger
 
 from allauth.account.signals import user_signed_up
 from allauth.socialaccount.models import SocialAccount
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from seimas.models import PoliticianGame
 from utils.utils import save_image_from_url
+from web.models import OrganizationMember
+from web.tasks import sync_organization_members_staff_access
 
 logger = getLogger(__name__)
 
@@ -36,3 +39,8 @@ def update_politician_game_user_status(request, user, **kwargs):
         if game:
             game.user = user
             game.save()
+
+
+@receiver(post_save, sender=OrganizationMember)
+def save_organization_member(sender, instance, **kwargs):
+    sync_organization_members_staff_access.delay()

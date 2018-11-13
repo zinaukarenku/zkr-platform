@@ -3,7 +3,7 @@ import logging
 from celery import shared_task
 
 from seimas.models import Politician as SeimasPolitician
-from web.models import PoliticianInfo
+from web.models import PoliticianInfo, User
 
 logger = logging.getLogger(__name__)
 
@@ -17,4 +17,14 @@ def sync_politician_information():
 
     return {
         'seimas_created': seimas_created
+    }
+
+
+@shared_task(soft_time_limit=30)
+def sync_organization_members_staff_access():
+    staff_access_created = User.objects.filter(organization_member__isnull=False,
+                                               is_staff=False).update(is_staff=True)
+
+    return {
+        'staff_access_created': staff_access_created
     }
