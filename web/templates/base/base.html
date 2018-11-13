@@ -3,6 +3,8 @@
 {% load full_static %}
 {% load raven %}
 {% load setting_tags %}
+{% load recaptcha3 %}
+
 {% settings_value "GIT_COMMIT" as GIT_COMMIT %}
 <!DOCTYPE html>
 <html lang="lt" prefix="og: http://ogp.me/ns#">
@@ -69,6 +71,8 @@
         });
     </script>
     {% block head %}{% endblock %}
+    {% recaptcha_init %}
+    {% recaptcha_ready %}
 </head>
 
 <body>

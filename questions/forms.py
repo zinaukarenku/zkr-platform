@@ -1,4 +1,4 @@
-from captcha.fields import ReCaptchaField
+from snowpenguin.django.recaptcha3.fields import ReCaptchaField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, Submit
 from django.forms import ModelForm, inlineformset_factory

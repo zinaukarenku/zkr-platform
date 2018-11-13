@@ -9,6 +9,8 @@
 {% endblock %}
 
 {% block main_content %}
+    {% include 'component/new-question-note.html' %}
+
     {% if question.rejected_reason %}
         <div class="note text-center">
             <span class="d-block">Klausimas atmestas</span>

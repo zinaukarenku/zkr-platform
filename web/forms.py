@@ -1,10 +1,10 @@
-from captcha.fields import ReCaptchaField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Div, Layout
 from django import forms
 from allauth.account.forms import LoginForm as AllAuthLoginForm, SignupForm as AllAuthSignupForm, \
     ResetPasswordForm as AllAuthResetPasswordForm
 from allauth.socialaccount.forms import SignupForm as AllAuthSocialSignupForm
+from snowpenguin.django.recaptcha3.fields import ReCaptchaField
 
 
 class EmailSubscriptionForm(forms.Form):
@@ -52,18 +52,11 @@ class SignupForm(AllAuthSignupForm):
         self.fields['password2'].widget.attrs['placeholder'] = self.fields['password2'].label
 
 
-
 class ResetPasswordForm(AllAuthResetPasswordForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
-        # self.helper.layout = Layout(
-        #     Div(
-        #         Div('email', css_class='col-12'),
-        #         css_class='row'
-        #     ),
-        # )
 
         self.fields['email'].label = "El. paštas"
         self.fields['email'].widget.attrs['placeholder'] = "El. pašto adresas"
@@ -74,12 +67,6 @@ class SocialSignupForm(AllAuthSocialSignupForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
-        # self.helper.layout = Layout(
-        #     Div(
-        #         Div('email', css_class='col-12'),
-        #         css_class='row'
-        #     ),
-        # )
 
         self.fields['email'].label = "El. paštas"
         self.fields['email'].widget.attrs['placeholder'] = "El. pašto adresas"

@@ -66,7 +66,7 @@ INSTALLED_APPS = [
     'django_celery_results',
     'adminsortable2',
     'reversion',
-    'captcha',
+    'snowpenguin.django.recaptcha3',
 
     'utils',
     'seimas',
@@ -392,16 +392,19 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 
 # Recaptcha
+
+if DEBUG:
+    os.environ['RECAPTCHA_DISABLE'] = 'True'
+
 RECAPTCHA_PUBLIC_KEY = \
     os.environ.get('RECAPTCHA_PUBLIC_KEY') if not DEBUG else '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
 RECAPTCHA_PRIVATE_KEY = \
     os.environ.get('RECAPTCHA_PRIVATE_KEY') if not DEBUG else '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
-NOCAPTCHA = True
+RECAPTCHA_DEFAULT_ACTION = 'generic'
 
 BASE_DOMAIN = "https://www.zinaukarenku.lt/" if not DEBUG else "http://localhost:8000/"
 
 EMAIL = "info@zinaukarenku.lt"
-
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
