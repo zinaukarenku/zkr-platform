@@ -32,7 +32,7 @@
                         {% else %}
                             <span class="d-inline-block text-muted">{{ question.politician }}</span>
                         {% endif %}
-                        <p class="card-text mt-3">{{ question.text|linebreaks }}</p>
+                        <div class="card-text mt-3">{{ question.text|linebreaks }}</div>
                     </div>
                 </div>
 
@@ -40,12 +40,15 @@
                     <h4 class="card-title mt-5 mb-2">Atsakymas</h4>
 
                     <div class="d-flex">
-                        <span class="d-inline-block card-small-img mr-3"
-                              style="background-image:url('{{ question.politician_photo_url }}');"></span>
+                        {% if question.politician_photo_url %}
+                            <span class="d-inline-block card-small-img mr-3"
+                                  style="background-image:url('{{ question.politician_photo_url }}');">
+                            </span>
+                        {% endif %}
                         <div class="d-inline-block">
-                            <h3 class="card-title m-0">{{ question.politian_answer.created_by }}</h3>
+                            <h3 class="card-title m-0">{{ question.politician }}</h3>
                             <time class="d-inline-block text-muted">{{ question.politian_answer.created_at|naturaltime }}</time>
-                            <p class="card-text mt-3">{{ question.politian_answer.text|linebreaks }}</p>
+                            <div class="card-text mt-3">{{ question.politian_answer.text|linebreaks }}</div>
                         </div>
                     </div>
                 {% else %}
