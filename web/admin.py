@@ -26,7 +26,7 @@ admin.site.register(User, UserAdmin)
 
 class OrganizationMemberInline(SortableInlineAdminMixin, admin.TabularInline):
     model = OrganizationMember
-    autocomplete_fields = ['user']
+    raw_id_fields = ['user']
 
 
 @admin.register(OrganizationMemberGroup)
