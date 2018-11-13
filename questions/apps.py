@@ -5,4 +5,4 @@ from django.apps import AppConfig
 
 class QuestionsConfig(AppConfig):
     name = 'questions'
-    verbose_name = _("Klausimai politikams")
+    verbose_name = _("Klausimai / atsakymai politikams")
