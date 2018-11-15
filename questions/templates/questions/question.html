@@ -26,16 +26,14 @@
                     <span class="d-inline-block card-small-img mr-3"
                           style="background-image:url('{{ question.created_by.photo_url }}');"></span>
                     <div class="d-inline-block">
-                        <h3 class="card-title mb-0">
-                            Klausimas skirtas:
-                            {% if question.politician.get_absolute_url %}
-                                <a href="{{ question.politician.get_absolute_url }}">{{ question.politician }}</a>
-                            {% else %}
-                                {{ question.politician }}
-                            {% endif %}
-                        </h3>
-                        <time class="d-inline-block text-muted">Klausimas paskelbtas: {{ question.last_activity|naturaltime }}</time>
-
+                        <h3 class="card-title mb-0">{{ question.created_by }}</h3>
+                        <time class="d-inline-block text-muted">{{ question.last_activity|naturaltime }} &bull;</time>
+                        <span class="d-inline-block text-muted">Klausimas skirtas: </span>
+                        {% if question.politician.get_absolute_url %}
+                            <a href="{{ question.politician.get_absolute_url }}">{{ question.politician }}</a>
+                        {% else %}
+                            <span class="d-inline-block text-muted">{{ question.politician }}</span>
+                        {% endif %}
                         <div class="card-text mt-3">{{ question.text|linebreaks }}</div>
                     </div>
                 </div>
