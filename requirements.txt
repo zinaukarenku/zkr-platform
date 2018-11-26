@@ -33,3 +33,5 @@ git+git://github.com/un1t/django-resized.git
 django-crispy-forms==1.7.2
 django-recaptcha3==0.0.1
 python-dateutil==2.7.3
+
+sendgrid==5.4.1

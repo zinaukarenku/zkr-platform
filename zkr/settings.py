@@ -341,6 +341,10 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'web.tasks.sync_politician_information',
         'schedule': crontab(minute='*/5', hour='*')
     },
+    'sync_newsletter_subscribers': {
+        'task': 'web.tasks.sync_newsletter_subscribers',
+        'schedule': crontab(minute='*/15', hour='*')
+    },
 }
 
 CELERYD_TASK_SOFT_TIME_LIMIT = 45 * 60
@@ -403,6 +407,8 @@ RECAPTCHA_PRIVATE_KEY = \
 RECAPTCHA_DEFAULT_ACTION = 'generic'
 
 BASE_DOMAIN = "https://www.zinaukarenku.lt/" if not DEBUG else "http://localhost:8000/"
+
+SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY', None)
 
 EMAIL = "info@zinaukarenku.lt"
 

@@ -3,7 +3,8 @@ import logging
 from celery import shared_task
 
 from seimas.models import Politician as SeimasPolitician
-from web.models import PoliticianInfo, User
+from web.models import PoliticianInfo, User, EmailSubscription
+from web.sendgrid import SendGrid
 
 logger = logging.getLogger(__name__)
 
@@ -28,3 +29,16 @@ def sync_organization_members_staff_access():
     return {
         'staff_access_created': staff_access_created
     }
+
+
+@shared_task(soft_time_limit=120)
+def sync_newsletter_subscribers():
+    contacts_list = list(
+        map(
+            lambda s: {
+                "email": s.email
+            },
+            EmailSubscription.objects.all()
+        )
+    )
+    return SendGrid().sync_recipients_to_list(6062776, contacts_list)
