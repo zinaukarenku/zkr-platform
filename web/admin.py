@@ -74,6 +74,15 @@ class PoliticianInfoAdmin(admin.ModelAdmin):
 
 @admin.register(Municipality)
 class MunicipalityAdmin(admin.ModelAdmin):
-    list_display = ['name', ]
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate_with_organization_members_count()
+
+    list_display = ['name', 'organization_members_count']
     exclude = ['slug']
     search_fields = ['name']
+
+    def organization_members_count(self, obj):
+        return obj.organization_members_count
+
+    organization_members_count.admin_order_field = 'organization_members_count'
+    organization_members_count.short_description = _("Organizacijos narių skaičius savivaldybėje")

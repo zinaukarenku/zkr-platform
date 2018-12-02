@@ -49,9 +49,16 @@ class User(AbstractUser):
         verbose_name = _("Registruotas vartotojas")
 
 
+class MunicipalityQuerySet(models.QuerySet):
+    def annotate_with_organization_members_count(self):
+        return self.annotate(organization_members_count=models.Count('organization_members'))
+
+
 class Municipality(models.Model):
     name = models.CharField(max_length=256, db_index=True, verbose_name=_("Savivaldybės pavadinimas"))
     slug = models.SlugField(unique=True)
+
+    objects = MunicipalityQuerySet.as_manager()
 
     class Meta:
         verbose_name_plural = _("Savivaldybės")
