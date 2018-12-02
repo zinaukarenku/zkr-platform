@@ -6,7 +6,7 @@ from django.db.models import Count
 from reversion.admin import VersionAdmin
 
 from web.models import OrganizationMember, OrganizationMemberGroup, EmailSubscription, OrganizationPartner, User, \
-    PoliticianInfo
+    PoliticianInfo, Municipality
 from zkr import settings
 from django.utils.translation import gettext_lazy as _
 
@@ -27,6 +27,7 @@ admin.site.register(User, UserAdmin)
 class OrganizationMemberInline(SortableInlineAdminMixin, admin.TabularInline):
     model = OrganizationMember
     raw_id_fields = ['user']
+    filter_vertical = ['municipalities']
 
 
 @admin.register(OrganizationMemberGroup)
@@ -69,3 +70,10 @@ class PoliticianInfoAdmin(admin.ModelAdmin):
     list_filter = ['created_at', ]
     date_hierarchy = 'created_at'
     view_on_site = True
+
+
+@admin.register(Municipality)
+class MunicipalityAdmin(admin.ModelAdmin):
+    list_display = ['name', ]
+    exclude = ['slug']
+    search_fields = ['name']

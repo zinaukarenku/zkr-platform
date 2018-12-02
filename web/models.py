@@ -49,6 +49,23 @@ class User(AbstractUser):
         verbose_name = _("Registruotas vartotojas")
 
 
+class Municipality(models.Model):
+    name = models.CharField(max_length=256, db_index=True, verbose_name=_("Savivaldybės pavadinimas"))
+    slug = models.SlugField(unique=True)
+
+    class Meta:
+        verbose_name_plural = _("Savivaldybės")
+        verbose_name = _("Savivaldybė")
+        ordering = ['slug']
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.slug = slugify(self.name)
+        super().save(force_insert, force_update, using, update_fields)
+
+    def __str__(self):
+        return self.name
+
+
 class EmailSubscription(models.Model):
     email = models.EmailField(unique=True, verbose_name=_("El. paštas"))
 
@@ -105,6 +122,7 @@ class OrganizationMember(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True,
                                 related_name="organization_member", verbose_name=_("Registruotas vartotojas"),
                                 help_text=_("Nustatyti šį laukelį, kad žmogus galėtų prisijungti prie admino"))
+    municipalities = models.ManyToManyField(Municipality, blank=True, verbose_name=_("Savivaldybės"))
 
     email = models.EmailField(blank=True, null=True, verbose_name=_("El. pašto adresas"))
     linkedin_url = models.URLField(blank=True, null=True, verbose_name=_("LinkedIn"))
@@ -117,6 +135,7 @@ class OrganizationMember(models.Model):
         verbose_name_plural = _("Organizacijos nariai")
         verbose_name = _("Organizacijos narys")
         ordering = ['order']
+        default_related_name = 'organization_members'
 
     def __str__(self):
         return self.name
