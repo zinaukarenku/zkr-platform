@@ -1,20 +1,23 @@
-{% load humanize %} 
+{% load humanize %}
 {% for question in questions %}
 
-<a href="{% url 'question' question.id %}" class="card mb-3">
-    <div class="card-body d-flex">
-        {% if show_politician_info and question.politician_photo_url %}
-        <span class="d-inline-block card-small-img mr-3" style="background-image:url('{{ question.politician_photo_url }}');"></span> 
-		{% endif %}
-<!-- test -->
-        <div class="d-inline-block">
-            <h3 class="card-title card-title--question text-left mb-0">{{ question.name }}</h3>
-            {% if show_politician_info %}
-            <span class="d-inline-block text-muted">{{ question.politician_name }} &bull; </span> {% endif %}
-            <time class="d-inline-block text-muted">{{ question.last_activity|naturaltime }}</time>
-            <span class="d-block text-muted text-eyebrow mt-1">{{ question.status_text }}</span>
-        </div>
+    <a href="{% url 'question' question.id %}" class="card mb-3">
+        <div class="card-body d-flex">
+            {% if show_politician_info and question.politician_photo_url %}
+                <span class="d-inline-block card-small-img mr-3"
+                      style="background-image:url('{{ question.politician_photo_url }}');"></span>
+            {% endif %}
+            <!-- test -->
+            <div class="d-inline-block">
+                <h3 class="card-title card-title--question text-left mb-0">
+                    {{ question.name|default:question.status_text }}
+                </h3>
+                {% if show_politician_info %}
+                    <span class="d-inline-block text-muted">{{ question.politician_name }} &bull; </span> {% endif %}
+                <time class="d-inline-block text-muted">{{ question.last_activity|naturaltime }}</time>
+                <span class="d-block text-muted text-eyebrow mt-1">{{ question.status_text }}</span>
+            </div>
 
-    </div>
-</a>
+        </div>
+    </a>
 {% endfor %}
