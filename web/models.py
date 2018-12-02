@@ -122,12 +122,14 @@ class OrganizationMember(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True,
                                 related_name="organization_member", verbose_name=_("Registruotas vartotojas"),
                                 help_text=_("Nustatyti šį laukelį, kad žmogus galėtų prisijungti prie admino"))
-    municipalities = models.ManyToManyField(Municipality, blank=True, verbose_name=_("Savivaldybės"))
+    municipalities = models.ManyToManyField(Municipality, blank=True, verbose_name=_("Savivaldybės"),
+                                            help_text=_(
+                                                "Nurodomos savivaldybės, kurioms priklauso organizacijos narys"))
 
     email = models.EmailField(blank=True, null=True, verbose_name=_("El. pašto adresas"))
-    linkedin_url = models.URLField(blank=True, null=True, verbose_name=_("LinkedIn"))
     facebook_url = models.URLField(blank=True, null=True, verbose_name=_("Facebook"))
     twitter_url = models.URLField(blank=True, null=True, verbose_name=_("Twitter"))
+    linkedin_url = models.URLField(blank=True, null=True, verbose_name=_("LinkedIn"))
 
     order = models.PositiveIntegerField(default=0)
 

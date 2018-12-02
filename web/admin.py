@@ -24,10 +24,10 @@ UserAdmin.fieldsets = (
 admin.site.register(User, UserAdmin)
 
 
-class OrganizationMemberInline(SortableInlineAdminMixin, admin.TabularInline):
+class OrganizationMemberInline(SortableInlineAdminMixin, admin.StackedInline):
     model = OrganizationMember
     raw_id_fields = ['user']
-    filter_vertical = ['municipalities']
+    filter_horizontal = ['municipalities']
 
 
 @admin.register(OrganizationMemberGroup)
