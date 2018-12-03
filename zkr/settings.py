@@ -407,12 +407,15 @@ RECAPTCHA_PRIVATE_KEY = \
     os.environ.get('RECAPTCHA_PRIVATE_KEY') if not DEBUG else '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
 RECAPTCHA_DEFAULT_ACTION = 'generic'
 
-BASE_DOMAIN = "https://www.zinaukarenku.lt/" if not DEBUG else "http://localhost:8000/"
-
+# Email and SendGrid
 SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY', None)
 
-EMAIL = "info@zinaukarenku.lt"
+DEFAULT_FROM_EMAIL = "Žinau, ką renku"
+EMAIL_FROM = "info@zinaukarenku.lt"
+EMAIL_TO = [EMAIL_FROM, ]
+EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
 
+# Rest framework
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
@@ -429,3 +432,7 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 30,
     'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%SZ",
 }
+
+# Other general settings
+
+BASE_DOMAIN = "https://www.zinaukarenku.lt/" if not DEBUG else "http://localhost:8000/"

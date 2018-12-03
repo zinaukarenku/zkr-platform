@@ -20,7 +20,7 @@ schema_view = get_schema_view(
         title="Žinau, ką renku API",
         default_version='v1',
         description="""Žinau, ką renku API.<br>""",
-        contact=openapi.Contact(email=settings.EMAIL),
+        contact=openapi.Contact(email=settings.EMAIL_FROM),
     ),
     validators=['flex', ],
     public=True,

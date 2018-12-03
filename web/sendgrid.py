@@ -114,6 +114,35 @@ class SendGrid:
 
         return stats
 
-    def send_letter(self, data):
-        self.sg.client.mail.send.post(request_body=data)
-        return True
+    def _send_letter(self, data):
+        return self.sg.client.mail.send.post(request_body=data)
+
+    def send_letter(self, template_id, email, subject=None, substitutions=None, categories=None, html_content=None):
+        substitutions = substitutions or {}
+        data = {
+            "personalizations": [
+                {
+                    "to": [
+                        {
+                            "email": email
+                        }
+                    ],
+                    "substitutions": substitutions,
+                }
+            ],
+            "from": {
+                "name": settings.DEFAULT_FROM_EMAIL,
+                "email": settings.EMAIL_FROM,
+            },
+            "categories": categories,
+            'subject': subject,
+            "template_id": template_id
+        }
+
+        if html_content:
+            data["content"] = [{
+                "type": "text/html",
+                "value": html_content
+            }]
+
+        return self._send_letter(data)

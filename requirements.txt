@@ -34,4 +34,5 @@ django-crispy-forms==1.7.2
 django-recaptcha3==0.0.1
 python-dateutil==2.7.3
 
-sendgrid==5.4.1
+sendgrid==5.6.0
+django-sendgrid-v5==0.7.0
