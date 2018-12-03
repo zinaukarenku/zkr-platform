@@ -410,8 +410,8 @@ RECAPTCHA_DEFAULT_ACTION = 'generic'
 # Email and SendGrid
 SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY', None)
 
-DEFAULT_FROM_EMAIL = "Žinau, ką renku"
-EMAIL_FROM = "info@zinaukarenku.lt"
+DEFAULT_FROM_EMAIL = "info@zinaukarenku.lt"
+EMAIL_FROM = DEFAULT_FROM_EMAIL
 EMAIL_TO = [EMAIL_FROM, ]
 EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
 
