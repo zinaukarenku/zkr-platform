@@ -30,7 +30,7 @@ def about(request):
     municipalities_with_members = Municipality.objects.annotate_with_organization_members_count() \
         .exclude(organization_members_count=0) \
         .prefetch_related(Prefetch('organization_members', OrganizationMember.objects.order_by('name'))) \
-        .order_by('-organization_members_count', 'slug')
+        .order_by('slug')
 
     return render(request, 'web/about.html', {
         'members': members,
