@@ -51,6 +51,9 @@ class OrganizationMemberAdmin(VersionAdmin):
     list_display = ['name', 'role', 'group', 'photo']
     list_filter = ['group']
     list_select_related = ['group']
+    raw_id_fields = ['user']
+    filter_horizontal = ['municipalities']
+    exclude = ['order']
 
 
 @admin.register(OrganizationPartner)
