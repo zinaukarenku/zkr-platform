@@ -119,12 +119,16 @@ class OrganizationMember(models.Model):
         return join('img', 'zkr', 'member', filename)
 
     name = models.CharField(max_length=128, verbose_name=_("Vardas"))
-    role = models.CharField(max_length=256, verbose_name=_("Nario rolė"))
+    role = models.CharField(max_length=256, verbose_name=_("Nario rolė"), blank=True, null=True)
 
     photo = ResizedImageField(upload_to=_organization_member_photo_file, crop=['middle', 'center'], size=[256, 256],
                               verbose_name=_("Nuotrauka"))
 
-    group = models.ForeignKey(OrganizationMemberGroup, on_delete=models.CASCADE, related_name="members")
+    group = models.ForeignKey(
+        OrganizationMemberGroup, on_delete=models.SET_NULL, null=True, blank=True,
+        help_text=_("Jei vartotojas nėra priskiriamas, jokiai grupei jis bus rodomas tik regioninėse grupėse."),
+        related_name="members",
+    )
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True,
                                 related_name="organization_member", verbose_name=_("Registruotas vartotojas"),
