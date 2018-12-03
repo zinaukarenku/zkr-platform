@@ -5,6 +5,7 @@ from allauth.account.forms import LoginForm as AllAuthLoginForm, SignupForm as A
     ResetPasswordForm as AllAuthResetPasswordForm
 from allauth.socialaccount.forms import SignupForm as AllAuthSocialSignupForm
 from snowpenguin.django.recaptcha3.fields import ReCaptchaField
+from django.utils.translation import gettext_lazy as _
 
 
 class EmailSubscriptionForm(forms.Form):
@@ -26,6 +27,9 @@ class LoginForm(AllAuthLoginForm):
 
 
 class SignupForm(AllAuthSignupForm):
+    first_name = forms.CharField(min_length=2, max_length=30, label=_("Vardas"))
+    last_name = forms.CharField(min_length=2, max_length=150, label=_("Pavardė"))
+
     captcha = ReCaptchaField()
 
     def __init__(self, *args, **kwargs):
@@ -34,9 +38,10 @@ class SignupForm(AllAuthSignupForm):
         self.helper.form_tag = False
         self.helper.layout = Layout(
             Div(
+                Div('first_name', css_class='col-12'),
+                Div('last_name', css_class='col-12'),
                 Div('email', css_class='col-12'),
                 Div('password1', css_class='col-12'),
-                Div('password2', css_class='col-12'),
                 Div('captcha', css_class='col-12'),
                 css_class='row'
             ),
@@ -48,8 +53,16 @@ class SignupForm(AllAuthSignupForm):
         self.fields['password1'].label = "Slaptažodis"
         self.fields['password1'].widget.attrs['placeholder'] = self.fields['password1'].label
 
-        self.fields['password2'].label = "Slaptažodis (dar kartą)"
-        self.fields['password2'].widget.attrs['placeholder'] = self.fields['password2'].label
+        self.fields['first_name'].widget.attrs['placeholder'] = self.fields['first_name'].label
+        self.fields['last_name'].widget.attrs['placeholder'] = self.fields['last_name'].label
+
+    def save(self, request):
+        user = super().save(request)
+
+        user.first_name = self.cleaned_data.get('first_name', '')
+        user.last_name = self.cleaned_data.get('last_name' '')
+        user.save()
+        return user
 
 
 class ResetPasswordForm(AllAuthResetPasswordForm):
