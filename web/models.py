@@ -126,6 +126,7 @@ class OrganizationMember(models.Model):
 
     group = models.ForeignKey(
         OrganizationMemberGroup, on_delete=models.SET_NULL, null=True, blank=True,
+        verbose_name=_("Veiklos grupė"),
         help_text=_("Jei vartotojas nėra priskiriamas, jokiai grupei jis bus rodomas tik regioninėse grupėse."),
         related_name="members",
     )
