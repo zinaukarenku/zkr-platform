@@ -1,0 +1,26 @@
+<div class="d-flex mb-3 mr-3" style="width: 330px;">
+    <span class="d-inline-block card-small-img mr-2"
+          style="background-image:url('{{ member.photo.url }}');"></span>
+    <span class="d-inline-block">
+					<span class="d-block text-size-120 text-lh-125">{{ member.name }}</span>
+        {% if show_role is True %}
+            <span class="d-block text-muted text-size-90 text-lh-1 mr-1">{{ member.role }}</span>
+        {% endif %}
+        {% if member.email %}
+            <a href="mailto:{{ member.email }}" target="_blank"
+               class="d-inline-block text-size-90 mr-1">El. paštas</a>
+        {% endif %}
+        {% if member.linkedin_url %}
+            <a href="{{ member.linkedin_url }}" target="_blank"
+               class="d-inline-block text-size-90 mr-1">LinkedIn</a>
+        {% endif %}
+        {% if member.facebook_url %}
+            <a href="{{ member.facebook_url }}" target="_blank"
+               class="d-inline-block text-size-90 mr-1">Facebook</a>
+        {% endif %}
+        {% if member.twitter_url %}
+            <a href="{{ member.twitter_url }}" target="_blank"
+               class="text-size-90">Twitter</a>
+        {% endif %}
+     </span>
+</div>

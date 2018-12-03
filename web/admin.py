@@ -45,6 +45,14 @@ class OrganizationMemberGroupAdmin(SortableAdminMixin, VersionAdmin):
     members_count.admin_order_field = 'members_count'
 
 
+@admin.register(OrganizationMember)
+class OrganizationMemberAdmin(VersionAdmin):
+    search_fields = ['name']
+    list_display = ['name', 'role', 'group', 'photo']
+    list_filter = ['group']
+    list_select_related = ['group']
+
+
 @admin.register(OrganizationPartner)
 class OrganizationPartnersAdmin(SortableAdminMixin, VersionAdmin):
     search_fields = ['name']
