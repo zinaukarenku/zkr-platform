@@ -28,7 +28,7 @@ if 'DEV' in os.environ:
     CELERY_TASK_ALWAYS_EAGER = True  # Sync celery tasks in sync
     DEBUG = True
 
-ENABLE_DEBUG_DRAWER_IN_DEBUG = False
+ENABLE_DEBUG_DRAWER_IN_DEBUG = True
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY') if not DEBUG else 'DEBUG'
