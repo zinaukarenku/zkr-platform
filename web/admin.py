@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
+from django.utils.html import format_html
 from reversion.admin import VersionAdmin
 
 from web.models import OrganizationMember, OrganizationMemberGroup, EmailSubscription, OrganizationPartner, User, \
@@ -43,17 +44,30 @@ class OrganizationMemberGroupAdmin(SortableAdminMixin, VersionAdmin):
         return obj.members_count
 
     members_count.admin_order_field = 'members_count'
+    members_count.short_description = _("Organizacijos narių skaičius")
 
 
 @admin.register(OrganizationMember)
 class OrganizationMemberAdmin(VersionAdmin):
     search_fields = ['name']
-    list_display = ['name', 'role', 'group', 'photo']
-    list_filter = ['group']
+    list_display = ['name', 'role', 'group', 'photo', 'facebook', 'municipalities_text']
+    list_filter = ['group', 'municipalities__name']
     list_select_related = ['group']
     raw_id_fields = ['user']
     filter_horizontal = ['municipalities']
     exclude = ['order']
+
+    def facebook(self, obj):
+        return format_html('<a href="{url}" target="_blank">{url}</a>',
+                           url=obj.facebook_url) if obj.facebook_url else None
+
+    def municipalities_text(self, obj):
+        return ", ".join([p.name for p in obj.municipalities.all()])
+
+    municipalities_text.short_description = _("Savivaldybės")
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related('municipalities')
 
 
 @admin.register(OrganizationPartner)
