@@ -26,7 +26,7 @@
             </main>
 
             <aside class="col-sm-12 col-md-4">
-                <div class="card text-center pt-5 pb-5" style="margin-top: 54px;">
+                <div class="card text-center pt-5 mb-4">
                     <img src="{% static 'img/zkr-medium-logo.png' %}" width="120" style="margin: 0 auto;">
 
                     <div class="card-body">
@@ -36,13 +36,15 @@
                             {% include 'account/social-buttons.html' with process="connect" %}
                         </div>
                     </div>
-
+                </div>
+                <div class="card text-center">
                     <div class="card-body">
                         <h4 class="card-title">Atsijungimas</h4>
                         <span class="d-block text-muted mb-3">Atsijungti iš svetainės.</span>
                         <form method="post" action="{% url 'account_logout' %}">
                             {% csrf_token %}
                             <button class="btn btn-danger btn-block" type="submit">
+                                <i class="fas fa-sign-out-alt mr-1"></i>
                                 Atsijungti
                             </button>
                         </form>
