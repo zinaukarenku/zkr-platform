@@ -84,22 +84,32 @@
             <a class="navbar-brand" href="/">
                 <img src="{% static 'img/zkr-logo.png' %}" alt="Žinau, ką renku logotipas" class="d-inline-bl">
             </a>
-            <div class="float-right d-none d-md-block" style="margin-top: 10px;">
+            <div class="float-right d-none d-md-block align-middle">
                 <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'index' %}">Pradžia</a>
                 <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'seimas_index' %}">Seimas</a>
                 <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'seimas_politician_game' %}">Pažink
                     politiką</a>
                 <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'about' %}">Apie mus</a>
+                <div class="d-inline-block pl-1">
+                    {% include 'web/component/account-avatar.html' %}
+                </div>
             </div>
-            <button id="open_menu" class="d-md-none btn btn-menu">
-                <span class="bar lg-bar bar-m-one"></span>
-                <span class="bar md-bar bar-m-two"></span>
-                <span class="bar md-bar bar-m-three"></span>
-            </button>
-            <button id="close_menu" class="d-none btn btn-close">
-                <span class="bar lg-bar bar-one"></span>
-                <span class="bar lg-bar bar-two"></span>
-            </button>
+            <div class="d-md-none">
+                <button id="open_menu" class="btn btn-menu">
+                    <span class="bar lg-bar bar-m-one"></span>
+                    <span class="bar md-bar bar-m-two"></span>
+                    <span class="bar md-bar bar-m-three"></span>
+                </button>
+                <button id="close_menu" class="d-none btn btn-close ">
+                    <span class="bar lg-bar bar-one"></span>
+                    <span class="bar lg-bar bar-two"></span>
+                </button>
+
+                <div class="d-inline-block pl-2">
+                    {% include 'web/component/account-avatar.html' %}
+                </div>
+            </div>
+
         </div>
     </nav>
     <div id="mobile_nav" class="d-none mobile-nav">

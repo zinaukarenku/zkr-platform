@@ -1,0 +1,13 @@
+{% if user.is_authenticated %}
+    <a href="{% url 'user_profile' %}">
+        <img class="avatar"
+             src="{{ user.photo_url }}" width="36"
+             height="36"
+             alt="Vartotojo profilis">
+    </a>
+{% else %}
+    <a href="{% url 'account_login' %}"
+       class=" btn btn-success btn-sm">
+        Prisijungti
+    </a>
+{% endif %}
