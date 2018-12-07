@@ -5,6 +5,7 @@ from typing import Optional, List
 
 from django.db import models
 from django.utils.text import slugify
+from django.utils.translation import gettext_lazy as _
 
 from utils.utils import file_extension
 
@@ -127,3 +128,53 @@ class ElectionResult(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class PresidentCandidate(models.Model):
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if not self.slug:
+            self.slug = slugify(self.name)
+
+        super().save(force_insert, force_update, using, update_fields)
+
+    def _candidate_photo_file(self, filename):
+        ext = file_extension(filename)
+
+        slug = slugify(self.name)
+        filename = f"{slug}-photo.{ext}"
+        return join('img', 'elections', 'president-2019', 'candidates', filename)
+
+    name = models.CharField(max_length=256, verbose_name=_("Kandidato vardas"))
+    slug = models.SlugField(unique=True)
+    photo = models.ImageField(upload_to=_candidate_photo_file, verbose_name=_("Kandidato nuotrauka"))
+
+    candidate_program = models.URLField(blank=True, verbose_name=_("Kandidato rinkimė programa"))
+    facebook = models.URLField(blank=True)
+    linkedin = models.URLField(blank=True)
+    twitter = models.URLField(blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinta"))
+
+    class Meta:
+        verbose_name = _("Kandidatas į prezidentus")
+        verbose_name_plural = _("Kandidatai į prezidentus")
+
+    def __str__(self):
+        return self.name
+
+
+class PresidentCandidateArticle(models.Model):
+    candidate = models.ForeignKey(PresidentCandidate, on_delete=models.CASCADE)
+    url = models.URLField(verbose_name=_("Naujienos nuoroda"))
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
+
+    class Meta:
+        verbose_name = _("Naujiena apie kandidatą į prezidentus")
+        verbose_name_plural = _("Naujienos apie kandidatus į prezidentus")
+        unique_together = [('candidate', 'url')]
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.url
