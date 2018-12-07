@@ -1,41 +1,54 @@
-{% extends "base/base-regular-page.html" %} 
-{% load static %} 
-{% block title %}Profilis{% endblock %} 
-{% block main_content %} 
+{% extends "base/base-regular-page.html" %}
+{% load static %}
+{% block title %}Profilis{% endblock %}
+{% block main_content %}
 
-{% if user.is_staff %}
-<div class="note note--button text-center">
-    <a class="text-uppercase d-block fs-10 fw-500 ls-1" href="{% url 'new_question' %}">Užduoti naują klausimą politikui</a>
-</div>
-{% endif %}
-
-<div class="container container-content pt-5 mb-5">
-    {% if error %}
-    <div class="alert alert-danger">
-        <strong>{{ error }}</strong>
-    </div>
+    {% if user.is_staff %}
+        <div class="note note--button text-center">
+            <a class="text-uppercase d-block fs-10 fw-500 ls-1" href="{% url 'new_question' %}">Užduoti naują klausimą
+                politikui</a>
+        </div>
     {% endif %}
 
-    <div class="row">
-        <main class="col-sm-12 col-md-8">
-            {% if user.is_staff %}
-            <h2 class="text-center mb-3">Mano klausimai</h2>
-            {% include 'component/questions-media-list.html' with questions=user_questions show_politician_info=True %} 
-			{% endif %}
-        </main>
+    <div class="container container-content pt-5 mb-5">
+        {% if error %}
+            <div class="alert alert-danger">
+                <strong>{{ error }}</strong>
+            </div>
+        {% endif %}
 
-        <aside class="col-sm-12 col-md-4">
-            <div class="card text-center pt-5 pb-5" style="margin-top: 54px;">
-                <img src="{% static 'img/zkr-medium-logo.png' %}" width="120" style="margin: 0 auto;">
-                <div class="card-body">
-                    <h4 class="card-title">Papildomi prisijungimo būdai</h4>
-                    <span class="d-block text-muted mb-3">Dažnai pamiršti slaptažodį? Prisijunk vieno mygtuko paspaudimu.</span>
-                    <div id="socialLogin">
-                        {% include 'account/social-buttons.html' with process="connect" %}
+        <div class="row">
+            <main class="col-sm-12 col-md-8">
+                {% if user.is_staff %}
+                    <h2 class="text-center mb-3">Mano klausimai</h2>
+                    {% include 'component/questions-media-list.html' with questions=user_questions show_politician_info=True %}
+                {% endif %}
+            </main>
+
+            <aside class="col-sm-12 col-md-4">
+                <div class="card text-center pt-5 pb-5" style="margin-top: 54px;">
+                    <img src="{% static 'img/zkr-medium-logo.png' %}" width="120" style="margin: 0 auto;">
+
+                    <div class="card-body">
+                        <h4 class="card-title">Papildomi prisijungimo būdai</h4>
+                        <span class="d-block text-muted mb-3">Dažnai pamiršti slaptažodį? Prisijunk vieno mygtuko paspaudimu.</span>
+                        <div id="socialLogin">
+                            {% include 'account/social-buttons.html' with process="connect" %}
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <h4 class="card-title">Atsijungimas</h4>
+                        <span class="d-block text-muted mb-3">Atsijungti iš svetainės.</span>
+                        <form method="post" action="{% url 'account_logout' %}">
+                            {% csrf_token %}
+                            <button class="btn btn-danger btn-block" type="submit">
+                                Atsijungti
+                            </button>
+                        </form>
                     </div>
                 </div>
-            </div>
-        </aside>
+            </aside>
+        </div>
     </div>
-</div>
 {% endblock %}
