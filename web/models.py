@@ -15,7 +15,16 @@ from zkr import settings
 
 
 class User(AbstractUser):
-    photo = models.ImageField(blank=True, null=True, upload_to='img/users/')
+    def _user_photo_file(self, filename):
+        ext = file_extension(filename)
+        slug = slugify(self.get_full_name())
+
+        filename = f"{slug}-photo.{ext}"
+        return join('img', 'users', filename)
+
+    photo = ResizedImageField(blank=True, null=True, upload_to=_user_photo_file,
+                              crop=['middle', 'center'], size=[256, 256],
+                              verbose_name=_("Nuotrauka"))
 
     def save(self, *args, **kwargs):
         if not self.username:
