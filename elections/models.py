@@ -4,8 +4,10 @@ from os.path import join
 from typing import Optional, List
 
 from django.db import models
+from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
+from django_resized import ResizedImageField
 
 from utils.utils import file_extension
 
@@ -147,6 +149,7 @@ class PresidentCandidate(models.Model):
     name = models.CharField(max_length=256, verbose_name=_("Kandidato vardas"))
     slug = models.SlugField(unique=True)
     photo = models.ImageField(upload_to=_candidate_photo_file, verbose_name=_("Kandidato nuotrauka"))
+    short_description = models.CharField(max_length=280, blank=True, verbose_name=_("Trumpas aprašymas"))
 
     candidate_program = models.URLField(blank=True, verbose_name=_("Kandidato rinkimė programa"))
     facebook = models.URLField(blank=True)
@@ -160,12 +163,15 @@ class PresidentCandidate(models.Model):
         verbose_name = _("Kandidatas į prezidentus")
         verbose_name_plural = _("Kandidatai į prezidentus")
 
+    def get_absolute_url(self):
+        return reverse('president_candidate', kwargs={'slug': self.slug})
+
     def __str__(self):
         return self.name
 
 
 class PresidentCandidateArticle(models.Model):
-    candidate = models.ForeignKey(PresidentCandidate, on_delete=models.CASCADE)
+    candidate = models.ForeignKey(PresidentCandidate, on_delete=models.CASCADE, related_name="articles")
     url = models.URLField(verbose_name=_("Naujienos nuoroda"))
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
@@ -174,6 +180,35 @@ class PresidentCandidateArticle(models.Model):
         verbose_name = _("Naujiena apie kandidatą į prezidentus")
         verbose_name_plural = _("Naujienos apie kandidatus į prezidentus")
         unique_together = [('candidate', 'url')]
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.url
+
+
+class PresidentCandidateArticleInformation(models.Model):
+    def _article_photo_file(self, filename):
+        ext = file_extension(filename)
+        slug = slugify(self.title)
+
+        filename = f"{slug}-photo.{ext}"
+        candidate = self.article.candidate.slug
+        return join('img', 'elections', 'president-2019', 'candidates', 'articles', candidate, filename)
+
+    article = models.OneToOneField(PresidentCandidateArticle, on_delete=models.CASCADE, related_name="information",
+                                   verbose_name=_("Naujiena"))
+    url = models.URLField()
+
+    title = models.CharField(max_length=256, verbose_name=_("Pavadinimas"))
+    site = models.CharField(max_length=256, blank=True, verbose_name=_("Šaltinis"))
+    image = ResizedImageField(blank=True, null=True, upload_to=_article_photo_file,
+                              crop=['middle', 'center'], size=[256, 256],
+                              verbose_name=_("Nuotrauka"))
+    description = models.TextField(verbose_name=_("Aprašymas"))
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
+
+    class Meta:
         ordering = ['-created_at']
 
     def __str__(self):

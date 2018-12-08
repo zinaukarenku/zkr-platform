@@ -22,8 +22,11 @@ celery[redis]==4.2.1
 django-redis==4.9.0
 # Workaround for https://github.com/niwinz/django-redis/issues/342
 redis==2.10.6
+
+metadata_parser==0.9.21
 beautifulsoup4==4.6.3
-lxml==4.2.4
+lxml==4.2.5
+
 # This unreleased version has task name and other parameters
 git+git://github.com/celery/django-celery-results.git
 django-ipware==2.1.0

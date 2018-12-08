@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.utils.html import format_html
 from reversion.admin import VersionAdmin
 
-from elections.models import Election, ElectionResult, PresidentCandidate, PresidentCandidateArticle
+from elections.models import Election, ElectionResult, PresidentCandidate, PresidentCandidateArticle, \
+    PresidentCandidateArticleInformation
 from django.utils.translation import gettext_lazy as _
 
 
@@ -26,12 +27,17 @@ class PresidentCandidateArticleInline(admin.StackedInline):
     model = PresidentCandidateArticle
 
 
+class PresidentCandidateArticleInformationInline(admin.StackedInline):
+    model = PresidentCandidateArticleInformation
+
+
 @admin.register(PresidentCandidate)
 class PresidentCandidateAdmin(VersionAdmin):
     inlines = [PresidentCandidateArticleInline]
     search_fields = ['name']
     list_display = ['name', 'photo', 'candidate_program', 'created_at', 'updated_at']
     exclude = ['slug']
+    view_on_site = True
 
 
 @admin.register(PresidentCandidateArticle)
@@ -40,6 +46,7 @@ class PresidentCandidateArticleAdmin(VersionAdmin):
     list_display = ['candidate', 'article_url', 'created_at']
     list_select_related = ['candidate']
     list_filter = ['candidate__name', ]
+    inlines = [PresidentCandidateArticleInformationInline]
 
     def article_url(self, obj):
         return format_html('<a href="{url}" target="_blank">{url}</a>', url=obj.url)

@@ -1,9 +1,10 @@
 from celery import shared_task
+from metadata_parser import MetadataParser
 from requests import HTTPError
 
-from elections.models import Election, ElectionResult
+from elections.models import Election, ElectionResult, PresidentCandidateArticle, PresidentCandidateArticleInformation
 from elections.vrk import VRK
-from utils.utils import save_image_from_url
+from utils.utils import save_image_from_url, first_or_none
 
 
 @shared_task(soft_time_limit=60)
@@ -86,4 +87,43 @@ def fetch_vrk_election_results():
         'created': created,
         'updated': updated,
         'photos_saved': photos_saved
+    }
+
+
+@shared_task(soft_time_limit=300)
+def fetch_president_articles():
+    created = 0
+    updated = 0
+
+    articles_to_fetch = PresidentCandidateArticle.objects.filter(information__isnull=True)
+
+    for article in articles_to_fetch:
+        page = MetadataParser(url=article.url)
+
+        title = first_or_none(page.get_metadatas('title'))
+        description = first_or_none(page.get_metadatas('description'))
+        site = first_or_none(page.get_metadatas('site_name'))
+        url = page.get_url_canonical()
+        image_url = page.get_metadata_link('image')
+
+        information_obj, is_created = PresidentCandidateArticleInformation.objects.update_or_create(
+            article=article,
+            defaults={
+                'title': title,
+                'description': description,
+                'site': site,
+                'url': url
+            }
+        )
+
+        save_image_from_url(information_obj.image, image_url)
+
+        if is_created:
+            created += 1
+        else:
+            updated += 1
+
+    return {
+        'created': created,
+        'updated': updated
     }

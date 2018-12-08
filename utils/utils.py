@@ -133,3 +133,7 @@ def gravatar_url(email, size):
     gravatar_arguments = urlencode({'s': str(size), 'd': 'mp'})
 
     return f"https://www.gravatar.com/avatar/{gravatar_hash}?{gravatar_arguments}"
+
+
+def first_or_none(arr):
+    return arr[0] if arr else None
