@@ -106,7 +106,7 @@ class Question(models.Model):
         return self.nullable_politician_answer is not None
 
     def is_question_for_user(self, user):
-        if not user.is_anonymous and self.politician.user == user:
+        if not user.is_anonymous and user in self.politician.authenticated_users.all():
             return True
 
         return False

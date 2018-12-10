@@ -90,7 +90,8 @@ class PoliticianInfoAdmin(admin.ModelAdmin):
     list_display = ['name', 'seimas_politician', 'created_at', 'updated_at']
 
     list_select_related = ['seimas_politician', ]
-    raw_id_fields = ['seimas_politician', 'user']
+    raw_id_fields = ['seimas_politician', 'authenticated_users']
+    readonly_fields = ['registration_secret_id']
     search_fields = ['name']
     list_filter = ['created_at', ]
     date_hierarchy = 'created_at'

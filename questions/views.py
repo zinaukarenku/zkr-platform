@@ -1,3 +1,4 @@
+from allauth.account.decorators import verified_email_required
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render, redirect
@@ -44,6 +45,19 @@ def new_question(request):
         'new_question_form': new_question_form,
         'success': success
     })
+
+
+@verified_email_required
+def question_with_secret(request, question_id, secret_id):
+    selected_question = Question.active.filter(id=question_id).first()
+
+    if selected_question is None:
+        raise Http404("Question does not exist")
+
+    if not selected_question.has_politician_answer and selected_question.politician.registration_secret_id == secret_id:
+        selected_question.politician.authenticated_users.add(request.user)
+
+    return redirect('question', question_id)
 
 
 def question(request, question_id):

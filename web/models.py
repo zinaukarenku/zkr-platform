@@ -1,3 +1,4 @@
+import uuid
 from os.path import join
 from typing import Optional
 
@@ -194,11 +195,18 @@ class PoliticianInfo(models.Model):
                                              verbose_name=_("Seimo politiko profilis"),
                                              help_text=_("Sujungia seimo narį su politiku"))
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True,
-                                related_name="politician_info",
                                 verbose_name=_("Vartotojas"),
-                                help_text=_(
-                                    "Nustatytas vartotojas galės atsakinėti į klausimus skirtus politikui")
                                 )
+
+    authenticated_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, blank=True,
+        related_name="politician_infos",
+        verbose_name=_("Vartotojai"),
+        help_text=_(
+            "Nustatyti vartotojas galės atsakinėti į klausimus skirtus politikui")
+    )
+
+    registration_secret_id = models.UUIDField(default=uuid.uuid4)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
