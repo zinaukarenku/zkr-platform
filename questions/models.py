@@ -39,7 +39,7 @@ class ActiveQuestionsManager(models.Manager):
 
 class Question(models.Model):
     name = models.CharField(max_length=128, null=True, verbose_name=_("Klausimo pavadinimas"))
-    text = models.TextField(validators=[MinLengthValidator(30), MaxLengthValidator(2000)],
+    text = models.TextField(validators=[MinLengthValidator(15), MaxLengthValidator(500)],
                             verbose_name=_("Klausimo tekstas"))
 
     status = EnumIntegerField(QuestionStatus, db_index=True, default=QuestionStatus.WAITING_APPROVAL,
