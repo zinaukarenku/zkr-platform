@@ -1,6 +1,5 @@
 {% load humanize %}
 {% for question in questions %}
-
     <a href="{% url 'question' question.id %}" class="card mb-3">
         <div class="card-body d-flex">
             {% if show_politician_info and question.politician_photo_url %}
@@ -20,4 +19,12 @@
 
         </div>
     </a>
+{% empty %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <p class="text-center">
+                {{ empty_message }}
+            </p>
+        </div>
+    </div>
 {% endfor %}

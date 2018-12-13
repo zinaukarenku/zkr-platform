@@ -18,7 +18,7 @@
         <div class="row">
             <main class="col-sm-12 col-md-8">
                 <h2 class="text-center mb-3">Mano klausimai</h2>
-                {% include 'component/questions-media-list.html' with questions=user_questions show_politician_info=True %}
+                {% include 'component/questions-media-list.html' with questions=user_questions show_politician_info=True empty_message="Nesate uždavęs jokių klausimų politikams!" %}
             </main>
 
             <aside class="col-sm-12 col-md-4">
