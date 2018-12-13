@@ -394,6 +394,7 @@ ACCOUNT_FORMS = {
 SOCIALACCOUNT_FORMS = {
     'signup': 'web.forms.SocialSignupForm',
 }
+ACCOUNT_ADAPTER = 'web.adapters.AccountAdapter'
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_USERNAME_REQUIRED = False

@@ -27,6 +27,8 @@ class User(AbstractUser):
                               crop=['middle', 'center'], size=[256, 256],
                               verbose_name=_("Nuotrauka"))
 
+    last_confirmation_letter_sent = models.DateTimeField(null=True, blank=True)
+
     def save(self, *args, **kwargs):
         if not self.username:
             self.username = self.email

@@ -14,6 +14,9 @@ SendGridRecipient = namedtuple('SendGridRecipient', 'email id')
 
 
 class SendGrid:
+    VERIFY_EMAIL_TRANSACTIONAL_TEMPLATE = 'd-f9473b6c40524dab9cc286fd4b5dccfc'
+
+
     def __init__(self, api_key=settings.SENDGRID_API_KEY) -> None:
         self.sg = sendgrid.SendGridAPIClient(apikey=api_key)
 
@@ -117,14 +120,14 @@ class SendGrid:
     def _send_letter(self, data):
         return self.sg.client.mail.send.post(request_body=data)
 
-    def send_letter(self, template_id, email, subject=None, substitutions=None, categories=None, html_content=None):
+    def send_letter(self, template_id, emails, subject=None, substitutions=None, categories=None, html_content=None):
         substitutions = substitutions or {}
         data = {
             "personalizations": [
                 {
                     "to": [
                         {
-                            "email": email
+                            "email": emails[0]
                         }
                     ],
                     "substitutions": substitutions,
