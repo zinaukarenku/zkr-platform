@@ -19,6 +19,9 @@ class SendGrid:
     VERIFY_EMAIL_TRANSACTIONAL_TEMPLATE = 'd-f9473b6c40524dab9cc286fd4b5dccfc'
     QUESTION_ACCEPTED_TRANSACTIONAL_TEMPLATE = 'd-5c285203702a4a1fa94475ce7840e679'
     QUESTION_REJECTED_TRANSACTIONAL_TEMPLATE = 'd-b48b3df800334fdc87c4e308d8a003bb'
+    QUESTION_ANSWERED_TRANSACTIONAL_TEMPLATE = 'd-d4b3a98dde334b829600c178ff960852'
+
+    CATEGORY_QUESTIONS_AND_ANSWERS = 'Klausimai / Atsakymai'
 
     def __init__(self, api_key=settings.SENDGRID_API_KEY) -> None:
         self.sg = sendgrid.SendGridAPIClient(apikey=api_key)
