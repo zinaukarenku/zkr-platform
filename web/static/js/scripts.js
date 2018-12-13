@@ -1,6 +1,3 @@
-'use strict';
-
-//mobile menu 
 $(document).ready(function () {
     const d = document;
     const body = d.querySelector('body');

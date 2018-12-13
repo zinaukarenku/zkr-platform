@@ -4,10 +4,10 @@ from time import sleep
 
 from celery import shared_task
 
-from seimas.models import Term, Session, Party, Politician, PoliticianParliamentGroup, PoliticianDivision, \
-    PoliticianBusinessTrip, PoliticianTerm, ElectionType, LegalActDocumentType, LegalAct, LegalActDocument, Fraction, \
-    PoliticianFraction
-from seimas.utils import parse_xml, sanitize_text, parse_xml
+from seimas.models import ElectionType, Fraction, LegalAct, LegalActDocument, LegalActDocumentType, Party, Politician, \
+    PoliticianBusinessTrip, PoliticianDivision, PoliticianFraction, PoliticianParliamentGroup, PoliticianTerm, Session, \
+    Term
+from seimas.utils import parse_xml, sanitize_text
 from utils.utils import requests_retry_session
 
 logger = logging.getLogger(__name__)
