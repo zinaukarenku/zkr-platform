@@ -2,13 +2,11 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Div, Layout, Submit
 from django.forms import BooleanField, ModelForm, inlineformset_factory
 from django.utils.safestring import mark_safe
-from snowpenguin.django.recaptcha3.fields import ReCaptchaField
 
 from questions.models import PoliticianAnswer, Question
 
 
 class NewQuestionForm(ModelForm):
-    captcha = ReCaptchaField()
     check = BooleanField(
         required=True, initial=True, label="Sutinku su etikos kodeksu",
         help_text=mark_safe(
@@ -34,7 +32,6 @@ class NewQuestionForm(ModelForm):
                 Div('politician'),
                 Div('text'),
                 Div('check'),
-                Div('captcha'),
                 Div(Submit('save', 'Publikuoti klausimą',
                            css_class='btn btn-bold btn-round btn-w-xl btn-primary float-right'),
                     ),
