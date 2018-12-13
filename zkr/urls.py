@@ -17,6 +17,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from django.urls import path, include
+from django.views.defaults import page_not_found
+from django.views.generic import RedirectView
 
 from zkr import settings
 from zkr.sitemap import StaticViewSitemap, SeimasPoliticianSitemap
@@ -34,6 +36,12 @@ urlpatterns = [
                       name='django.contrib.sitemaps.views.sitemap'
                   ),
                   path('', include('web.urls')),
+
+                  # Disable changing e-mail
+                  path("accounts/email/", page_not_found, name="account_email"),
+                  path('accounts/social/connections/',
+                       RedirectView.as_view(pattern_name="user_profile", permanent=False)),
+
                   path('accounts/', include('allauth.urls')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
