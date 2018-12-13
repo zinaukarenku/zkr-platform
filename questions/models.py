@@ -2,6 +2,7 @@ from enum import unique
 from typing import Optional
 from urllib.parse import urljoin
 
+import reversion
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.db import models
 from django.urls import reverse
@@ -38,6 +39,7 @@ class ActiveQuestionsManager(models.Manager):
         return QuestionsQuerySet(self.model, using=self._db).filter(status=QuestionStatus.APPROVED)
 
 
+@reversion.register()
 class Question(models.Model):
     name = models.CharField(max_length=128, null=True, verbose_name=_("Klausimo pavadinimas"))
     text = models.TextField(validators=[MinLengthValidator(15), MaxLengthValidator(500)],
@@ -138,6 +140,7 @@ class Question(models.Model):
         return self.name or str(self.id)
 
 
+@reversion.register()
 class PoliticianAnswer(models.Model):
     question = models.OneToOneField(Question, on_delete=models.PROTECT, related_name='politian_answer')
 
