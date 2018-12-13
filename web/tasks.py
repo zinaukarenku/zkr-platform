@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 @shared_task(soft_time_limit=30)
 def send_email_confirmation_letter(email, activate_url):
-    return SendGrid().send_letter(
+    SendGrid().send_letter(
         template_id=SendGrid.VERIFY_EMAIL_TRANSACTIONAL_TEMPLATE,
         emails=[email],
         dynamic_template_data={
