@@ -1,20 +1,21 @@
-{% extends "base/base-regular-page.html" %} 
-{% block title %}{{ politician.name }}{% endblock %} 
-{% block description %}TODO description{% endblock %} 
-{% load humanize %} 
+{% extends "base/base-regular-page.html" %}
+{% block title %}{{ politician.name }}{% endblock %}
+{% block description %}TODO description{% endblock %}
+{% load humanize %}
 {% block main_content %}
 
-<main class="container container-content" style="padding-top:25px;">
-    <div class="row">
-        <div class="col-sm-12 col-md-4">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="card-big-img ml-auto mr-auto mb-3" style="background-image:url('{{ politician.photo.url }}')"></div>
-                    <h2 class="text-center">{{ politician.name }}</h2>
-                    <span class="d-block text-center text-muted">{{ politician.elected_party }}</span>
-                    <!-- <span class="d-block text-center text-muted">{{ politician.start }}</span> -->
-                    <span class="d-block text-eyebrow mt-3">Kontaktai</span>
-                    <span class="d-block text-muted">
+    <main class="container container-content" style="padding-top:25px;">
+        <div class="row">
+            <div class="col-sm-12 col-md-4">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="card-big-img ml-auto mr-auto mb-3"
+                             style="background-image:url('{{ politician.photo.url }}')"></div>
+                        <h2 class="text-center">{{ politician.name }}</h2>
+                        <span class="d-block text-center text-muted">{{ politician.elected_party }}</span>
+                        <!-- <span class="d-block text-center text-muted">{{ politician.start }}</span> -->
+                        <span class="d-block text-eyebrow mt-3">Kontaktai</span>
+                        <span class="d-block text-muted">
                             <i class="fas fa-at mr-1"></i>
                             {% if politician.email %}
                                 {{ politician.email|urlize }}
@@ -22,11 +23,11 @@
                                 Neturi el. pašto
                             {% endif %}
                         </span>
-                    <span class="d-block text-muted">
+                        <span class="d-block text-muted">
                             <i class="fas fa-phone mr-1"></i>
                             {% if politician.phone %} (8 5) {% endif %}{{ politician.phone|default:"Neturi telefono" }}
                         </span>
-                    <span class="d-block text-muted">
+                        <span class="d-block text-muted">
                             <i class="fas fa-globe mr-1"></i>
                             {% if politician.personal_website %}
                                 {{ politician.personal_website|urlize }}
@@ -34,33 +35,37 @@
                                 Neturi asmeninio puslapio
                             {% endif %}
                         </span> {% if politician.bio_url %}
-                    <span class="d-block text-muted">
+                        <span class="d-block text-muted">
                                 <i class="fas fa-user mr-1"></i>
                                 <a href="{{ politician.bio_url }}" target="_blank">Seimas.lt biografija</a>
                              </span> {% endif %}
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-12 col-md-8">
-            <div class="card">
-                <div class="card-body">
-                    <ul id="politicianTab" class="nav nav-pills nav-fill mb-5" role="tablist">
-                        <li class="nav-item">
-                            <a href="#bio" id="bio-tab" class="nav-link active" data-toggle="tab" role="tab" aria-controls="bio" aria-selected="true">Biografija</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#activity" id="activity-tab" class="nav-link" data-toggle="tab" role="tab" aria-controls="activity" aria-selected="true">Veikla</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#legal-act-projects" id="activity-tab" class="nav-link" data-toggle="tab" role="tab" aria-controls="activity" aria-selected="true">Teisės aktų projektai</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#communicate" id="communicate-tab" class="nav-link" data-toggle="tab" role="tab" aria-controls="communicate" aria-selected="true">Bendraukime</a>
-                        </li>
-                    </ul>
-                    <div id="politicianTabContent" class="tab-content">
-                        <div id="bio" class="tab-pane fade show active" role="tabpanel" aria-labelledby="bio-tab">
-                            {% comment "Nemanau, kad iki relyzo sita turesim" %}
+            <div class="col-sm-12 col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <ul id="politicianTab" class="nav nav-pills nav-fill mb-5" role="tablist">
+                            <li class="nav-item">
+                                <a href="#bio" id="bio-tab" class="nav-link active" data-toggle="tab" role="tab"
+                                   aria-controls="bio" aria-selected="true">Biografija</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#activity" id="activity-tab" class="nav-link" data-toggle="tab" role="tab"
+                                   aria-controls="activity" aria-selected="true">Veikla</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#legal-act-projects" id="activity-tab" class="nav-link" data-toggle="tab"
+                                   role="tab" aria-controls="activity" aria-selected="true">Teisės aktų projektai</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#communicate" id="communicate-tab" class="nav-link" data-toggle="tab"
+                                   role="tab" aria-controls="communicate" aria-selected="true">Bendraukime</a>
+                            </li>
+                        </ul>
+                        <div id="politicianTabContent" class="tab-content">
+                            <div id="bio" class="tab-pane fade show active" role="tabpanel" aria-labelledby="bio-tab">
+                                {% comment "Nemanau, kad iki relyzo sita turesim" %}
                             <section class="mb-4">
                                 <h3>Biografija</h3>
                                 <p>
@@ -92,99 +97,97 @@
                             </section>
                             {% endcomment %}
 
-                            <section class="mb-4">
-                                <h3>Politinė patirtis</h3>
-                                {% if politician.politician_terms.all %}
-                                <ul class="pl-0 list-unstyled">
-                                    {% for politician_term in politician.politician_terms.all %}
-                                    <li class="mb-2">
-                                        <span class="d-block">{{ politician_term.elected_party }}</span>
-                                        <span class="d-inline-block text-muted mr-1">{{ politician_term.election_type }}</span>
-                                        <span class="d-inline-block text-muted mr-1">{{ politician_term.term }}</span>
-                                        <span class="d-block text-muted">{{ politician_term.start|date:"SHORT_DATE_FORMAT" }} - {{ politician_term.end|date:"SHORT_DATE_FORMAT"|default:"Nesibaigė" }}</span>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
-                                {% endif %}
-                            </section>
-                        </div>
-                        <div id="activity" class="tab-pane fade" aria-labelledby="activity-tab">
+                                <section class="mb-4">
+                                    <h3>Politinė patirtis</h3>
+                                    {% if politician.politician_terms.all %}
+                                        <ul class="pl-0 list-unstyled">
+                                            {% for politician_term in politician.politician_terms.all %}
+                                                <li class="mb-2">
+                                                    <span class="d-block">{{ politician_term.elected_party }}</span>
+                                                    <span class="d-inline-block text-muted mr-1">{{ politician_term.election_type }}</span>
+                                                    <span class="d-inline-block text-muted mr-1">{{ politician_term.term }}</span>
+                                                    <span class="d-block text-muted">{{ politician_term.start|date:"SHORT_DATE_FORMAT" }} - {{ politician_term.end|date:"SHORT_DATE_FORMAT"|default:"Nesibaigė" }}</span>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </section>
+                            </div>
+                            <div id="activity" class="tab-pane fade" aria-labelledby="activity-tab">
 
-                            <section class="mb-4">
-                                <h3>Frakcijos, komitetai ir komisijos</h3>
-                                <ul class="pl-0 list-unstyled">
-                                    {% for division in politician.divisions.all %}
-                                    <li class="mb-2">
-                                        <span class="d-block">{{ division.name }}</span>
-                                        <span class="d-inline-block text-muted mr-1">{{ division.role }}</span>
-                                        <span class="d-inline-block text-muted">{{ division.start|date:"SHORT_DATE_FORMAT" }} - {{ division.end|date:"SHORT_DATE_FORMAT"|default:"Nesibaigė" }}</span>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
-                            </section>
+                                <section class="mb-4">
+                                    <h3>Frakcijos, komitetai ir komisijos</h3>
+                                    <ul class="pl-0 list-unstyled">
+                                        {% for division in politician.divisions.all %}
+                                            <li class="mb-2">
+                                                <span class="d-block">{{ division.name }}</span>
+                                                <span class="d-inline-block text-muted mr-1">{{ division.role }}</span>
+                                                <span class="d-inline-block text-muted">{{ division.start|date:"SHORT_DATE_FORMAT" }} - {{ division.end|date:"SHORT_DATE_FORMAT"|default:"Nesibaigė" }}</span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </section>
 
-                            <section class="mb-4">
-                                <h3>Parlamentinės grupės</h3>
-                                <ul class="pl-0 list-unstyled">
-                                    {% for division in politician.divisions.all %}
-                                    <li class="mb-2">
-                                        <span class="d-block">{{ division.name }}</span>
-                                        <span class="d-inline-block text-muted mr-1">{{ division.role }}</span>
-                                        <span class="d-inline-block text-muted">{{ division.start|date:"SHORT_DATE_FORMAT" }} - {{ division.end|date:"SHORT_DATE_FORMAT"|default:"Nesibaigė" }}</span>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
-                            </section>
+                                <section class="mb-4">
+                                    <h3>Parlamentinės grupės</h3>
+                                    <ul class="pl-0 list-unstyled">
+                                        {% for division in politician.divisions.all %}
+                                            <li class="mb-2">
+                                                <span class="d-block">{{ division.name }}</span>
+                                                <span class="d-inline-block text-muted mr-1">{{ division.role }}</span>
+                                                <span class="d-inline-block text-muted">{{ division.start|date:"SHORT_DATE_FORMAT" }} - {{ division.end|date:"SHORT_DATE_FORMAT"|default:"Nesibaigė" }}</span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </section>
 
-                            <section class="mb-4">
-                                <h3>Komandiruotės ir kelionės</h3>
-                                <ul class="pl-0 list-unstyled">
-                                    {% for trip in politician.business_trips.all %}
-                                    <li class="mb-2">
-                                        <span class="d-block">{{ trip.name }}</span>
-                                        <span class="d-inline-block text-muted mr-1">{{ trip.is_secondment|yesno:"Komandiruotė,Kelionė" }}</span>
-                                        <span class="d-inline-block text-muted">{{ trip.start|date:"SHORT_DATE_FORMAT" }} - {{ trip.end|date:"SHORT_DATE_FORMAT"|default:"No end date" }}</span>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
-                            </section>
-                        </div>
-                        <div id="legal-act-projects" class="tab-pane" aria-labelledby="legal-act-projects-tab">
+                                <section class="mb-4">
+                                    <h3>Komandiruotės ir kelionės</h3>
+                                    <ul class="pl-0 list-unstyled">
+                                        {% for trip in politician.business_trips.all %}
+                                            <li class="mb-2">
+                                                <span class="d-block">{{ trip.name }}</span>
+                                                <span class="d-inline-block text-muted mr-1">{{ trip.is_secondment|yesno:"Komandiruotė,Kelionė" }}</span>
+                                                <span class="d-inline-block text-muted">{{ trip.start|date:"SHORT_DATE_FORMAT" }} - {{ trip.end|date:"SHORT_DATE_FORMAT"|default:"No end date" }}</span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </section>
+                            </div>
+                            <div id="legal-act-projects" class="tab-pane" aria-labelledby="legal-act-projects-tab">
 
-                            <section class="mb-4">
-                                <ul class="pl-0 list-unstyled">
-                                    {% for document in politician.legal_act_documents.all %}
-                                    <li class="mb-2">
-                                        <a class="d-block" href="{{ document.url }}" target="_blank" rel="nofollow">{{ document.name }}</a>
-                                        <span class="d-inline-block text-muted mr-1">{{ document.document_type }}</span>
-                                        <span class="d-inline-block text-muted">{{ document.date|date:"SHORT_DATE_FORMAT" }}</span>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
-                            </section>
-                        </div>
-                        <div id="communicate" class="tab-pane" aria-labelledby="communicate-tab">
+                                <section class="mb-4">
+                                    <ul class="pl-0 list-unstyled">
+                                        {% for document in politician.legal_act_documents.all %}
+                                            <li class="mb-2">
+                                                <a class="d-block" href="{{ document.url }}" target="_blank"
+                                                   rel="nofollow">{{ document.name }}</a>
+                                                <span class="d-inline-block text-muted mr-1">{{ document.document_type }}</span>
+                                                <span class="d-inline-block text-muted">{{ document.date|date:"SHORT_DATE_FORMAT" }}</span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </section>
+                            </div>
+                            <div id="communicate" class="tab-pane" aria-labelledby="communicate-tab">
 
-                            <h3>Klausimai ir atsakymai</h3>
+                                <h3>Klausimai ir atsakymai</h3>
 
-                            {% if user.is_staff %}
 
-                            <a class="text-uppercase btn btn-block btn-question mb-3" href="{% url 'new_question' %}">Užduoti naują klausimą politikui</a> 
-							{% for question in questions %}
-                            <a href="{% url 'question' question.id %}" class="d-block mb-3">
-                                <h4 class="card-title card-title--question text-left mb-0">{{ question.name }}</h4>
-                                <time class="d-inline-block text-muted">{{ question.last_activity|naturaltime }}</time>
-                                <span class="d-block text-muted text-eyebrow">{{ question.status_text }}</span>
-                            </a>
-                            {% endfor %} 
-							{% else %}
-                            <p class="text-muted"><i>Informacija yra ruošiama</i></p>
-                            {% endif %}
+                                <a class="text-uppercase btn btn-block btn-question mb-3"
+                                   href="{% url 'new_question' %}">Užduoti naują klausimą politikui</a>
+                                {% for question in questions %}
+                                    <a href="{% url 'question' question.id %}" class="d-block mb-3">
+                                        <h4 class="card-title card-title--question text-left mb-0">{{ question.name }}</h4>
+                                        <time class="d-inline-block text-muted">{{ question.last_activity|naturaltime }}</time>
+                                        <span class="d-block text-muted text-eyebrow">{{ question.status_text }}</span>
+                                    </a>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</main>
+    </main>
 {% endblock %}
