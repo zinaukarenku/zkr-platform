@@ -4,6 +4,7 @@ from django.forms import BooleanField, ModelForm, inlineformset_factory
 from django.utils.safestring import mark_safe
 
 from questions.models import PoliticianAnswer, Question
+from django.utils.translation import gettext_lazy as _
 
 
 class NewQuestionForm(ModelForm):
@@ -22,6 +23,10 @@ class NewQuestionForm(ModelForm):
         }
         help_texts = {
             'politician': None,
+            'text': _(
+                mark_safe(
+                    "Siekiant užtikrinti informacijos prieinamumą ir tvarką, bei didesnį atsakytų klausimų skaičių, "
+                    "<strong>klausimo apimtis ribojama iki 500 simbolių</strong>, įskaitant tarpus."))
         }
 
     def __init__(self, *args, **kwargs):
