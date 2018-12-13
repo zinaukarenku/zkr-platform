@@ -18,7 +18,7 @@ def questions_list(request):
     )
 
 
-@login_required
+@verified_email_required
 def new_question(request):
     user = request.user
     request_info = get_request_information(request)

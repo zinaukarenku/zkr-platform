@@ -1,17 +1,31 @@
 {% extends 'base/base-regular-page.html' %}
 
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% load account socialaccount %}
 
+{% block title %}El. pašto patvirtinimas{% endblock %}
+
 {% block main_content %}
-    <div class="container main-content">
-        <div style="max-width: 450px;" class="mx-auto">
-            <h3 class="fw-400 font-dosis mb-20 text-center">{% block title %}Verify Your E-mail
-                Address{% endblock %}</h3>
-            <p class="lead fw-400 opacity-65 text-center">We have sent an e-mail to you for verification. Follow the
-                link provided to finalize the signup process. Please contact us if you do not receive it within a few
-                minutes.</p>
+    <main class="container container-content d-flex justify-content-center align-items-center mt-3 mb-3">
+        <div class="card" style="max-width: 450px; min-width: 320px; margin: 0 auto;">
+            <div class="card-body text-center">
+
+                <img src="{% static 'img/zkr-medium-logo.png' %}" class="d-block mb-4" width="120"
+                     style="margin: 0 auto;">
+
+                <p>
+                    Jūsų elektrononiu paštu išsiuntėme laišką reikalingą
+                    elektroninio pašto patvirtinimui.
+                </p>
+                <p>
+                    Sekite nurodymus laiške, kad užbaigtumėte registraciją.
+                </p>
+                <p>
+                    Prašome susisiekti su mumis, jei per kelias minutes negausite laiško.
+                </p>
+            </div>
         </div>
-    </div>
+    </main>
 {% endblock %}
