@@ -14,8 +14,8 @@ def send_email_confirmation_letter(email, activate_url):
     return SendGrid().send_letter(
         template_id=SendGrid.VERIFY_EMAIL_TRANSACTIONAL_TEMPLATE,
         emails=[email],
-        substitutions={
-            "%activate_url%": activate_url,
+        dynamic_template_data={
+            'activate_url': activate_url,
         },
         categories=["Verify email"]
     )

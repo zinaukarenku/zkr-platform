@@ -5,6 +5,8 @@ from logging import getLogger
 import python_http_client
 import sendgrid
 from requests.structures import CaseInsensitiveDict
+from sendgrid import Email
+from sendgrid.helpers.mail import Mail, Category, Personalization
 
 from zkr import settings
 
@@ -15,7 +17,8 @@ SendGridRecipient = namedtuple('SendGridRecipient', 'email id')
 
 class SendGrid:
     VERIFY_EMAIL_TRANSACTIONAL_TEMPLATE = 'd-f9473b6c40524dab9cc286fd4b5dccfc'
-
+    QUESTION_ACCEPTED_TRANSACTIONAL_TEMPLATE = 'd-5c285203702a4a1fa94475ce7840e679'
+    QUESTION_REJECTED_TRANSACTIONAL_TEMPLATE = 'd-b48b3df800334fdc87c4e308d8a003bb'
 
     def __init__(self, api_key=settings.SENDGRID_API_KEY) -> None:
         self.sg = sendgrid.SendGridAPIClient(apikey=api_key)
@@ -118,34 +121,31 @@ class SendGrid:
         return stats
 
     def _send_letter(self, data):
-        return self.sg.client.mail.send.post(request_body=data)
+        response = self.sg.client.mail.send.post(request_body=data)
 
-    def send_letter(self, template_id, emails, subject=None, substitutions=None, categories=None, html_content=None):
-        substitutions = substitutions or {}
-        data = {
-            "personalizations": [
-                {
-                    "to": [
-                        {
-                            "email": emails[0]
-                        }
-                    ],
-                    "substitutions": substitutions,
-                }
-            ],
-            "from": {
-                "name": settings.DEFAULT_FROM_EMAIL,
-                "email": settings.EMAIL_FROM,
-            },
-            "categories": categories,
-            'subject': subject,
-            "template_id": template_id
-        }
+        logger.debug(response.status_code)
+        logger.debug(response.headers)
+        logger.debug(response.body)
+        return response
 
-        if html_content:
-            data["content"] = [{
-                "type": "text/html",
-                "value": html_content
-            }]
+    def send_letter(self, template_id, emails, dynamic_template_data=None, categories=None):
+        categories = categories or []
+        dynamic_template_data = dynamic_template_data or {}
 
-        return self._send_letter(data)
+        mail = Mail()
+
+        mail.template_id = template_id
+        mail.from_email = Email(email=settings.EMAIL_FROM, name=settings.DEFAULT_FROM_EMAIL)
+
+        for email in emails:
+            personalization = Personalization()
+
+            personalization.add_to(Email(email))
+            personalization.dynamic_template_data = dynamic_template_data
+
+            mail.add_personalization(personalization)
+
+        for category in categories:
+            mail.add_category(Category(category))
+
+        return self._send_letter(mail.get())
