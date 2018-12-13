@@ -3,6 +3,7 @@ from enumfields.admin import EnumFieldListFilter
 from reversion.admin import VersionAdmin
 
 from questions.models import Question, PoliticianAnswer
+from django.utils.translation import gettext_lazy as _
 
 
 class PoliticianAnswerInline(admin.StackedInline):
@@ -14,7 +15,7 @@ class PoliticianAnswerInline(admin.StackedInline):
 @admin.register(Question)
 class QuestionsAdmin(VersionAdmin):
     search_fields = ['name', 'user_ip', 'politician__name']
-    list_display = ['name', 'status', 'politician', 'created_by', 'created_at']
+    list_display = ['name', 'status', 'is_answered', 'politician', 'created_by', 'created_at']
     list_filter = [('status', EnumFieldListFilter), ]
     raw_id_fields = ['politician', 'created_by']
     list_select_related = ['politician', 'created_by']
@@ -26,3 +27,9 @@ class QuestionsAdmin(VersionAdmin):
     inlines = [
         PoliticianAnswerInline
     ]
+
+    def is_answered(self, obj):
+        return obj.has_politician_answer
+
+    is_answered.short_description = _("Atsakytas")
+    is_answered.boolean = True
