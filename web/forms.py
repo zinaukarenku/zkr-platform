@@ -28,7 +28,8 @@ class LoginForm(AllAuthLoginForm):
 
 class SignupForm(AllAuthSignupForm):
     first_name = forms.CharField(min_length=2, max_length=30, label=_("Vardas"))
-    last_name = forms.CharField(min_length=2, max_length=150, label=_("Pavardė"))
+    last_name = forms.CharField(min_length=2, max_length=150, label=_("Pavardė"),
+                                help_text=_("Pavardė viešai rodoma nebus"))
 
     captcha = ReCaptchaField()
 
