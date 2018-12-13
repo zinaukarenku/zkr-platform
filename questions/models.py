@@ -55,7 +55,7 @@ class Question(models.Model):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT,
                                    related_name="questions",
                                    verbose_name=_("Klausimo autorius"))
-    user_ip = models.GenericIPAddressField(verbose_name=_("Klausimo autoriaus IP"))
+    user_ip = models.GenericIPAddressField(verbose_name=_("Klausimo autoriaus IP"), blank=True, null=True)
     user_agent = models.TextField(blank=True, null=True, verbose_name=_("Klausimo autoriaus User-agent"))
 
     user_country = models.CharField(max_length=30, blank=True, null=True,
@@ -145,7 +145,7 @@ class PoliticianAnswer(models.Model):
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT,
                                    related_name="question_answers", verbose_name=_("Atsakymo autorius"))
-    user_ip = models.GenericIPAddressField(verbose_name=_("Atsakymo autoriaus IP"))
+    user_ip = models.GenericIPAddressField(verbose_name=_("Atsakymo autoriaus IP"), blank=True, null=True)
     user_agent = models.TextField(blank=True, null=True, verbose_name=_("Atsakymo autoriaus User-agent"))
 
     user_country = models.CharField(max_length=30, blank=True, null=True,
