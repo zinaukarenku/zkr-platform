@@ -1,32 +1,16 @@
 import logging
-from datetime import timedelta
 
-from allauth.account.models import EmailAddress
 from celery import shared_task
 
 from seimas.models import Politician as SeimasPolitician
-from utils.utils import django_now
-from web.models import PoliticianInfo, User, EmailSubscription
+from web.models import EmailSubscription, PoliticianInfo, User
 from web.sendgrid import SendGrid
 
 logger = logging.getLogger(__name__)
 
 
 @shared_task(soft_time_limit=30)
-def send_email_confirmation_letter(email_id, activate_url):
-    email_address = EmailAddress.objects.get(id=email_id)
-    user = email_address.user
-
-    now = django_now()
-    if user.last_confirmation_letter_sent is not None and user.last_confirmation_letter_sent + timedelta(
-            minutes=5) > now:
-        return "Too soon for new confirmation e-mail"
-
-    user.last_confirmation_letter_sent = now
-    user.save()
-
-    email = email_address.email
-
+def send_email_confirmation_letter(email, activate_url):
     return SendGrid().send_letter(
         template_id=SendGrid.VERIFY_EMAIL_TRANSACTIONAL_TEMPLATE,
         emails=[email],

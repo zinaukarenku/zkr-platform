@@ -8,6 +8,6 @@ class AccountAdapter(DefaultAccountAdapter):
         activate_url = self.get_email_confirmation_url(
             request,
             emailconfirmation)
-        email_id = emailconfirmation.email_address.id
+        email = emailconfirmation.email_address.email
 
-        send_email_confirmation_letter.delay(email_id, activate_url)
+        send_email_confirmation_letter.delay(email, activate_url)
