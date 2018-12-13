@@ -1,0 +1,63 @@
+from celery import shared_task
+
+from questions.models import Question, QuestionStatus
+from web.sendgrid import SendGrid
+
+
+@shared_task(soft_time_limit=30)
+def send_question_accepted_letter(question_id=None):
+    questions = Question.active.filter(is_moderator_decision_letter_sent=False)
+
+    if question_id:
+        questions = questions.filter(pk=question_id)
+
+    letters_sent = []
+    for question in questions:
+        email = question.question_author_email
+
+        SendGrid().send_letter(
+            template_id=SendGrid.QUESTION_ACCEPTED_TRANSACTIONAL_TEMPLATE,
+            emails=[email],
+            dynamic_template_data={
+                'question_title': question.name,
+                'question_url': question.get_absolute_url(),
+            },
+            categories=["Question accepted"]
+        )
+
+        letters_sent.append(email)
+
+        question.is_moderator_decision_letter_sent = True
+        question.save(update_fields=['is_moderator_decision_letter_sent'])
+
+    return letters_sent
+
+
+@shared_task(soft_time_limit=30)
+def send_question_rejected_letter(question_id=None):
+    questions = Question.objects.filter(status=QuestionStatus.REJECTED).filter(is_moderator_decision_letter_sent=False)
+
+    if question_id:
+        questions = questions.filter(pk=question_id)
+
+    letters_sent = []
+    for question in questions:
+        email = question.question_author_email
+
+        SendGrid().send_letter(
+            template_id=SendGrid.QUESTION_REJECTED_TRANSACTIONAL_TEMPLATE,
+            emails=[email],
+            dynamic_template_data={
+                'question_title': question.name,
+                'question_url': question.get_absolute_url(),
+                'question_rejected_reason': question.rejected_reason
+            },
+            categories=["Question rejected"]
+        )
+
+        letters_sent.append(email)
+
+        question.is_moderator_decision_letter_sent = True
+        question.save(update_fields=['is_moderator_decision_letter_sent'])
+
+    return letters_sent

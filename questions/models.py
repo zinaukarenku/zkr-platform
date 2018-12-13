@@ -1,5 +1,6 @@
 from enum import unique
 from typing import Optional
+from urllib.parse import urljoin
 
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.db import models
@@ -60,6 +61,16 @@ class Question(models.Model):
     user_country = models.CharField(max_length=30, blank=True, null=True,
                                     verbose_name=_("Klausimo autoriaus šalis"))
 
+    is_moderator_decision_letter_sent = models.BooleanField(
+        default=False,
+        verbose_name=_("Ar išsiųstas laiškas apie klausimo patvirtnimą / atmetimą")
+    )
+
+    is_letter_for_politician_sent = models.BooleanField(
+        default=False,
+        verbose_name=_("Ar laiškas politikui apoe jam užduotą klausimą buvo išsiųstas")
+    )
+
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Klausimas sukūrimo data"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Klausimo atnaujinimo data"))
 
@@ -111,8 +122,12 @@ class Question(models.Model):
 
         return False
 
+    @property
+    def question_author_email(self) -> str:
+        return self.created_by.email
+
     def get_absolute_url(self):
-        return reverse("question", kwargs={'question_id': self.id})
+        return urljoin(settings.BASE_DOMAIN, reverse("question", kwargs={'question_id': self.id}))
 
     class Meta:
         ordering = ['-created_at']
@@ -135,6 +150,11 @@ class PoliticianAnswer(models.Model):
 
     user_country = models.CharField(max_length=30, blank=True, null=True,
                                     verbose_name=_("Atsakymo autoriaus šalis"))
+
+    is_question_answered_letter_sent = models.BooleanField(
+        default=False,
+        verbose_name=_("Ar laiškas apie atsakytą klausimą buvo išsiųstas")
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
