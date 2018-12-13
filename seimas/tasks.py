@@ -325,7 +325,7 @@ def fetch_politician_documents():
     created = 0
     updated = 0
 
-    for politician in Politician.objects.all():
+    for politician in Politician.active.all():
         req = requests_retry_session().get("http://apps.lrs.lt/sip/p2b.statistika_snk", params={
             'p_iid': politician.asm_id
         })
