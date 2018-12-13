@@ -53,4 +53,4 @@ def sync_newsletter_subscribers():
             EmailSubscription.objects.all()
         )
     )
-    return SendGrid().sync_recipients_to_list(6062776, contacts_list)
+    return SendGrid().sync_recipients_to_list(SendGrid.NEWSLETTER_SUBSCRIBERS_LIST, contacts_list)
