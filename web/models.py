@@ -54,6 +54,9 @@ class User(AbstractUser):
             if social_account.provider == 'google':
                 return social_account
 
+    def __str__(self):
+        return self.get_full_name()
+
     class Meta:
         verbose_name_plural = _("Registruoti vartotojai")
         verbose_name = _("Registruotas vartotojas")
