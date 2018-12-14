@@ -23,7 +23,7 @@ class QuestionsAdmin(VersionAdmin):
     list_filter = [('status', EnumFieldListFilter), ]
     raw_id_fields = ['politician', 'created_by']
     list_select_related = ['politician', 'created_by']
-    readonly_fields = ['user_ip', 'user_agent', 'user_country']
+    readonly_fields = ['edit_url_for_polician', 'user_ip', 'user_agent', 'user_country']
     view_on_site = True
 
     date_hierarchy = 'created_at'
@@ -31,6 +31,14 @@ class QuestionsAdmin(VersionAdmin):
     inlines = [
         PoliticianAnswerInline
     ]
+
+    def edit_url_for_polician(self, obj):
+        return obj.get_editable_absolute_url_for_politician()
+
+    edit_url_for_polician.short_description = _("Klausimo atsakymo nuoroda politikui")
+    edit_url_for_polician.help_text = _(
+        "Nuoroda, kurią paspaudes užsiregistravęs politikas galės atsakyti į jam užduotus klausimus. "
+        "Šią nuorodą galima duoti tik politikams ir negalima platinti viešai!!!")
 
     def question_name(self, obj):
         if obj.name:
