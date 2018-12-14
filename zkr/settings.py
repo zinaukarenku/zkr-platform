@@ -349,7 +349,7 @@ CELERY_BEAT_SCHEDULE = {
     },
     'sync_seimas_with_sendgrid': {
         'task': 'seimas.tasks.sync_seimas_with_sendgrid',
-        'schedule': crontab(minute='*/15', hour='*')
+        'schedule': crontab(minute='10', hour='*')
     },
     'fetch_president_articles': {
         'task': 'elections.tasks.fetch_president_articles',
