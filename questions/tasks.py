@@ -91,3 +91,32 @@ def send_question_answered_letter(answer_id=None):
         answer.save(update_fields=['is_question_answered_letter_sent'])
 
     return letters_sent
+
+
+@shared_task(soft_time_limit=30)
+def send_new_question_for_politician_letter(question_id=None):
+    questions = Question.active.select_related('politician').filter(is_letter_for_politician_sent=False)
+
+    if question_id:
+        questions = questions.filter(pk=question_id)
+
+    letters_sent = []
+    for question in questions:
+        contact_emails = question.politician.contact_emails
+
+        SendGrid().send_letter(
+            template_id=SendGrid.QUESTION_FOR_POLITICIAN_TRANSACTIONAL_TEMPLATE,
+            emails=contact_emails,
+            dynamic_template_data={
+                'question_title': question.name,
+                'question_url': question.get_editable_absolute_url_for_politician(),
+            },
+            categories=[SendGrid.CATEGORY_QUESTIONS_AND_ANSWERS]
+        )
+
+        letters_sent.extend(contact_emails)
+
+        question.is_letter_for_politician_sent = True
+        question.save(update_fields=['is_letter_for_politician_sent'])
+
+    return letters_sent

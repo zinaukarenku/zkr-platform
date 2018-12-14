@@ -11,7 +11,7 @@ from django.utils.translation import gettext_lazy as _
 from django_resized import ResizedImageField
 
 from seimas.models import Politician as SeimasPolitician
-from utils.utils import file_extension, gravatar_url
+from utils.utils import file_extension, gravatar_url, distinct_by
 from zkr import settings
 
 
@@ -230,6 +230,20 @@ class PoliticianInfo(models.Model):
             politician_fraction_nullable = self.seimas_politician.politician_fraction_nullable
             if politician_fraction_nullable:
                 return politician_fraction_nullable.fraction.name
+
+    @property
+    def contact_emails(self):
+        emails = []
+        if hasattr(self, 'seimas_politician'):
+            seimas_politician = self.seimas_politician
+
+            if seimas_politician.email:
+                emails.append(seimas_politician.email)
+
+        for user in self.authenticated_users.all():
+            emails.append(user.email)
+
+        return distinct_by(emails)
 
     class Meta:
         verbose_name_plural = _("Politikų informacija")

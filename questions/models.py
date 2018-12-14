@@ -131,6 +131,13 @@ class Question(models.Model):
     def get_absolute_url(self):
         return urljoin(settings.BASE_DOMAIN, reverse("question", kwargs={'question_id': self.id}))
 
+    def get_editable_absolute_url_for_politician(self):
+        return urljoin(settings.BASE_DOMAIN, reverse("question",
+                                                     kwargs={
+                                                         'question_id': self.id,
+                                                         'secret_id': self.politician.registration_secret_id
+                                                     }))
+
     class Meta:
         ordering = ['-created_at']
         verbose_name_plural = _("Klausimai politikams")
