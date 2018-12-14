@@ -9,6 +9,7 @@ from seimas.models import ElectionType, Fraction, LegalAct, LegalActDocument, Le
     Term
 from seimas.utils import parse_xml, sanitize_text
 from utils.utils import requests_retry_session
+from web.sendgrid import SendGrid
 
 logger = logging.getLogger(__name__)
 
@@ -364,3 +365,20 @@ def fetch_politician_documents():
         'created': created,
         'updated': updated
     }
+
+
+@shared_task(soft_time_limit=120)
+def sync_seimas_with_sendgrid():
+    politicians = Politician.active.filter(email__isnull=False).exclude(email='')
+
+    contacts_list = list(
+        map(
+            lambda p: {
+                "first_name": p.first_name,
+                "last_name": p.last_name,
+                "email": p.email
+            },
+            politicians
+        )
+    )
+    return SendGrid().sync_recipients_to_list(SendGrid.SEIMAS_LIST, contacts_list)

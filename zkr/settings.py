@@ -347,6 +347,10 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'web.tasks.sync_newsletter_subscribers',
         'schedule': crontab(minute='*/15', hour='*')
     },
+    'sync_seimas_with_sendgrid': {
+        'task': 'seimas.tasks.sync_seimas_with_sendgrid',
+        'schedule': crontab(minute='*/15', hour='*')
+    },
     'fetch_president_articles': {
         'task': 'elections.tasks.fetch_president_articles',
         'schedule': crontab(minute='*/30', hour='*')
