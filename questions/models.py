@@ -70,7 +70,7 @@ class Question(models.Model):
 
     is_letter_for_politician_sent = models.BooleanField(
         default=False,
-        verbose_name=_("Ar laiškas politikui apoe jam užduotą klausimą buvo išsiųstas")
+        verbose_name=_("Ar laiškas politikui apie jam užduotą klausimą buvo išsiųstas")
     )
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Klausimas sukūrimo data"))
