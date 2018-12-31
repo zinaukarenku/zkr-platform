@@ -1,11 +1,12 @@
 {% extends "base/base-regular-page.html" %}
 {% block title %}Lietuvos Respublikos Seimo nariai{% endblock %}
 {% block banner_title %}Lietuvos Respublikos Seimo nariai{% endblock %}
+{% block banner_class %}banner--politicians{% endblock %}
 
 {% block main_content %}
 <main class="container container-content mt-3">
     <div class="row">
-        <div class="col-12">
+        <div class="col-sm-12">
             {% for politician in politicians %}
             <a href="{{ politician.profile_url }}" class="card mb-3">
                 <div class="card-body d-flex">

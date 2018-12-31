@@ -2,6 +2,7 @@
 {% load static %}
 {% block title %}Politinės stebėsenos platforma{% endblock %}
 {% block banner_title %}Žinau, ką renku{% endblock %}
+{% block banner_class %}banner--home{% endblock %}
 {% block banner_description %}Politinės stebėsenos platforma{% endblock %}
 {% block main_content %}
 
@@ -9,7 +10,7 @@
         <div class="row mb-2">
             <div class="col-sm-12 col-md-6">
                 <a href="{% url 'seimas_politician_game' %}"
-                   class="card d-flex align-items-center justify-content-center card-block-link text-center">Pažink
+                   class="card d-flex align-items-center justify-content-center card-block-link text-center kyp-block-link">Pažink
                     politiką</a>
             </div>
             <div class="col-sm-12 col-md-6">
@@ -19,14 +20,14 @@
             </div>
             <div class="col-sm-12 col-md-6">
                 <a href="{% url 'join_us' %}"
-                   class="card d-flex align-items-center justify-content-center card-block-link text-center">Prisijunk</a>
+                   class="card d-flex align-items-center justify-content-center card-block-link text-center mes-block-link">Prisijunk</a>
             </div>
             <div class="col-sm-12 col-md-6">
                 <a href="{% url 'questions_list' %}"
-                   class="card d-flex align-items-center justify-content-center card-block-link text-center">Klausimai
+                   class="card d-flex align-items-center justify-content-center card-block-link text-center questions-block-link">Klausimai
                     politikams</a>
             </div>
-            <div class="col-12">
+            <div class="col-sm-12">
                 <a href="{% url 'user_profile' %}"
                    class="card d-flex align-items-center justify-content-center card-block-link text-center">Vartotojo
                     profilis</a>

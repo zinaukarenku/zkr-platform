@@ -3,6 +3,7 @@
 {% load humanize %}
 
 {% block banner_title %}{% block title %}{{ question.name|default:question.status_text }}{% endblock %}{% endblock %}
+{% block banner_class %}banner--question {% endblock %}
 
 {% block head %}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" rel="stylesheet"/>

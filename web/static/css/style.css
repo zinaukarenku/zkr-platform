@@ -25,6 +25,7 @@ body {
     overflow: hidden;
 }
 
+.col-md-6,
 .col-sm-12,
 .col-lg-8 {
     padding-left: 0;
@@ -32,19 +33,23 @@ body {
 }
 
 .mt-25 {
-    margin-top: 25px
+    margin-top: 25px;
 }
 
 .mb-50 {
-    margin-bottom: 50px
+    margin-bottom: 50px;
+}
+
+.text-500 {
+    font-weight: 500;
 }
 
 .text-600 {
-    font-weight: 600
+    font-weight: 600;
 }
 
 .text-size-80 {
-    font-size: 80%
+    font-size: 80%;
 }
 
 .text-size-90 {
@@ -56,7 +61,7 @@ body {
 }
 
 .text-size-sm-60-md-80 {
-    font-size: 60%
+    font-size: 60%;
 }
 
 .text-lh-125 {
@@ -74,7 +79,7 @@ body {
 
 a:active,
 a:hover {
-    text-decoration: none
+    text-decoration: none;
 }
 
 .navbar-brand {
@@ -83,7 +88,7 @@ a:hover {
 }
 
 .navbar-brand img {
-    height: 40px
+    height: 40px;
 }
 
 h1,
@@ -140,15 +145,39 @@ nav .container {
 
 .banner {
     position: relative;
-    background-size: cover;
-    background: no-repeat 50%;
-}
-
-.banner--home {
     height: 200px;
     background-color: rgba(5, 109, 255, .78);
+    background-size: cover;
+    background-repeat: no-repeat;
     color: #fff;
 }
+
+/* banner background images */
+
+.banner--home {
+    background-image: url("../img/rinkejo_atmintine_phone.jpg");
+}
+
+.banner--seimas {}
+
+.banner--politicians {}
+
+.banner--about,
+.mes-block-link {
+    background-image: url("../img/mes-link-block.jpg");
+}
+
+.banner--questions,
+.questions-block-link {
+    background-image: url("../img/questions-phone.jpg");
+}
+
+.kyp-block-link {
+    background-image: url("../img/kyp-phone.jpg");
+    background-position: center 30%;
+}
+
+.banner--question {}
 
 .banner--newsletter {
     background-color: #58397a;
@@ -162,6 +191,9 @@ nav .container {
     background-position: center;
     background-size: cover;
 }
+
+
+
 
 /* main h2,
 main h3,
@@ -248,6 +280,10 @@ main .game_over {
     z-index: 30;
 }
 
+.mobile-nav-item {
+    font-size: 1.3rem;
+}
+
 .draugai {
     background-color: #fff;
     padding: 30px 0;
@@ -274,9 +310,20 @@ main .game_over {
 }
 
 .card-block-link {
-    height: 130px;
-    color: inherit;
+    height: 150px;
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 500;
     margin-bottom: 10px;
+    background-size: 110%;
+    background-repeat: no-repeat;
+    background-color: rgb(72, 72, 74);
+    transition: all .4s ease-in-out;
+}
+
+.card-block-link:hover {
+    color: #fff;
+    background-size: 100%;
 }
 
 .card-game {
@@ -527,9 +574,30 @@ footer ul:first {
         margin-right: -15px;
     }
 
+    .col-md-6,
     .col-sm-12 {
         padding-left: 15px;
         padding-right: 15px;
+    }
+
+    .banner {
+        height: 300px;
+    }
+
+    .banner--home {
+        background-image: url("../img/rinkejo_atmintine_tablet.jpg");
+    }
+
+    .banner--about {
+        background-image: url("../img/mes-tablet.jpg");
+    }
+
+    .banner--questions {
+        background-image: url("../img/questions-tablet.jpg");
+    }
+
+    .mes-block-link {
+        background-position: center 25%;
     }
 
     .card,
@@ -554,6 +622,26 @@ footer ul:first {
     .card-election {
         width: 150px;
         height: 225px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+
+    .banner {
+        height: 350px;
+    }
+
+    .banner--home {
+        background-image: url("../img/rinkejo_atmintine_laptop.jpg");
+    }
+
+    .banner--questions {
+        background-image: url("../img/questions-laptop.jpg");
+    }
+
+    .banner--about {
+        background-image: url("../img/mes-laptop.jpg");
+        background-position: 0% 85%;
     }
 }
 
