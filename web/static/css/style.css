@@ -158,9 +158,14 @@ nav .container {
     background-image: url("../img/rinkejo_atmintine_phone.jpg");
 }
 
-.banner--seimas {}
+.banner--seimas {
+    background-image: url("../img/seimas_outside_phone.jpg");
+}
 
-.banner--politicians {}
+.banner--politicians,
+.politicians-block-link {
+    background-image: url("../img/seimas_inside_phone.jpg");
+}
 
 .banner--about,
 .mes-block-link {
@@ -176,8 +181,6 @@ nav .container {
     background-image: url("../img/kyp-phone.jpg");
     background-position: center 30%;
 }
-
-.banner--question {}
 
 .banner--newsletter {
     background-color: #58397a;
@@ -596,6 +599,10 @@ footer ul:first {
         background-image: url("../img/questions-tablet.jpg");
     }
 
+    .banner--seimas {
+        background-image: url("../img/seimas_outside_tablet.jpg");
+    }
+
     .mes-block-link {
         background-position: center 25%;
     }
@@ -643,6 +650,12 @@ footer ul:first {
         background-image: url("../img/mes-laptop.jpg");
         background-position: 0% 85%;
     }
+
+    .banner--seimas {
+        background-image: url("../img/seimas_outside_laptop.jpg");
+    }
+
+
 }
 
 /* Disable Google Recaptcha badge */
