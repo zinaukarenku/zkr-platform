@@ -53,7 +53,7 @@ class Session(models.Model):
 
 class Fraction(models.Model):
     name = models.CharField(max_length=128)
-    slug = models.SlugField(unique=True, null=True)
+    slug = models.SlugField(unique=True)
     short_name = models.CharField(max_length=32)
 
     seimas_pad_id = models.IntegerField(unique=True)
@@ -74,7 +74,7 @@ class Fraction(models.Model):
 
 class Committee(models.Model):
     name = models.CharField(max_length=128)
-    slug = models.SlugField(unique=True, null=True)
+    slug = models.SlugField(max_length=128, unique=True)
     is_main_committee = models.BooleanField(default=True)
 
     seimas_pad_id = models.IntegerField(unique=True)
