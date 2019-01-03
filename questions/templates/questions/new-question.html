@@ -12,11 +12,16 @@
 {% block main_content %}
 
     <main class="container container-content mt-3">
-        <article class="card">
+        <div class="card">
             <div class="card-body">
+
+                <div class="mb-3">
+                    <a href="{% url 'seimas_politicians' %}" class="btn btn-primary btn-sm">Seimo Nariai</a>
+                </div>
+
                 {% crispy new_question_form %}
             </div>
-        </article>
+        </div>
     </main>
     <div class="container container-content mt-3 mb-3">
         <div class="card banner--newsletter pt-4 pb-4 pl-2 pr-2">

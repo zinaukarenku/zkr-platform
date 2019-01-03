@@ -165,6 +165,7 @@ nav .container {
 .banner--politicians,
 .politicians-block-link {
     background-image: url("../img/seimas_inside_phone.jpg");
+    background-position: center;
 }
 
 .banner--about,
@@ -315,18 +316,13 @@ main .game_over {
 .card-block-link {
     height: 150px;
     color: #fff;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: 500;
     margin-bottom: 10px;
-    background-size: 110%;
+    background-size: cover;
     background-repeat: no-repeat;
     background-color: rgb(72, 72, 74);
-    transition: all .4s ease-in-out;
-}
 
-.card-block-link:hover {
-    color: #fff;
-    background-size: 100%;
 }
 
 .card-game {
@@ -411,6 +407,15 @@ main .game_over {
 .card-title--question {
     font-size: 1.25rem;
 }
+
+.seimas-filter-select,
+.seimas-filter-select option {
+    width: 100%;
+    max-width: 100%;
+}
+
+
+
 
 button.btn {
     -webkit-appearance: none;
@@ -562,6 +567,8 @@ footer ul:first {
     background-color: lightgray;
 }
 
+/* media queries */
+
 @media screen and (min-width: 500px) {
     .nav .container {
         padding: 0 15px;
@@ -653,6 +660,16 @@ footer ul:first {
 
     .banner--seimas {
         background-image: url("../img/seimas_outside_laptop.jpg");
+    }
+
+    .card-block-link {
+        background-size: 110%;
+        transition: all .4s ease-in-out;
+    }
+
+    .card-block-link:hover {
+        color: #fff;
+        background-size: 100%;
     }
 
 
