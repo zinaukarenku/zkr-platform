@@ -139,7 +139,7 @@ def fetch_politicians():
             _, is_group_created = PoliticianParliamentGroup.objects.update_or_create(
                 group_id=parliament_group_xml['parlamentinės_grupės_id'],
                 politician=politician,
-                role=parliament_group_xml['pareigos'],
+                role=sanitize_text(parliament_group_xml['pareigos']),
 
                 defaults={
                     'name': parliament_group_xml['parlamentinės_grupės_pavadinimas'],
