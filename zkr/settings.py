@@ -137,7 +137,7 @@ WSGI_APPLICATION = 'zkr.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-IS_POSTGRES_AVAILABLE = 'POSTGRES_DB' in os.environ and 'POSTGRES_USER' in os.environ and 'POSTGRES_PASSWORD' in os.environ
+IS_POSTGRES_AVAILABLE = 'POSTGRES_DB' in os.environ and 'POSTGRES_USER' in os.environ and 'POSTGRES_PASSWORD' in os.environ and 'POSTGRES_HOST' in os.environ
 
 if DEBUG and not IS_POSTGRES_AVAILABLE:
     DATABASES = {
@@ -153,7 +153,7 @@ else:
             'NAME': os.environ.get('POSTGRES_DB'),
             'USER': os.environ.get('POSTGRES_USER'),
             'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-            'HOST': 'postgres',  # <-- IMPORTANT: same name as docker-compose service!
+            'HOST': os.environ.get('POSTGRES_HOST'),
             'PORT': '5432',
         }
     }
