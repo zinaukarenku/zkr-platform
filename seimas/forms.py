@@ -36,8 +36,8 @@ class PoliticianFiltersForm(forms.Form):
         self.helper.form_method = "GET"
         self.helper.layout = Layout(
             Div(
-                Div('fraction'),
                 Div('committee'),
+                Div('fraction'),
                 Div(Submit('filter', 'Filtruoti', css_class="btn btn-primary btn-block btn-sm"))
             )
         )
