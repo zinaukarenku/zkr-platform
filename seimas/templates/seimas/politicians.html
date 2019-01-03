@@ -15,7 +15,8 @@
                                   style="background-image:url('{{ politician.photo.url }}');" {% endif %}></span>
                             <div class="d-inline-block">
                                 <h4 class="card-title text-left mb-0">{{ politician.name }}</h4>
-                                <p class="text-muted mb-0 text-80">{{ politician.fraction_name|default_if_none:"" }}</p>
+                                <p class="text-muted mb-0 text-80">{{ politician.committees_names_text }}</p>
+                                <p class="text-muted mb-0 text-60">{{ politician.fraction_name|default_if_none:"" }}</p>
                             </div>
                         </div>
                     </a>

@@ -5,7 +5,7 @@ from ipware import get_client_ip
 
 from questions.models import Question
 from seimas.forms import PrizeFrom, PoliticianFiltersForm
-from seimas.models import Politician, PoliticianTerm, PoliticianGame, LegalActDocument
+from seimas.models import Politician, PoliticianTerm, PoliticianGame, LegalActDocument, PoliticianCommittee
 from seimas.utils import try_parse_int
 
 
@@ -64,6 +64,7 @@ def politician_game(request):
 def politicians(request):
     filters_form = PoliticianFiltersForm(request.GET)
     politicians_queryset = Politician.active \
+        .prefetch_related(Prefetch('politician_committees', PoliticianCommittee.objects.select_related('committee'))) \
         .select_related('politician_fraction',
                         'politician_fraction__fraction'
                         ).order_by('last_name', 'first_name')

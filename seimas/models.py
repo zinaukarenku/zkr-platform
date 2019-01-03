@@ -212,6 +212,14 @@ class Politician(models.Model):
         if politician_fraction_nullable:
             return politician_fraction_nullable.fraction.name
 
+    @property
+    def committees_names_text(self) -> str:
+        return ', '.join(
+            map(
+                lambda c: c.committee.name,
+                self.politician_committees.all())
+        )
+
     class Meta:
         verbose_name_plural = "Politicians"
 
