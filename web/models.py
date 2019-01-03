@@ -227,9 +227,7 @@ class PoliticianInfo(models.Model):
     @property
     def short_description(self) -> Optional[str]:
         if self.seimas_politician:
-            politician_fraction_nullable = self.seimas_politician.politician_fraction_nullable
-            if politician_fraction_nullable:
-                return politician_fraction_nullable.fraction.name
+            return self.seimas_politician.fraction_name
 
     @property
     def contact_emails(self):

@@ -4,6 +4,7 @@ import uuid
 from collections import namedtuple
 from os.path import join
 from random import randint
+from typing import Optional
 
 from django.db import models
 from django.urls import reverse
@@ -184,6 +185,17 @@ class Politician(models.Model):
     @property
     def name(self):
         return f"{self.first_name} {self.last_name}"
+
+    @property
+    def short_description(self) -> Optional[str]:
+        return self.fraction_name
+
+    @property
+    def fraction_name(self) -> Optional[str]:
+        politician_fraction_nullable = self.politician_fraction_nullable
+
+        if politician_fraction_nullable:
+            return politician_fraction_nullable.fraction.name
 
     class Meta:
         verbose_name_plural = "Politicians"

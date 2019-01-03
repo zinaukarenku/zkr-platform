@@ -33,6 +33,7 @@ class DjangoFilterDescriptionInspector(CoreAPICompatInspector):
 class PoliticianInfoListView(APILoggingMixin, ListAPIView):
     queryset = PoliticianInfo.objects.select_related(
         'seimas_politician',
+        'seimas_politician__politician_fraction',
         'seimas_politician__politician_fraction__fraction'
     ).order_by(
         'name', 'pk'

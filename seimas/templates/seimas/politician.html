@@ -11,7 +11,7 @@
                         <div class="card-big-img ml-auto mr-auto mb-3"
                              style="background-image:url('{{ politician.photo.url }}')"></div>
                         <h2 class="text-center">{{ politician.name }}</h2>
-                        <span class="d-block text-center text-muted">{{ politician.elected_party }}</span>
+                        <span class="d-block text-center text-muted">{{ politician.fraction_name|default_if_none:""  }}</span>
                         <!-- <span class="d-block text-center text-muted">{{ politician.start }}</span> -->
                         <span class="d-block text-eyebrow mt-3">Kontaktai</span>
                         <span class="d-block text-muted">
