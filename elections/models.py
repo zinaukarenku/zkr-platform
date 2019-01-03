@@ -155,6 +155,7 @@ class PresidentCandidate(models.Model):
     facebook = models.URLField(blank=True)
     linkedin = models.URLField(blank=True)
     twitter = models.URLField(blank=True)
+    instagram = models.URLField(blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinta"))
