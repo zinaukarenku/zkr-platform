@@ -20,9 +20,9 @@ class PoliticianFiltersForm(forms.Form):
     )
 
     committee = forms.ModelChoiceField(
-        label=_("Komitetas"),
+        label=_("Komitetas arba pakomitetis"),
         queryset=Committee.objects.all(),
-        empty_label=_("Pasirinkite komitetą"),
+        empty_label=_("Pasirinkite komitetą ar pakomitetį"),
         required=False
     )
 
