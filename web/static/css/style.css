@@ -408,15 +408,6 @@ main .game_over {
     font-size: 1.25rem;
 }
 
-.seimas-filter-select,
-.seimas-filter-select option {
-    width: 100%;
-    max-width: 100%;
-}
-
-
-
-
 button.btn {
     -webkit-appearance: none;
     border: none;
