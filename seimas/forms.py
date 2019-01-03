@@ -15,6 +15,7 @@ class PoliticianFiltersForm(forms.Form):
     fraction = forms.ModelChoiceField(
         label=_("Frakcija"),
         queryset=Fraction.objects.all(),
+        to_field_name='slug',
         empty_label=_("Pasirinkite frakciją"),
         required=False
     )
@@ -22,6 +23,7 @@ class PoliticianFiltersForm(forms.Form):
     committee = forms.ModelChoiceField(
         label=_("Komitetas arba pakomitetis"),
         queryset=Committee.objects.all(),
+        to_field_name='slug',
         empty_label=_("Pasirinkite komitetą ar pakomitetį"),
         required=False
     )
