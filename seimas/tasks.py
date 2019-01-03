@@ -335,6 +335,41 @@ def fetch_and_match_committees_with_politicians():
                 else:
                     statistics['politician_committees']['updated'] += 1
 
+    committees_xml = soup.find_all('SeimoKomitetoPakomitetis')
+
+    for committee_xml in committees_xml:
+        committee, is_committee_created = Committee.objects.update_or_create(
+            seimas_pad_id=committee_xml['padalinio_id'],
+            defaults={
+                'name': sanitize_text(committee_xml['padalinio_pavadinimas']),
+                'is_main_committee': False
+            }
+        )
+
+        if is_committee_created:
+            statistics['committees']['created'] += 1
+        else:
+            statistics['committees']['updated'] += 1
+
+        members_xml = committee_xml.find_all('SeimoKomitetoPakomitečioNarys')
+
+        for member_xml in members_xml:
+            politician = Politician.objects.filter(asm_id=member_xml['asmens_id']).first()
+
+            if politician:
+                _, is_politician_committee_created = PoliticianCommittee.objects.update_or_create(
+                    politician=politician,
+                    committee=committee,
+                    defaults={
+                        'position': sanitize_text(member_xml['pareigos']),
+                    }
+                )
+
+                if is_politician_committee_created:
+                    statistics['politician_committees']['created'] += 1
+                else:
+                    statistics['politician_committees']['updated'] += 1
+
     return statistics
 
 
