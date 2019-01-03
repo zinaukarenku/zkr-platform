@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from ipware import get_client_ip
 
 from questions.models import Question
-from seimas.forms import PrizeFrom
+from seimas.forms import PrizeFrom, PoliticianFiltersForm
 from seimas.models import Politician, PoliticianTerm, PoliticianGame, LegalActDocument
 from seimas.utils import try_parse_int
 
@@ -62,19 +62,23 @@ def politician_game(request):
 
 
 def politicians(request):
-    politicians_all = Politician.active \
+    filters_form = PoliticianFiltersForm(request.GET)
+    politicians_queryset = Politician.active \
         .select_related('politician_fraction',
                         'politician_fraction__fraction'
                         ).order_by('last_name', 'first_name')
 
+    politicians_queryset = filters_form.filter_queryset(politicians_queryset)
+
     return render(request, 'seimas/politicians.html', {
-        'politicians': politicians_all
+        'politicians': politicians_queryset,
+        'filters_form': filters_form
     })
 
 
 def politician(request, slug):
     selected_politician = Politician.objects.filter(slug=slug) \
-        .select_related('elected_party', 'politician_info') \
+        .select_related('elected_party', 'politician_fraction', 'politician_fraction__fraction', 'politician_info') \
         .prefetch_related('divisions',
                           'parliament_groups',
                           'business_trips',

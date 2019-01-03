@@ -1,4 +1,5 @@
 {% extends "base/base-regular-page.html" %}
+{% load crispy_forms_tags %}
 {% block title %}Lietuvos Respublikos Seimo nariai{% endblock %}
 {% block banner_title %}Lietuvos Respublikos Seimo nariai{% endblock %}
 {% block banner_class %}banner--politicians{% endblock %}
@@ -24,6 +25,7 @@
             <aside class="card">
                 <div class="card-body">
                     <h4 class="card-title">Filtrai</h4>
+                    {% crispy filters_form %}
 
                     <label for="frakcijos" class="d-block">Frakcijos</label>
                     <select name="frakcijosFiltras" id="frackijos" class="mb-3 seimas-filter-select">
