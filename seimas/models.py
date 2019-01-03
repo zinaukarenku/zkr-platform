@@ -53,9 +53,16 @@ class Session(models.Model):
 
 class Fraction(models.Model):
     name = models.CharField(max_length=128)
+    slug = models.SlugField(unique=True, null=True)
     short_name = models.CharField(max_length=32)
 
     seimas_pad_id = models.IntegerField(unique=True)
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if not self.slug:
+            self.slug = slugify(self.short_name)
+
+        super().save(force_insert, force_update, using, update_fields)
 
     class Meta:
         verbose_name_plural = "Fractions"
@@ -67,9 +74,16 @@ class Fraction(models.Model):
 
 class Committee(models.Model):
     name = models.CharField(max_length=128)
+    slug = models.SlugField(unique=True, null=True)
     is_main_committee = models.BooleanField(default=True)
 
     seimas_pad_id = models.IntegerField(unique=True)
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if not self.slug:
+            self.slug = slugify(self.name)
+
+        super().save(force_insert, force_update, using, update_fields)
 
     class Meta:
         verbose_name_plural = _("Komitetai")
