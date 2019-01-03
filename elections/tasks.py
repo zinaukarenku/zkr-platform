@@ -104,6 +104,7 @@ def fetch_president_articles():
         description = first_or_none(page.get_metadatas('description'))
         site = first_or_none(page.get_metadatas('site_name'))
         url = page.get_url_canonical()
+        url = url if url else article.url
         image_url = page.get_metadata_link('image')
 
         information_obj, is_created = PresidentCandidateArticleInformation.objects.update_or_create(
