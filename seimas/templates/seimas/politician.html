@@ -130,11 +130,11 @@
                                 <section class="mb-4">
                                     <h3>Parlamentinės grupės</h3>
                                     <ul class="pl-0 list-unstyled">
-                                        {% for division in politician.divisions.all %}
+                                        {% for parliament_group in politician.parliament_groups.all %}
                                             <li class="mb-2">
-                                                <span class="d-block">{{ division.name }}</span>
-                                                <span class="d-inline-block text-muted mr-1">{{ division.role }}</span>
-                                                <span class="d-inline-block text-muted">{{ division.start|date:"SHORT_DATE_FORMAT" }} - {{ division.end|date:"SHORT_DATE_FORMAT"|default:"Nesibaigė" }}</span>
+                                                <span class="d-block">{{ parliament_group.name }}</span>
+                                                <span class="d-inline-block text-muted mr-1">{{ parliament_group.role }}</span>
+                                                <span class="d-inline-block text-muted">{{ parliament_group.start|date:"SHORT_DATE_FORMAT" }} - {{ parliament_group.end|date:"SHORT_DATE_FORMAT"|default:"Nesibaigė" }}</span>
                                             </li>
                                         {% endfor %}
                                     </ul>
