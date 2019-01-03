@@ -310,6 +310,10 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'seimas.tasks.fetch_and_match_fractions_with_politicians',
         'schedule': crontab(minute='10', hour='*')
     },
+    'fetch_and_match_committees_with_politicians': {
+        'task': 'seimas.tasks.fetch_and_match_committees_with_politicians',
+        'schedule': crontab(minute='15', hour='*')
+    },
     'fetch_terms': {
         'task': 'seimas.tasks.fetch_terms',
         'schedule': crontab(minute='30', hour='11')

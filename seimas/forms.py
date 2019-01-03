@@ -4,7 +4,7 @@ from django import forms
 from django.forms.utils import ErrorList
 from django.utils.translation import gettext_lazy as _
 
-from seimas.models import Fraction
+from seimas.models import Fraction, Committee
 
 
 class PrizeFrom(forms.Form):
@@ -19,6 +19,13 @@ class PoliticianFiltersForm(forms.Form):
         required=False
     )
 
+    committee = forms.ModelChoiceField(
+        label=_("Komitetas"),
+        queryset=Committee.objects.all(),
+        empty_label=_("Pasirinkite komitetą"),
+        required=False
+    )
+
     def __init__(self, data=None, files=None, auto_id='id_%s', prefix=None, initial=None, error_class=ErrorList,
                  label_suffix=None, empty_permitted=False, field_order=None, use_required_attribute=None,
                  renderer=None):
@@ -30,7 +37,8 @@ class PoliticianFiltersForm(forms.Form):
         self.helper.layout = Layout(
             Div(
                 Div('fraction'),
-                Div(Submit('filter', 'Filtruoti'))
+                Div('committee'),
+                Div(Submit('filter', 'Filtruoti', css_class="btn btn-primary btn-block btn-sm"))
             )
         )
 
@@ -39,12 +47,22 @@ class PoliticianFiltersForm(forms.Form):
     def get_selected_fraction(self):
         return self.cleaned_data.get('fraction')
 
+    def get_selected_committee(self):
+        return self.cleaned_data.get('committee')
+
     def filter_fraction(self, queryset, fraction):
         return queryset.filter(politician_fraction__fraction=fraction)
+
+    def filter_committee(self, queryset, committee):
+        return queryset.filter(politician_committees__committee=committee)
 
     def filter_queryset(self, queryset):
         fraction = self.get_selected_fraction()
         if fraction:
             queryset = self.filter_fraction(queryset, fraction)
+
+        committee = self.get_selected_committee()
+        if committee:
+            queryset = self.filter_committee(queryset, committee)
 
         return queryset

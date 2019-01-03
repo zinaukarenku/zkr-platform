@@ -12,6 +12,7 @@ from django.utils.text import slugify
 
 from utils.utils import file_extension, django_now, add_url_params
 from zkr import settings
+from django.utils.translation import gettext_lazy as _
 
 logger = logging.getLogger(__name__)
 
@@ -59,6 +60,20 @@ class Fraction(models.Model):
     class Meta:
         verbose_name_plural = "Fractions"
         ordering = ['seimas_pad_id']
+
+    def __str__(self):
+        return self.name
+
+
+class Committee(models.Model):
+    name = models.CharField(max_length=128)
+    is_main_committee = models.BooleanField(default=True)
+
+    seimas_pad_id = models.IntegerField(unique=True)
+
+    class Meta:
+        verbose_name_plural = _("Komitetai")
+        ordering = ['name']
 
     def __str__(self):
         return self.name
@@ -212,6 +227,20 @@ class PoliticianFraction(models.Model):
 
     class Meta:
         verbose_name_plural = "Politician fractions"
+
+    def __str__(self):
+        return str(self.politician)
+
+
+class PoliticianCommittee(models.Model):
+    committee = models.ForeignKey(Committee, on_delete=models.CASCADE, related_name="politicians")
+    politician = models.ForeignKey(Politician, on_delete=models.CASCADE, related_name="politician_committees")
+
+    position = models.CharField(max_length=128)
+
+    class Meta:
+        verbose_name_plural = _("Politikų komitetai")
+        unique_together = ['committee', 'politician']
 
     def __str__(self):
         return str(self.politician)

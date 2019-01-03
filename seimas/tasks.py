@@ -6,7 +6,7 @@ from celery import shared_task
 
 from seimas.models import ElectionType, Fraction, LegalAct, LegalActDocument, LegalActDocumentType, Party, Politician, \
     PoliticianBusinessTrip, PoliticianDivision, PoliticianFraction, PoliticianParliamentGroup, PoliticianTerm, Session, \
-    Term
+    Term, Committee, PoliticianCommittee
 from seimas.utils import parse_xml, sanitize_text
 from utils.utils import requests_retry_session
 from web.sendgrid import SendGrid
@@ -278,6 +278,62 @@ def fetch_and_match_fractions_with_politicians():
                             statistics['politician_fractions']['created'] += 1
                         else:
                             statistics['politician_fractions']['updated'] += 1
+
+    return statistics
+
+
+# TODO pakomiciai
+# TODO delete committees in which politician no longer belongs
+@shared_task(soft_time_limit=600)
+def fetch_and_match_committees_with_politicians():
+    statistics = {
+        'politician_committees': {
+            'created': 0,
+            'updated': 0
+        },
+        'committees': {
+            'created': 0,
+            'updated': 0
+        },
+    }
+    req = requests_retry_session().get("http://apps.lrs.lt/sip/p2b.ad_seimo_komitetai")
+    req.raise_for_status()
+
+    soup = parse_xml(req.text)
+    committees_xml = soup.find_all('SeimoKomitetas')
+
+    for committee_xml in committees_xml:
+        committee, is_committee_created = Committee.objects.update_or_create(
+            seimas_pad_id=committee_xml['padalinio_id'],
+            defaults={
+                'name': sanitize_text(committee_xml['padalinio_pavadinimas']),
+                'is_main_committee': True
+            }
+        )
+
+        if is_committee_created:
+            statistics['committees']['created'] += 1
+        else:
+            statistics['committees']['updated'] += 1
+
+        members_xml = committee_xml.find_all('SeimoKomitetoNarys')
+
+        for member_xml in members_xml:
+            politician = Politician.objects.filter(asm_id=member_xml['asmens_id']).first()
+
+            if politician:
+                _, is_politician_committee_created = PoliticianCommittee.objects.update_or_create(
+                    politician=politician,
+                    committee=committee,
+                    defaults={
+                        'position': sanitize_text(member_xml['pareigos']),
+                    }
+                )
+
+                if is_politician_committee_created:
+                    statistics['politician_committees']['created'] += 1
+                else:
+                    statistics['politician_committees']['updated'] += 1
 
     return statistics
 
