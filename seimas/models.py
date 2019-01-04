@@ -257,6 +257,11 @@ class Politician(models.Model):
                 self.politician_committees.all())
         )
 
+    @property
+    def politician_info_id(self) -> Optional[str]:
+        if hasattr(self, 'politician_info') and self.politician_info:
+            return self.politician_info.id
+
     class Meta:
         verbose_name_plural = "Politicians"
 

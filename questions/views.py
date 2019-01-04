@@ -1,11 +1,12 @@
+import reversion
 from allauth.account.decorators import verified_email_required
-from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 
 from questions.forms import NewQuestionForm, PoliticianAnswerFormSet
 from questions.models import Question
 from utils.utils import get_request_information
+from web.models import PoliticianInfo
 
 
 def questions_list(request):
@@ -19,7 +20,7 @@ def questions_list(request):
 
 
 @verified_email_required
-def new_question(request):
+def new_question(request, politician_id=None):
     user = request.user
     request_info = get_request_information(request)
 
@@ -30,7 +31,13 @@ def new_question(request):
         user_country=request_info.client_country
     )
 
-    new_question_form = NewQuestionForm(instance=question)
+    selected_politician = PoliticianInfo.objects.filter(id=politician_id).first() if politician_id else None
+    initial = {}
+
+    if selected_politician:
+        initial['politician'] = selected_politician
+
+    new_question_form = NewQuestionForm(instance=question, initial=initial)
     success = None
 
     if request.method == 'POST':
@@ -38,7 +45,8 @@ def new_question(request):
         new_question_form = NewQuestionForm(request.POST, instance=question)
 
         if new_question_form.is_valid():
-            new_question_form.save()
+            with reversion.create_revision():
+                new_question_form.save()
             return redirect('question', question_id=question.id)
 
     return render(request, 'questions/new-question.html', {

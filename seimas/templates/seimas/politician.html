@@ -2,6 +2,7 @@
 {% block title %}{{ politician.name }}{% endblock %}
 {% load humanize %}
 {% block main_content %}
+    {% include 'component/new-question-note.html' with politician_info_id=politician.politician_info_id %}
 
     <main class="container container-content" style="padding-top:25px;">
         <div class="row">
@@ -11,7 +12,7 @@
                         <div class="card-big-img ml-auto mr-auto mb-3"
                              style="background-image:url('{{ politician.photo.url }}')"></div>
                         <h2 class="text-center">{{ politician.name }}</h2>
-                        <span class="d-block text-center text-muted">{{ politician.fraction_name|default_if_none:""  }}</span>
+                        <span class="d-block text-center text-muted">{{ politician.fraction_name|default_if_none:"" }}</span>
                         <!-- <span class="d-block text-center text-muted">{{ politician.start }}</span> -->
                         <span class="d-block text-eyebrow mt-3">Kontaktai</span>
                         <span class="d-block text-muted">
@@ -171,10 +172,6 @@
                             <div id="communicate" class="tab-pane" aria-labelledby="communicate-tab">
 
                                 <h3>Klausimai ir atsakymai</h3>
-
-
-                                <a class="text-uppercase btn btn-block btn-question mb-3"
-                                   href="{% url 'new_question' %}">Užduoti naują klausimą politikui</a>
                                 {% for question in questions %}
                                     <a href="{% url 'question' question.id %}" class="d-block mb-3">
                                         <h4 class="card-title card-title--question text-left mb-0">{{ question.name }}</h4>
