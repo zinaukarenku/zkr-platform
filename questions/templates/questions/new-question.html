@@ -6,7 +6,12 @@
 {% block banner_class %}banner--questions{% endblock %}
 
 {% block head %}
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css"
+          integrity="sha256-xJOZHfpxLR/uhh1BwYFS5fhmOAdIRQaiOul5F/b7v3s=" crossorigin="anonymous"/>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.0.5/dist/select2-bootstrap4.min.css"
+          integrity="sha256-ArJD48KWzLAlbTAeoYwnz5Y9TwTL4rpvrvJk3/4DYJk=" crossorigin="anonymous">
 {% endblock %}
 
 {% block main_content %}
@@ -75,7 +80,8 @@
                                     įsikišimo.
                                 </li>
                                 <li>
-                                    Įvykus pakartotiniams Etikos kodekso pažeidimams, <i>Žinau, ką renku</i> komanda turi
+                                    Įvykus pakartotiniams Etikos kodekso pažeidimams, <i>Žinau, ką renku</i> komanda
+                                    turi
                                     teisę bendru iniciatyvinės grupės sprendimu apriboti konkrečių klausiančiųjų ar
                                     atsakančiųjų galimybes naudoti platformą (IP adreso/elektroninio pašto/vartotojo
                                     paskyros blokavimas).
@@ -162,9 +168,10 @@
 {% endblock %}
 
 {% block script %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/i18n/lt.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"
+            integrity="sha256-FA14tBI8v+/1BtcH9XtJpcNbComBEpdawUZA6BPXRVw=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/i18n/lt.js"
+            integrity="sha256-Jp1//SVVYlO+UAbMwPlFdF64KG2HXYgwGDZDzJfbyNE=" crossorigin="anonymous"></script>
 
     <script>
         $(document).ready(function () {
@@ -235,6 +242,7 @@
                     escapeMarkup: function (markup) {
                         return markup;
                     },
+                    theme: "bootstrap4",
                     minimumInputLength: 1,
                     templateResult: formatPolitician
                 });
