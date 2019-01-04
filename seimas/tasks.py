@@ -283,18 +283,11 @@ def fetch_and_match_fractions_with_politicians():
     return statistics
 
 
-# TODO delete committees in which politician no longer belongs
 @shared_task(soft_time_limit=600)
 def fetch_and_match_committees_with_politicians():
     statistics = {
-        'politician_committees': {
-            'created': 0,
-            'updated': 0
-        },
-        'committees': {
-            'created': 0,
-            'updated': 0
-        },
+        'politician_committees': 0,
+        'committees': 0
     }
     req = requests_retry_session().get("http://apps.lrs.lt/sip/p2b.ad_seimo_komitetai")
     req.raise_for_status()
@@ -302,73 +295,64 @@ def fetch_and_match_committees_with_politicians():
     soup = parse_xml(req.text)
     committees_xml = soup.find_all('SeimoKomitetas')
 
-    for committee_xml in committees_xml:
-        committee, is_committee_created = Committee.objects.update_or_create(
-            seimas_pad_id=committee_xml['padalinio_id'],
-            defaults={
-                'name': sanitize_text(committee_xml['padalinio_pavadinimas']),
-                'is_main_committee': True
-            }
-        )
+    with transaction.atomic():
+        Committee.objects.all().delete()
 
-        if is_committee_created:
-            statistics['committees']['created'] += 1
-        else:
-            statistics['committees']['updated'] += 1
+        for committee_xml in committees_xml:
+            committee, _ = Committee.objects.update_or_create(
+                seimas_pad_id=committee_xml['padalinio_id'],
+                defaults={
+                    'name': sanitize_text(committee_xml['padalinio_pavadinimas']),
+                    'is_main_committee': True
+                }
+            )
 
-        members_xml = committee_xml.find_all('SeimoKomitetoNarys')
+            statistics['committees'] += 1
 
-        for member_xml in members_xml:
-            politician = Politician.objects.filter(asm_id=member_xml['asmens_id']).first()
+            members_xml = committee_xml.find_all('SeimoKomitetoNarys')
 
-            if politician:
-                _, is_politician_committee_created = PoliticianCommittee.objects.update_or_create(
-                    politician=politician,
-                    committee=committee,
-                    defaults={
-                        'position': sanitize_text(member_xml['pareigos']),
-                    }
-                )
+            for member_xml in members_xml:
+                politician = Politician.objects.filter(asm_id=member_xml['asmens_id']).first()
 
-                if is_politician_committee_created:
-                    statistics['politician_committees']['created'] += 1
-                else:
-                    statistics['politician_committees']['updated'] += 1
+                if politician:
+                    _, _ = PoliticianCommittee.objects.update_or_create(
+                        politician=politician,
+                        committee=committee,
+                        defaults={
+                            'position': sanitize_text(member_xml['pareigos']),
+                        }
+                    )
 
-    committees_xml = soup.find_all('SeimoKomitetoPakomitetis')
+                    statistics['politician_committees'] += 1
 
-    for committee_xml in committees_xml:
-        committee, is_committee_created = Committee.objects.update_or_create(
-            seimas_pad_id=committee_xml['padalinio_id'],
-            defaults={
-                'name': sanitize_text(committee_xml['padalinio_pavadinimas']),
-                'is_main_committee': False
-            }
-        )
+        committees_xml = soup.find_all('SeimoKomitetoPakomitetis')
 
-        if is_committee_created:
-            statistics['committees']['created'] += 1
-        else:
-            statistics['committees']['updated'] += 1
+        for committee_xml in committees_xml:
+            committee, _ = Committee.objects.update_or_create(
+                seimas_pad_id=committee_xml['padalinio_id'],
+                defaults={
+                    'name': sanitize_text(committee_xml['padalinio_pavadinimas']),
+                    'is_main_committee': False
+                }
+            )
 
-        members_xml = committee_xml.find_all('SeimoKomitetoPakomitečioNarys')
+            statistics['committees'] += 1
 
-        for member_xml in members_xml:
-            politician = Politician.objects.filter(asm_id=member_xml['asmens_id']).first()
+            members_xml = committee_xml.find_all('SeimoKomitetoPakomitečioNarys')
 
-            if politician:
-                _, is_politician_committee_created = PoliticianCommittee.objects.update_or_create(
-                    politician=politician,
-                    committee=committee,
-                    defaults={
-                        'position': sanitize_text(member_xml['pareigos']),
-                    }
-                )
+            for member_xml in members_xml:
+                politician = Politician.objects.filter(asm_id=member_xml['asmens_id']).first()
 
-                if is_politician_committee_created:
-                    statistics['politician_committees']['created'] += 1
-                else:
-                    statistics['politician_committees']['updated'] += 1
+                if politician:
+                    _, _ = PoliticianCommittee.objects.update_or_create(
+                        politician=politician,
+                        committee=committee,
+                        defaults={
+                            'position': sanitize_text(member_xml['pareigos']),
+                        }
+                    )
+
+                    statistics['politician_committees'] += 1
 
     return statistics
 
