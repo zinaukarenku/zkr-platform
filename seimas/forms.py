@@ -55,25 +55,26 @@ class PoliticianFiltersForm(forms.Form):
 
         self.is_valid()
 
-    def get_selected_fraction(self):
-        return self.cleaned_data.get('fraction')
-
-    def get_selected_committee(self):
-        return self.cleaned_data.get('committee')
-
     def filter_fraction(self, queryset, fraction):
         return queryset.filter(politician_fraction__fraction=fraction)
 
     def filter_committee(self, queryset, committee):
         return queryset.filter(politician_committees__committee=committee)
 
+    def filter_commission(self, queryset, commission):
+        return queryset.filter(politician_commissions__commission=commission)
+
     def filter_queryset(self, queryset):
-        fraction = self.get_selected_fraction()
+        fraction = self.cleaned_data.get('fraction')
         if fraction:
             queryset = self.filter_fraction(queryset, fraction)
 
-        committee = self.get_selected_committee()
+        committee = self.cleaned_data.get('committee')
         if committee:
             queryset = self.filter_committee(queryset, committee)
+
+        commission = self.cleaned_data.get('commission')
+        if commission:
+            queryset = self.filter_commission(queryset, commission)
 
         return queryset
