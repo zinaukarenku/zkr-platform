@@ -20,6 +20,14 @@
                             </div>
                         </div>
                     </a>
+                {% empty %}
+                    <div class="card m-2">
+                        <div class="card-body">
+                            <p class="text-center">
+                                Seimo narių pagal pasirinktus kriterijus nerasta.
+                            </p>
+                        </div>
+                    </div>
                 {% endfor %}
             </div>
             <div class="col-lg-4 pr-0 d-none d-lg-block">
