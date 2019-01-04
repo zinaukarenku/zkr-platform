@@ -65,8 +65,30 @@ class Fraction(models.Model):
         super().save(force_insert, force_update, using, update_fields)
 
     class Meta:
-        verbose_name_plural = "Fractions"
-        ordering = ['seimas_pad_id']
+        verbose_name_plural = _("Frakcijos")
+        verbose_name = _("Frakcija")
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
+class Commission(models.Model):
+    name = models.CharField(max_length=128)
+    slug = models.SlugField(max_length=128, unique=True)
+
+    seimas_pad_id = models.IntegerField(unique=True)
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if not self.slug:
+            self.slug = slugify(self.name)
+
+        super().save(force_insert, force_update, using, update_fields)
+
+    class Meta:
+        verbose_name_plural = _("Komisijos")
+        verbose_name = _("Komsija")
+        ordering = ['name']
 
     def __str__(self):
         return self.name
@@ -87,6 +109,7 @@ class Committee(models.Model):
 
     class Meta:
         verbose_name_plural = _("Komitetai")
+        verbose_name = _("Komitetas")
         ordering = ['name']
 
     def __str__(self):
@@ -263,6 +286,21 @@ class PoliticianCommittee(models.Model):
     class Meta:
         verbose_name_plural = _("Politikų komitetai")
         unique_together = ['committee', 'politician']
+
+    def __str__(self):
+        return str(self.politician)
+
+
+class PoliticianCommission(models.Model):
+    commission = models.ForeignKey(Commission, on_delete=models.CASCADE, related_name="politicians")
+    politician = models.ForeignKey(Politician, on_delete=models.CASCADE, related_name="politician_commissions")
+
+    position = models.CharField(max_length=128)
+
+    class Meta:
+        verbose_name_plural = _("Politikų komisijos")
+        verbose_name = _("Politikų komisija")
+        unique_together = ['commission', 'politician']
 
     def __str__(self):
         return str(self.politician)

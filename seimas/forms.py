@@ -4,7 +4,7 @@ from django import forms
 from django.forms.utils import ErrorList
 from django.utils.translation import gettext_lazy as _
 
-from seimas.models import Fraction, Committee
+from seimas.models import Fraction, Committee, Commission
 
 
 class PrizeFrom(forms.Form):
@@ -28,6 +28,14 @@ class PoliticianFiltersForm(forms.Form):
         required=False
     )
 
+    commission = forms.ModelChoiceField(
+        label=_("Komisija"),
+        queryset=Commission.objects.all(),
+        to_field_name='slug',
+        empty_label=_("Pasirinkite komisiją"),
+        required=False
+    )
+
     def __init__(self, data=None, files=None, auto_id='id_%s', prefix=None, initial=None, error_class=ErrorList,
                  label_suffix=None, empty_permitted=False, field_order=None, use_required_attribute=None,
                  renderer=None):
@@ -39,6 +47,7 @@ class PoliticianFiltersForm(forms.Form):
         self.helper.layout = Layout(
             Div(
                 Div('committee'),
+                Div('commission'),
                 Div('fraction'),
                 Div(Submit('filter', 'Filtruoti', css_class="btn btn-primary btn-block btn-sm"))
             )

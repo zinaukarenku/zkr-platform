@@ -3,10 +3,11 @@ import re
 from time import sleep
 
 from celery import shared_task
+from django.db import transaction
 
 from seimas.models import ElectionType, Fraction, LegalAct, LegalActDocument, LegalActDocumentType, Party, Politician, \
     PoliticianBusinessTrip, PoliticianDivision, PoliticianFraction, PoliticianParliamentGroup, PoliticianTerm, Session, \
-    Term, Committee, PoliticianCommittee
+    Term, Committee, PoliticianCommittee, Commission, PoliticianCommission
 from seimas.utils import parse_xml, sanitize_text
 from utils.utils import requests_retry_session
 from web.sendgrid import SendGrid
@@ -282,7 +283,6 @@ def fetch_and_match_fractions_with_politicians():
     return statistics
 
 
-# TODO pakomiciai
 # TODO delete committees in which politician no longer belongs
 @shared_task(soft_time_limit=600)
 def fetch_and_match_committees_with_politicians():
@@ -369,6 +369,49 @@ def fetch_and_match_committees_with_politicians():
                     statistics['politician_committees']['created'] += 1
                 else:
                     statistics['politician_committees']['updated'] += 1
+
+    return statistics
+
+
+@shared_task(soft_time_limit=600)
+def fetch_and_match_commissions_with_politicians():
+    statistics = {
+        'politician_commissions': 0,
+        'commissions': 0,
+    }
+    req = requests_retry_session().get("http://apps.lrs.lt/sip/p2b.ad_seimo_komisijos")
+    req.raise_for_status()
+
+    soup = parse_xml(req.text)
+    commissions_xml = soup.find_all('SeimoKomisija')
+
+    with transaction.atomic():
+        Commission.objects.all().delete()
+        for commission_xml in commissions_xml:
+            commission, _ = Commission.objects.update_or_create(
+                seimas_pad_id=commission_xml['padalinio_id'],
+                defaults={
+                    'name': sanitize_text(commission_xml['padalinio_pavadinimas']),
+                }
+            )
+
+            statistics['commissions'] += 1
+
+            members_xml = commission_xml.find_all('SeimoKomisijosNarys')
+
+            for member_xml in members_xml:
+                politician = Politician.objects.filter(asm_id=member_xml['asmens_id']).first()
+
+                if politician:
+                    _, is_politician_commission_created = PoliticianCommission.objects.update_or_create(
+                        politician=politician,
+                        commission=commission,
+                        defaults={
+                            'position': sanitize_text(member_xml['pareigos']),
+                        }
+                    )
+
+                    statistics['politician_commissions'] += 1
 
     return statistics
 
