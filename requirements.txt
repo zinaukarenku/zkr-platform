@@ -19,10 +19,7 @@ git+git://github.com/aschn/drf-tracking.git
 
 django-enumfields==0.10.1
 celery[redis]==4.2.1
-django-redis==4.9.0
-# Workaround for https://github.com/niwinz/django-redis/issues/342
-redis==2.10.6
-
+django-redis==4.10.0
 metadata_parser==0.9.21
 beautifulsoup4==4.6.3
 lxml==4.2.5
