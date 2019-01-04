@@ -143,7 +143,7 @@ def fetch_politicians():
                 role=sanitize_text(parliament_group_xml['pareigos']),
 
                 defaults={
-                    'name': parliament_group_xml['parlamentinės_grupės_pavadinimas'],
+                    'name': sanitize_text(parliament_group_xml['parlamentinės_grupės_pavadinimas']),
                     'start': parliament_group_xml['data_nuo'],
                     'end': parliament_group_xml['data_iki'] or None,
                 }
@@ -167,7 +167,7 @@ def fetch_politicians():
                 politician=politician,
                 role=division_xml['pareigos'],
                 defaults={
-                    'name': division_xml['padalinio_pavadinimas'],
+                    'name': sanitize_text(division_xml['padalinio_pavadinimas']),
                     'start': division_xml['data_nuo'],
                     'end': division_xml['data_iki'] or None,
                 }
