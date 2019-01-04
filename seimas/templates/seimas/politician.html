@@ -178,6 +178,14 @@
                                         <time class="d-inline-block text-muted">{{ question.last_activity|naturaltime }}</time>
                                         <span class="d-block text-muted text-eyebrow">{{ question.status_text }}</span>
                                     </a>
+                                {% empty %}
+                                    <div class="card m-2">
+                                        <div class="card-body">
+                                            <p class="text-center">
+                                                Seimo nariui nėra užduota nė vieno klausimo.
+                                            </p>
+                                        </div>
+                                    </div>
                                 {% endfor %}
                             </div>
                         </div>
