@@ -445,26 +445,26 @@ def fetch_politician_documents():
     updated = 0
 
     for politician in Politician.active.all():
-        req = requests_retry_session().get("http://apps.lrs.lt/sip/p2b.statistika_snk", params={
-            'p_iid': politician.asm_id
+        req = requests_retry_session().get("http://apps.lrs.lt/sip/p2b.ad_sn_pateikti_ta_projektai", params={
+            'asmens_id': politician.asm_id
         })
         req.raise_for_status()
 
         soup = parse_xml(req.text)
-        documents_xml = soup.find_all('Dokumentas')
+        documents_xml = soup.find_all('SeimoNarioPateiktasTeisėsAktoProjektas')
 
         legal_act_documents = []
 
         for document_xml in documents_xml:
-            legal_act_document_type, _ = LegalActDocumentType.objects.get_or_create(name=document_xml['tipas'].strip())
-            legal_act, _ = LegalAct.objects.get_or_create(number=document_xml['numeris'])
+            legal_act_document_type, _ = LegalActDocumentType.objects.get_or_create(name=document_xml['požymis'].strip())
+            legal_act, _ = LegalAct.objects.get_or_create(number=document_xml['registracijos_numeris'])
 
             legal_act_document, is_created = LegalActDocument.objects \
-                .update_or_create(doc_id=document_xml['dok_id'],
+                .update_or_create(doc_id=document_xml['registracijos_numeris'].lstrip('XIIIP-'),
                                   defaults={
                                       'name': document_xml[
                                           'pavadinimas'].strip(),
-                                      'date': document_xml['data'],
+                                      'date': document_xml['registracijos_data'].split()[0],
                                       'legal_act': legal_act,
                                       'document_type': legal_act_document_type
                                   })
