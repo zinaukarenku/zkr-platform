@@ -12,14 +12,14 @@ It's a standart Django based project. After cloning project:
 2. Install project requirements using pip e.g `pip install requirements.txt`
 3. Set environment variable `DEV=1`
 4. Create Sqlite database file `db.sqlite3` or Postgres database and apply migrations using `python manage.py migrate`
-5. Fetch some data by running `python manage.py fetch_seimas_data`
+5. Fetch some data by running `python manage.py fetch_seimas_data`. You can see all possible Celery tasks in `zkr/settings.py` near `CELERY_BEAT_SCHEDULE`
 6. Start project using `python manage.py runserver`
 
-Deploymenet
+Deployment
 ------------
-Once code is pushed to Master branch Travis should autimatically deploy changes to the server.  
-Server environment is completely dockerized: Docker and `Docker-Compose` are used.  
-In very rare cases you may need to edit Dokcer environment file `.env` in which all secrets are kept.  
+Once code is pushed to Master branch Travis should automatically deploy changes to the server.  
+Server environment is completely dockerized: `Docker` and `Docker-Compose` are used.  
+In very rare cases you may need to edit Docker environment file `.env` in which all secrets are kept.  
 The structure of `.env` file:  
 ```
 SECRET_KEY=[SECRET_KEY]
