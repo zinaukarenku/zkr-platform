@@ -334,11 +334,10 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'seimas.tasks.fetch_business_trips',
         'schedule': crontab(minute='20', hour='*')
     },
-    # TODO Endpoint is no longer valid and task should be completely rewritten
-    # 'fetch_politician_documents': {
-    #     'task': 'seimas.tasks.fetch_politician_documents',
-    #     'schedule': crontab(minute='30', hour='*')
-    # },
+    'fetch_politician_documents': {
+        'task': 'seimas.tasks.fetch_politician_documents',
+        'schedule': crontab(minute='30', hour='*')
+    },
     'fetch_vrk_elections': {
         'task': 'elections.tasks.fetch_vrk_elections',
         'schedule': crontab(minute='30', hour='*')
