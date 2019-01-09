@@ -1,5 +1,6 @@
 import reversion
 from allauth.account.decorators import verified_email_required
+from django.db.models.functions import Coalesce
 from django.http import Http404
 from django.shortcuts import redirect, render
 
@@ -10,7 +11,10 @@ from web.models import PoliticianInfo
 
 
 def questions_list(request):
-    questions = Question.active.select_related('politician', 'politian_answer', 'created_by').order_by('-created_at')
+    questions = Question.active.select_related('politician', 'politian_answer', 'created_by') \
+        .annotate(last_created_at=Coalesce('politian_answer__created_at', 'created_at')) \
+        .order_by('-last_created_at')
+
     return render(
         request, 'questions/questions-list.html',
         {
