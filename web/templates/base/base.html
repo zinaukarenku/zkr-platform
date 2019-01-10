@@ -3,7 +3,6 @@
 {% load full_static %}
 {% load raven %}
 {% load setting_tags %}
-{% load recaptcha3 %}
 
 {% settings_value "GIT_COMMIT" as GIT_COMMIT %}
 <!DOCTYPE html>
@@ -170,8 +169,6 @@
 {% endblock %}
 
 <script src="{% static 'js/raven.min.js' %}?v={{ GIT_COMMIT }}"></script>
-{% recaptcha_init %}
-{% recaptcha_ready %}
 <script>Raven.config('{% sentry_public_dsn 'https' %}').install()</script>
 <script src="{% static 'js/jquery.min.js' %}?v={{ GIT_COMMIT }}"></script>
 <script src="{% static 'js/popper.min.js' %}?v={{ GIT_COMMIT }}"></script>

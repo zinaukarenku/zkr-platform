@@ -1,10 +1,9 @@
+from allauth.account.forms import LoginForm as AllAuthLoginForm, ResetPasswordForm as AllAuthResetPasswordForm, \
+    SignupForm as AllAuthSignupForm
+from allauth.socialaccount.forms import SignupForm as AllAuthSocialSignupForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Div, Layout
 from django import forms
-from allauth.account.forms import LoginForm as AllAuthLoginForm, SignupForm as AllAuthSignupForm, \
-    ResetPasswordForm as AllAuthResetPasswordForm
-from allauth.socialaccount.forms import SignupForm as AllAuthSocialSignupForm
-from snowpenguin.django.recaptcha3.fields import ReCaptchaField
 from django.utils.translation import gettext_lazy as _
 
 
@@ -31,8 +30,6 @@ class SignupForm(AllAuthSignupForm):
     last_name = forms.CharField(min_length=2, max_length=150, label=_("Pavardė"),
                                 help_text=_("Pavardė viešai rodoma nebus"))
 
-    captcha = ReCaptchaField()
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
@@ -43,7 +40,6 @@ class SignupForm(AllAuthSignupForm):
                 Div('last_name', css_class='col-12'),
                 Div('email', css_class='col-12'),
                 Div('password1', css_class='col-12'),
-                Div('captcha', css_class='col-12'),
                 css_class='row'
             ),
         )
