@@ -665,9 +665,3 @@ footer ul:first {
 
 
 }
-
-/* Disable Google Recaptcha badge */
-.grecaptcha-badge {
-    display: none;
-}
-
