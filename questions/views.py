@@ -59,7 +59,7 @@ def new_question(request, politician_id=None):
     })
 
 
-@verified_email_required
+@verified_email_required(login_url='/accounts/signup/')
 def question_with_secret(request, question_id, secret_id):
     selected_question = Question.active.filter(id=question_id).first()
 
