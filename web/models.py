@@ -197,16 +197,13 @@ class PoliticianInfo(models.Model):
                                              related_name="politician_info",
                                              verbose_name=_("Seimo politiko profilis"),
                                              help_text=_("Sujungia seimo narį su politiku"))
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True,
-                                verbose_name=_("Vartotojas"),
-                                )
 
     authenticated_users = models.ManyToManyField(
         settings.AUTH_USER_MODEL, blank=True,
         related_name="politician_infos",
         verbose_name=_("Vartotojai"),
         help_text=_(
-            "Nustatyti vartotojas galės atsakinėti į klausimus skirtus politikui")
+            "Nustatyti vartotojai galės atsakinėti į klausimus skirtus politikui")
     )
 
     registration_secret_id = models.UUIDField(default=uuid.uuid4)

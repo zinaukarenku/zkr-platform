@@ -78,7 +78,6 @@ def question(request, question_id):
 
     selected_question = Question.active \
         .select_related('politician',
-                        'politician__user',
                         'politian_answer',
                         'created_by') \
         .filter(id=question_id).first()
@@ -86,7 +85,6 @@ def question(request, question_id):
     if selected_question is None:
         selected_question = Question.objects.filter_questions_by_user(user) \
             .select_related('politician',
-                            'politician__user',
                             'politian_answer',
                             'created_by') \
             .filter(id=question_id).first()
