@@ -5,6 +5,7 @@ from urllib.parse import urljoin
 import reversion
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.db import models
+from django.db.models import Q
 from django.urls import reverse
 from django.utils.functional import cached_property
 from enumfields import EnumIntegerField, Enum
@@ -30,6 +31,12 @@ class QuestionsQuerySet(models.QuerySet):
     def filter_questions_by_user(self, user):
         if user and user.is_authenticated:
             return self.filter(created_by=user)
+
+        return self.none()
+
+    def filter_questions_by_user_or_for_user(self, user):
+        if user and user.is_authenticated:
+            return self.filter(Q(created_by=user) | Q(politician__authenticated_users=user))
 
         return self.none()
 

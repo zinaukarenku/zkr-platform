@@ -67,7 +67,7 @@ def subscribe(request):
 
 @login_required
 def user_profile(request):
-    user_questions = Question.objects.filter_questions_by_user(request.user)
+    user_questions = Question.objects.filter_questions_by_user_or_for_user(request.user)
     error = None
     if request.method == 'POST':
         disconnect_form = DisconnectForm(request.POST, request=request)
