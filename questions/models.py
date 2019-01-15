@@ -36,7 +36,9 @@ class QuestionsQuerySet(models.QuerySet):
 
     def filter_questions_by_user_or_for_user(self, user):
         if user and user.is_authenticated:
-            return self.filter(Q(created_by=user) | Q(politician__authenticated_users=user))
+            return self.filter(
+                Q(created_by=user) | Q(politician__authenticated_users=user, status=QuestionStatus.APPROVED)
+            )
 
         return self.none()
 
