@@ -408,6 +408,18 @@ main .game_over {
     font-size: 1.25rem;
 }
 
+.card--filters {
+   position: fixed;
+   z-index: 15;
+   height: 100vh;
+   padding-top: 45px;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+}
+
+
 button.btn {
     -webkit-appearance: none;
     border: none;
@@ -627,6 +639,15 @@ footer ul:first {
     .card-election {
         width: 150px;
         height: 225px;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .card--filters {
+        position: relative;
+        height: initial;
+        padding-top: initial;
+        z-index: 0;
     }
 }
 
