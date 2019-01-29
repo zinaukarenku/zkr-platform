@@ -1,5 +1,4 @@
 from celery import shared_task
-from metadata_parser import MetadataParser
 from requests import HTTPError
 
 from elections.models import Election, ElectionResult, PresidentCandidateArticle, PresidentCandidateArticleInformation
@@ -92,6 +91,8 @@ def fetch_vrk_election_results():
 
 @shared_task(soft_time_limit=300)
 def fetch_president_articles():
+    from metadata_parser import MetadataParser
+
     created = 0
     updated = 0
 
