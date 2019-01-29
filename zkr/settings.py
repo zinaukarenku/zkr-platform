@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'raven.contrib.django.raven_compat',
 
     'rest_framework',
+    'rest_framework.authtoken',
     'django_filters',
     'drf_yasg',
     'rest_framework_tracking',
@@ -454,3 +455,5 @@ REST_FRAMEWORK = {
 # Other general settings
 
 BASE_DOMAIN = "https://www.zinaukarenku.lt/" if not DEBUG else "http://localhost:8000/"
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 26214400

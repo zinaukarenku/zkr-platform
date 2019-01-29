@@ -6,11 +6,12 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
-from api.views import PoliticianInfoListView
+from api.views import PoliticianInfoListView, CreateMayorCandidateView
 from zkr import settings
 
 public_api_url_patterns = [
     path('v1/politicians/', PoliticianInfoListView.as_view(), name="api_politicians_list"),
+    path('v1/elections/candidates/mayor/', CreateMayorCandidateView.as_view(), name="api_create_mayor_candidate"),
 ]
 
 private_api_url_patterns = []

@@ -171,6 +171,42 @@ class PresidentCandidate(models.Model):
         return self.name
 
 
+class MayorCandidate(models.Model):
+
+    def _candidate_photo_file(self, filename):
+        ext = file_extension(filename)
+
+        slug = slugify(self.name)
+        filename = f"{slug}-photo.{ext}"
+        return join('img', 'elections', 'meras-2019', 'candidates', self.municipality.slug, filename)
+
+    first_name = models.CharField(max_length=256, verbose_name=_("Kandidato vardas"))
+    last_name = models.CharField(max_length=256, verbose_name=_("Kandidato pavardė"))
+    slug = models.SlugField(unique=True)
+    photo = ResizedImageField(blank=True, null=True, upload_to=_candidate_photo_file,
+                              crop=['middle', 'center'], size=[256, 256],
+                              verbose_name=_("Kandidato nuotrauka"), )
+    party = models.CharField(max_length=256, verbose_name=_("Iškėlusi partija arba rinkiminis komitetas"), blank=True)
+    municipality = models.ForeignKey("web.Municipality", on_delete=models.CASCADE)
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinta"))
+
+    @property
+    def name(self):
+        return self.first_name + " " + self.last_name
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if not self.slug:
+            self.slug = slugify(self.name)
+
+        super().save(force_insert, force_update, using, update_fields)
+
+    class Meta:
+        verbose_name = _("Kandidatas į savivaldybės merus")
+        verbose_name_plural = _("Kandidatai į savivaldyvės merus")
+
+
 class PresidentCandidateArticle(models.Model):
     candidate = models.ForeignKey(PresidentCandidate, on_delete=models.CASCADE, related_name="articles")
     url = models.URLField(verbose_name=_("Naujienos nuoroda"))
