@@ -5,6 +5,10 @@ from django.shortcuts import render
 from elections.models import Election, PresidentCandidate, PresidentCandidateArticle
 
 
+def elections(request):
+    return render(request, 'elections/elections.html')
+
+
 def election(request, slug):
     selected_election = Election.active.filter(slug=slug).prefetch_related('results', ).first()
 

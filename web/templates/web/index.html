@@ -9,29 +9,26 @@
     <main class="container container-content mt-3">
         <div class="row mb-2">
             <div class="col-sm-12 col-md-6">
-                <a href="{% url 'seimas_politician_game' %}"
-                   class="card d-flex align-items-center justify-content-center card-block-link text-center kyp-block-link">Pažink
-                    politiką</a>
+                <a href="{% url 'seimas_politician_game' %}" class="card d-flex align-items-center justify-content-center card-block-link text-center kyp-block-link">Pažink politiką</a>
             </div>
+
             <div class="col-sm-12 col-md-6">
-                <a href="{% url 'seimas_politicians' %}"
-                   class="card d-flex align-items-center justify-content-center card-block-link text-center politicians-block-link">Seimo
-                    nariai</a>
+                <a href="{% url 'seimas_politicians' %}" class="card d-flex align-items-center justify-content-center card-block-link text-center politicians-block-link">Seimo nariai</a>
             </div>
+
             <div class="col-sm-12 col-md-6">
-                <a href="{% url 'join_us' %}"
-                   class="card d-flex align-items-center justify-content-center card-block-link text-center mes-block-link">Prisijunk</a>
+                <a href="{% url 'join_us' %}" class="card d-flex align-items-center justify-content-center card-block-link text-center mes-block-link">Prisijunk</a>
             </div>
+
             <div class="col-sm-12 col-md-6">
-                <a href="{% url 'questions_list' %}"
-                   class="card d-flex align-items-center justify-content-center card-block-link text-center questions-block-link">Klausimai
-                    politikams</a>
+                <a href="{% url 'questions_list' %}" class="card d-flex align-items-center justify-content-center card-block-link text-center questions-block-link">Klausimai politikams</a>
             </div>
+
+            {% if user.is_superuser %}
             <div class="col-sm-12">
-                <a href="{% url 'user_profile' %}"
-                   class="card d-flex align-items-center justify-content-center card-block-link text-center">Vartotojo
-                    profilis</a>
+                <a href="{% url 'elections' %}" class="card d-flex align-items-center justify-content-center card-block-link text-center user-block-link">Rinkimai 2019</a>
             </div>
+            {% endif %}
         </div>
     </main>
     <div class="d-none container container-content mt-3 mb-3">

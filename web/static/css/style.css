@@ -190,7 +190,7 @@ nav .container {
 }
 
 .banner--elections {
-    background-image: url("../img/zanavykai-banner.jpg");
+    /* background-image: url(); */
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -419,6 +419,13 @@ main .game_over {
    bottom: 0;
 }
 
+.card--map-img {
+    height: 300px;
+    width: 100%;
+    background-color: blue;
+
+}
+
 
 button.btn {
     -webkit-appearance: none;
@@ -619,7 +626,7 @@ footer ul:first {
 
     .card,
     .banner--newsletter,
-    .banner--elections {
+    .card--map-img {
         border-radius: 5px;
     }
 
@@ -632,9 +639,7 @@ footer ul:first {
         width: 300px;
     }
 
-    .banner--elections {
-        height: 150px;
-    }
+
 
     .card-election {
         width: 150px;

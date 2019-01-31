@@ -86,12 +86,13 @@
             <div class="float-right d-none d-md-block align-middle">
                 <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'index' %}">Pradžia</a>
                 <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'seimas_index' %}">Seimas</a>
-                <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'seimas_politician_game' %}">Pažink
-                    politiką</a>
-                <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'questions_list' %}">
-                    Klausimai politikams
-                </a>
+                <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'seimas_politician_game' %}">Pažink politiką</a>
+                <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'questions_list' %}">Klausimai politikams</a>
+                {% if user.is_superuser %}
+                <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'elections' %}">Rinkimai</a>
+                {% endif %}
                 <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'about' %}">Apie mus</a>
+
                 <div class="d-inline-block pl-1">
                     {% include 'web/component/account-avatar.html' %}
                 </div>
@@ -129,6 +130,11 @@
                 <li>
                     <a class="d-block mb-1 mobile-nav-item" aria-current="false" href="{% url 'questions_list' %}">Klausimai politikams</a>
                 </li>
+                {% if user.is_superuser %}
+                <li>
+                    <a class="d-block mb-1 mobile-nav-item" aria-current="false" href="{% url 'elections' %}">Rinkimai</a>
+                </li>
+                {% endif %}
                 <li>
                     <a class="d-block mb-1 mobile-nav-item" aria-current="false" href="{% url 'about' %}">Apie mus</a>
                 </li>
