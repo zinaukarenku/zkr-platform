@@ -1,13 +1,11 @@
 $(document).ready(function () {
-    const d = document;
-    const body = d.querySelector('body');
-    const openMenuButton = d.querySelector('#open_menu');
-    const closeMenuButton = d.querySelector('#close_menu');
-    const mobileNav = d.body.querySelector('#mobile_nav');
-    const filtersPoliticianButton = d.body.querySelector('#filtersPoliticianButton');
-    const submitPoliticianFilterButton = d.body.querySelector('#submit-id-filter');
-    const filtersPoliticiansCard = d.body.querySelector('#filtersPoliticiansCard');
-    const closeFilters = d.body.querySelector('#close_filters');
+    const body = document.querySelector('body');
+    const openMenuButton = document.querySelector('#open_menu');
+    const closeMenuButton = document.querySelector('#close_menu');
+    const mobileNav = document.body.querySelector('#mobile_nav');
+    const filtersPoliticianButton = document.body.querySelector('#filtersPoliticianButton');
+    const filtersPoliticiansCard = document.body.querySelector('#filtersPoliticiansCard');
+    const closeFilters = document.body.querySelector('#close_filters');
 
     function toggleMobileMenu() {
         if (mobileNav.classList.contains('d-none')) {
@@ -37,11 +35,12 @@ $(document).ready(function () {
         }
     }
 
+    if (openMenuButton !== null && closeMenuButton !== null) {
+        openMenuButton.addEventListener('click', toggleMobileMenu);
+        closeMenuButton.addEventListener('click', toggleMobileMenu);
+    }
 
-    openMenuButton.addEventListener('click', toggleMobileMenu);
-    closeMenuButton.addEventListener('click', toggleMobileMenu);
-
-    if (window.screen.width < 992) {
+    if (filtersPoliticianButton !== null && closeFilters !== null && window.screen.width < 992) {
         filtersPoliticianButton.addEventListener('click', togglePoliticianFilters);
         closeFilters.addEventListener('click', togglePoliticianFilters);
     }
