@@ -211,6 +211,9 @@ class MayorCandidate(models.Model):
 
         super().save(force_insert, force_update, using, update_fields)
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         verbose_name = _("Kandidatas į savivaldybės merus")
         verbose_name_plural = _("Kandidatai į savivaldybės merus")
