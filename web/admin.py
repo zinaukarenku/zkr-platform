@@ -87,13 +87,13 @@ class EmailSubscriptionAdmin(admin.ModelAdmin):
 
 @admin.register(PoliticianInfo)
 class PoliticianInfoAdmin(admin.ModelAdmin):
-    list_display = ['name', 'seimas_politician', 'mayor_candidate', 'created_at', 'updated_at']
+    list_display = ['name', 'is_active', 'seimas_politician', 'mayor_candidate', 'created_at', 'updated_at']
 
     list_select_related = ['seimas_politician', 'mayor_candidate', ]
     raw_id_fields = ['seimas_politician', 'mayor_candidate', 'authenticated_users']
     readonly_fields = ['registration_secret_id']
     search_fields = ['name']
-    list_filter = ['created_at', ]
+    list_filter = ['is_active', 'created_at', ]
     date_hierarchy = 'created_at'
     view_on_site = True
 
