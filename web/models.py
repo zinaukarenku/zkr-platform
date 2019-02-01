@@ -12,7 +12,7 @@ from django_resized import ResizedImageField
 
 from elections.models import MayorCandidate
 from seimas.models import Politician as SeimasPolitician
-from utils.utils import file_extension, gravatar_url, distinct_by
+from utils.utils import distinct_by, file_extension, gravatar_url
 from zkr import settings
 
 
@@ -231,10 +231,9 @@ class PoliticianInfo(models.Model):
     active = ActivePoliticianInfoManager()
 
     @property
-    def photo(self) -> Optional[models.ImageField]:
-        if hasattr(self, 'seimas_politician'):
-            seimas_politician = self.seimas_politician
-            return self.seimas_politician.photo if seimas_politician else None
+    def photo(self):
+        if self.seimas_politician:
+            return self.seimas_politician.photo
         if self.mayor_candidate:
             return self.mayor_candidate.photo
 
@@ -254,7 +253,7 @@ class PoliticianInfo(models.Model):
     @property
     def contact_emails(self):
         emails = []
-        if hasattr(self, 'seimas_politician'):
+        if hasattr(self, 'seimas_politician') and self.seimas_politician:
             seimas_politician = self.seimas_politician
 
             if seimas_politician.email:
