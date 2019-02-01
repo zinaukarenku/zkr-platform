@@ -1,12 +1,20 @@
+from typing import Type
+
 from django.db.models import Prefetch
 from django.http import Http404
 from django.shortcuts import render
 
-from elections.models import Election, PresidentCandidate, PresidentCandidateArticle
+from elections.models import Election, PresidentCandidate, PresidentCandidateArticle, MayorCandidate
+from web.models import Municipality
 
 
 def elections(request):
-    return render(request, 'elections/elections.html')
+    mayor_candidates = MayorCandidate.objects.all().order_by('municipality', 'first_name')
+    municipalities = Municipality.objects.all().order_by('name')
+    return render(request, 'elections/elections.html', {
+        'mayor_candidates': mayor_candidates,
+        'municipalities': municipalities
+    })
 
 
 def election(request, slug):
