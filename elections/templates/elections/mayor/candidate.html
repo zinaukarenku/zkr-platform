@@ -1,0 +1,58 @@
+{% extends "base/base-regular-page.html" %}
+{% block title %}{{ candidate.name }}{% endblock %}
+{% load humanize %}
+{% block main_content %}
+    {% include 'component/new-question-note.html' with politician_info_id=candidate.politician_info_id %}
+
+    <main class="container container-content" style="padding-top:25px;">
+        <div class="row">
+            <div class="col-sm-12 col-md-4">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        {% if candidate.photo %}
+                            <div class="card-big-img ml-auto mr-auto mb-3"
+                                 style="background-image:url('{{ candidate.photo.url }}')"></div>
+                        {% endif %}
+                        <h2 class="text-center">{{ candidate.name }}</h2>
+                        <span class="d-block text-center text-muted"> Kandidatas į {{ candidate.municipality }} merus</span>
+                        <span class="d-block text-center text-muted">{{ candidate.party }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <ul id="politicianTab" class="nav nav-pills nav-fill mb-5" role="tablist">
+                            <li class="nav-item">
+                                <a href="#communicate" id="communicate-tab" class="nav-link active" data-toggle="tab"
+                                   role="tab" aria-controls="communicate" aria-selected="true">Bendraukime</a>
+                            </li>
+                        </ul>
+                        <div id="politicianTabContent" class="tab-content">
+                            <div id="communicate" class="tab-pane fade fade show active"
+                                 aria-labelledby="communicate-tab">
+
+                                <h3>Klausimai ir atsakymai</h3>
+                                {% for question in questions %}
+                                    <a href="{% url 'question' question.id %}" class="d-block mb-3">
+                                        <h4 class="card-title card-title--question text-left mb-0">{{ question.name }}</h4>
+                                        <time class="d-inline-block text-muted">{{ question.last_activity|naturaltime }}</time>
+                                        <span class="d-block text-muted text-eyebrow">{{ question.status_text }}</span>
+                                    </a>
+                                {% empty %}
+                                    <div class="card m-2">
+                                        <div class="card-body">
+                                            <p class="text-center">
+                                                Kandidatui į merus nėra užduota nė vieno klausimo.
+                                            </p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

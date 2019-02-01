@@ -241,6 +241,8 @@ class PoliticianInfo(models.Model):
     def get_absolute_url(self):
         if self.seimas_politician is not None:
             return self.seimas_politician.profile_url
+        if self.mayor_candidate is not None:
+            return self.mayor_candidate.profile_url
 
     @property
     def short_description(self) -> Optional[str]:

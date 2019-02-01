@@ -4,6 +4,7 @@ from django.shortcuts import render
 
 from elections.forms import MayorCandidatesFiltersForm
 from elections.models import Election, MayorCandidate, PresidentCandidate, PresidentCandidateArticle
+from questions.models import Question
 
 
 def elections(request):
@@ -17,6 +18,21 @@ def elections(request):
     return render(request, 'elections/elections.html', {
         'mayor_candidates': mayor_candidates,
         'mayor_candidates_filters_form': mayor_candidates_filters_form,
+    })
+
+
+def mayor_candidate(request, slug):
+    candidate = MayorCandidate.objects.select_related('municipality', 'politician_info').filter(slug=slug).first()
+
+    if candidate is None:
+        raise Http404("Politician does not exist")
+
+    questions = Question.active.select_related('politician', 'politian_answer', 'created_by').filter(
+        politician__mayor_candidate=candidate).order_by('-updated_at')
+
+    return render(request, 'elections/mayor/candidate.html', {
+        'candidate': candidate,
+        'questions': questions,
     })
 
 

@@ -53,7 +53,7 @@
                     <div class="row mb-2">
                         <div class="col-sm-12 col-lg-8">
                             {% for mayor_candidate in mayor_candidates %}
-                                <a href="" class="card mb-3">
+                                <a href="{{ mayor_candidate.profile_url }}" class="card mb-3">
                                     <div class="card-body d-flex">
                                         <span class="d-inline-block card-small-img mr-3" {% if mayor_candidate.photo %}
                                               style="background-image: url('{{ mayor_candidate.photo.url }}');" {% endif %}></span>

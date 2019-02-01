@@ -196,6 +196,15 @@ class MayorCandidate(models.Model):
     def name(self):
         return self.first_name + " " + self.last_name
 
+    @property
+    def profile_url(self):
+        return reverse('mayor_candidate', kwargs={'slug': self.slug})
+
+    @property
+    def politician_info_id(self) -> Optional[int]:
+        if hasattr(self, 'politician_info') and self.politician_info:
+            return self.politician_info.id
+
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if not self.slug:
             self.slug = slugify(self.name)
