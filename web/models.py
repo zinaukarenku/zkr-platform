@@ -249,7 +249,7 @@ class PoliticianInfo(models.Model):
         if self.seimas_politician:
             return self.seimas_politician.fraction_name
         if self.mayor_candidate:
-            return f"Kandidatas į merus ${self.mayor_candidate.municipality.name}"
+            return f"Kandidatas į merus {self.mayor_candidate.municipality.name}"
 
     @property
     def contact_emails(self):
