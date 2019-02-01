@@ -213,7 +213,7 @@ class MayorCandidate(models.Model):
 
     class Meta:
         verbose_name = _("Kandidatas į savivaldybės merus")
-        verbose_name_plural = _("Kandidatai į savivaldyvės merus")
+        verbose_name_plural = _("Kandidatai į savivaldybės merus")
 
 
 class PresidentCandidateArticle(models.Model):
