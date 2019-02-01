@@ -2,6 +2,7 @@ import logging
 
 from celery import shared_task
 
+from elections.models import MayorCandidate
 from seimas.models import Politician as SeimasPolitician
 from web.models import EmailSubscription, PoliticianInfo, User
 from web.sendgrid import SendGrid
@@ -24,12 +25,18 @@ def send_email_confirmation_letter(email, activate_url):
 @shared_task(soft_time_limit=30)
 def sync_politician_information():
     seimas_created = 0
+    mayors_created = 0
     for politician in SeimasPolitician.active.filter(politician_info__isnull=True):
         PoliticianInfo(name=politician.name, seimas_politician=politician).save()
         seimas_created += 1
 
+    for candidate in MayorCandidate.objects.filter(politician_info__isnull=True):
+        PoliticianInfo(name=candidate.name, mayor_candidate=candidate).save()
+        mayors_created += 1
+
     return {
-        'seimas_created': seimas_created
+        'seimas_created': seimas_created,
+        'mayors_created': mayors_created,
     }
 
 
