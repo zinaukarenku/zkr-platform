@@ -209,7 +209,7 @@ class PoliticianInfo(models.Model):
                                              related_name="politician_info",
                                              verbose_name=_("Seimo politiko profilis"),
                                              help_text=_("Sujungia seimo narį su politiku"))
-    mayor_candidate = models.OneToOneField(MayorCandidate, on_delete=models.PROTECT, null=True, blank=True,
+    mayor_candidate = models.OneToOneField(MayorCandidate, on_delete=models.CASCADE, null=True, blank=True,
                                            related_name="politician_info",
                                            verbose_name=_("Kandidatas į merus"),
                                            help_text=_("Sujungia kandidatą į merus su politiku"))
