@@ -36,7 +36,9 @@ class PoliticianInfoListView(APILoggingMixin, ListAPIView):
     queryset = PoliticianInfo.active.select_related(
         'seimas_politician',
         'seimas_politician__politician_fraction',
-        'seimas_politician__politician_fraction__fraction'
+        'seimas_politician__politician_fraction__fraction',
+        'mayor_candidate',
+        'mayor_candidate__municipality',
     ).order_by(
         'name', 'pk'
     )
