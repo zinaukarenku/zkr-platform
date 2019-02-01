@@ -35,7 +35,7 @@ def new_question(request, politician_id=None):
         user_country=request_info.client_country
     )
 
-    selected_politician = PoliticianInfo.objects.filter(id=politician_id).first() if politician_id else None
+    selected_politician = PoliticianInfo.active.filter(id=politician_id).first() if politician_id else None
     initial = {}
 
     if selected_politician:

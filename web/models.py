@@ -190,8 +190,19 @@ class OrganizationPartner(models.Model):
         return self.name
 
 
+class PoliticianInfoQuerySet(models.QuerySet):
+    pass
+
+
+class ActivePoliticianInfoManager(models.Manager):
+    def get_queryset(self):
+        return PoliticianInfoQuerySet(self.model, using=self._db).filter(is_active=True)
+
+
 class PoliticianInfo(models.Model):
     name = models.CharField(max_length=256, db_index=True, verbose_name=_("Politiko vardas"))
+    is_active = models.BooleanField(db_index=True, verbose_name=_("Aktyvus"), default=True,
+                                    help_text=_("Indikuoja ar politiko informacija aktyvi ir galima užduoti klausimą."))
 
     seimas_politician = models.OneToOneField(SeimasPolitician, on_delete=models.PROTECT, null=True, blank=True,
                                              related_name="politician_info",
@@ -210,6 +221,9 @@ class PoliticianInfo(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    objects = PoliticianInfoQuerySet.as_manager()
+    active = ActivePoliticianInfoManager()
 
     @property
     def photo(self) -> Optional[models.ImageField]:
