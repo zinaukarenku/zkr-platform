@@ -10,6 +10,7 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django_resized import ResizedImageField
 
+from elections.models import MayorCandidate
 from seimas.models import Politician as SeimasPolitician
 from utils.utils import file_extension, gravatar_url, distinct_by
 from zkr import settings
@@ -208,6 +209,10 @@ class PoliticianInfo(models.Model):
                                              related_name="politician_info",
                                              verbose_name=_("Seimo politiko profilis"),
                                              help_text=_("Sujungia seimo narį su politiku"))
+    mayor_candidate = models.OneToOneField(MayorCandidate, on_delete=models.PROTECT, null=True, blank=True,
+                                           related_name="politician_info",
+                                           verbose_name=_("Kandidatas į merus"),
+                                           help_text=_("Sujungia kandidatą į merus su politiku"))
 
     authenticated_users = models.ManyToManyField(
         settings.AUTH_USER_MODEL, blank=True,
@@ -230,6 +235,8 @@ class PoliticianInfo(models.Model):
         if hasattr(self, 'seimas_politician'):
             seimas_politician = self.seimas_politician
             return self.seimas_politician.photo if seimas_politician else None
+        if self.mayor_candidate:
+            return self.mayor_candidate.photo
 
     def get_absolute_url(self):
         if self.seimas_politician is not None:
@@ -239,6 +246,8 @@ class PoliticianInfo(models.Model):
     def short_description(self) -> Optional[str]:
         if self.seimas_politician:
             return self.seimas_politician.fraction_name
+        if self.mayor_candidate:
+            return f"Kandidatas į merus ${self.mayor_candidate.municipality.name}"
 
     @property
     def contact_emails(self):
