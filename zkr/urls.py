@@ -26,7 +26,7 @@ from zkr.sitemap import StaticViewSitemap, SeimasPoliticianSitemap
 urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('seimas/', include('seimas.urls')),
-                  path('rinkimai/', include('elections.urls')),
+                  path('Rinkimai2019/', include('elections.urls')),
                   path('klausimai/', include('questions.urls')),
                   path('api/', include('api.urls')),
                   path(

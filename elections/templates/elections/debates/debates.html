@@ -1,0 +1,45 @@
+{% extends "base/base-regular-page.html" %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+{% block title %}{% block banner_title %}Debatai 2019{% endblock %}{% endblock %}
+{% block banner_class %}banner--elections{% endblock %}
+
+{% block main_content %}
+    <main class="container container-content mt-3">
+        <div id="map" class="card card--map-img mb-5"></div>
+        <div class="row mb-2 flex-sm-column-reverse flex-lg-row">
+            <div class="col-sm-12 col-lg-8">
+                {% for debate in debates %}
+                <a href="{{debate.facebook_url}}" class="card mb-3">
+                    <div class="card-body d-flex">
+                        <div class="d-inline-block">
+                            <h4 class="card-title text-left mb-0">{{debate.name}}</h4>
+                            <span class="text-muted mb-0 text-80">{{debate.location}} &bull;</span>
+                            <span class="text-muted mb-0 text-80">{{debate.date}} {{debate.time}}</span>
+                            <span class="d-block text-muted mb-0 text-80">Moderuos: {{debate.moderator}}</span>
+                        </div>
+                    </div>
+                </a>
+                {% empty %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <p class="text-center">
+                                Kol kas debatai nėra suplanuoti šioje savivaldybėje
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-sm-12 col-lg-4 pl-lg-3 mb-3">
+                <aside class="card">
+                    <div class="card-body">
+                        <h4 class="card-title d-inline-block">Filtrai</h4>
+                        {% crispy mayor_candidates_filters_form %}
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

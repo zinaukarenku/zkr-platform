@@ -108,6 +108,13 @@ ul {
     font-size: 80%;
 }
 
+
+.flex-sm-column-reverse {
+    flex-direction: column-reverse;
+}
+
+
+
 nav {
     height: 50px;
     width: 100%;

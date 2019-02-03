@@ -24,6 +24,20 @@ def elections(request):
     })
 
 
+def mayor_candidates(request):
+    mayor_candidates_filters_form = MayorCandidatesFiltersForm(request.GET)
+
+    mayor_candidates = MayorCandidate.objects.select_related('municipality').order_by('municipality',
+                                                                                      'last_name')
+
+    mayor_candidates = mayor_candidates_filters_form.filter_queryset(mayor_candidates)
+
+    return render(request, 'elections/mayor/candidates.html', {
+        'mayor_candidates': mayor_candidates,
+        'mayor_candidates_filters_form': mayor_candidates_filters_form
+    })
+
+
 def mayor_candidate(request, slug):
     candidate = MayorCandidate.objects.select_related('municipality', 'politician_info').filter(slug=slug).first()
 
@@ -36,6 +50,18 @@ def mayor_candidate(request, slug):
     return render(request, 'elections/mayor/candidate.html', {
         'candidate': candidate,
         'questions': questions,
+    })
+
+
+def debates(request):
+    mayor_candidates_filters_form = MayorCandidatesFiltersForm(request.GET)
+
+    debates = Debates.objects.select_related('municipality').order_by('municipality')
+
+    return render(request, 'elections/debates/debates.html', {
+        'mayor_candidates': mayor_candidates,
+        'mayor_candidates_filters_form': mayor_candidates_filters_form,
+        'debates': debates
     })
 
 
