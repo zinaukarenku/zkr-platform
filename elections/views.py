@@ -58,8 +58,9 @@ def debates(request):
 
     debates = Debates.objects.select_related('municipality').order_by('municipality')
 
+    debates = mayor_candidates_filters_form.filter_queryset(debates)
+
     return render(request, 'elections/debates/debates.html', {
-        'mayor_candidates': mayor_candidates,
         'mayor_candidates_filters_form': mayor_candidates_filters_form,
         'debates': debates
     })
