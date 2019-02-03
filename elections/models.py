@@ -194,7 +194,7 @@ class MayorCandidate(models.Model):
 
     @property
     def name(self):
-        return self.first_name + " " + self.last_name
+        return f"{self.first_name} {self.last_name}"
 
     @property
     def profile_url(self):
@@ -262,3 +262,78 @@ class PresidentCandidateArticleInformation(models.Model):
 
     def __str__(self):
         return self.url
+
+
+class Moderators(models.Model):
+    def _moderator_photo_file(self, filename):
+        ext = file_extension(filename)
+        slug = slugify(self.name)
+
+        filename = f"{slug}-photo.{ext}"
+        return join('img', 'elections', 'moderators', self.slug, filename)
+
+    slug = models.SlugField(unique=True)
+    first_name = models.CharField(max_length=256, verbose_name=_("Moderatoriaus vardas"))
+    last_name = models.CharField(max_length=256, verbose_name=_("Moderatoriaus pavardė"))
+    photo = ResizedImageField(blank=True, null=True, upload_to=_moderator_photo_file,
+                              crop=['middle', 'center'], size=[256, 256],
+                              verbose_name=_("Moderatoriaus nuotrauka"), )
+
+    @property
+    def name(self):
+        return f"{self.first_name} {self.last_name}"
+
+    class Meta:
+        verbose_name = _("Moderatorius")
+        verbose_name_plural = _("Moderatoriai")
+        ordering = ["last_name"]
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.slug = slugify(self.name)
+        super().save(force_insert, force_update, using, update_fields)
+
+    def __str__(self):
+        return self.name
+
+
+class DebatesQuerySet(models.QuerySet):
+    pass
+
+
+class ActiveDebatesManager(models.Manager):
+    def get_queryset(self):
+        return DebatesQuerySet(self.model, using=self._db).filter(is_active=True)
+
+
+class Debates(models.Model):
+    name = models.CharField(max_length=256, verbose_name=_("Debatų pavadinimas"))
+    slug = models.SlugField(unique=True)
+    location = models.CharField(max_length=256, verbose_name=_("Debatų vieta"), help_text=_("pvz: M. Mažvydo biblioteka"))
+    municipality = models.ForeignKey("web.Municipality", on_delete=models.CASCADE)
+    lat = models.DecimalField(max_digits=10, decimal_places=7, verbose_name=_("Platuma"),
+                              help_text=_("Google žemėlapiams"))
+    lng = models.DecimalField(max_digits=10, decimal_places=7, verbose_name=_("Ilguma"),
+                              help_text=_("Google žemėlapiams"))
+    date = models.DateField(verbose_name=_("Debatų data"))
+    time = models.TimeField(verbose_name=_("Debatų laikas"))
+    is_active = models.BooleanField(default=True, db_index=True)
+    facebook_url = models.URLField(blank=True, verbose_name=_("Debatų Facebook Event puslapio url"))
+    youtube_video_url = models.URLField(blank=True, verbose_name=_("Debatų YouTube video url"))
+    moderator = models.ForeignKey("Moderators", on_delete=models.CASCADE)
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinta"))
+
+    objects = DebatesQuerySet.as_manager()
+    active = ActiveDebatesManager()
+
+    class Meta:
+        verbose_name_plural =_("Debatai")
+        ordering = ["-created_at"]
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.slug = slugify(self.name)
+        super().save(force_insert, force_update, using, update_fields)
+
+    def __str__(self):
+        return self.name

@@ -7,6 +7,7 @@ $(document).ready(function () {
     const filtersPoliticiansCard = document.body.querySelector('#filtersPoliticiansCard');
     const closeFilters = document.body.querySelector('#close_filters');
 
+
     function toggleMobileMenu() {
         if (mobileNav.classList.contains('d-none')) {
             body.classList.add('overflow-hidden');
@@ -45,6 +46,10 @@ $(document).ready(function () {
         closeFilters.addEventListener('click', togglePoliticianFilters);
     }
 
+
+
+
+
     $('.subscribe-form').each(function () {
         let subscribeForm = $(this);
         subscribeForm.submit(function () {
@@ -63,4 +68,21 @@ $(document).ready(function () {
         });
     });
 
+
+
 });
+
+
+
+//Google maps for debates
+//const mapContainer = document.body.querySelector('#map');
+//
+//if (mapContainer !== null) {
+//
+//    function initMap() {
+//        let lithuania = {lat: 55.1267529, lng: 23.9179474};
+//        let map = new google.maps.Map(mapContainer, {zoom: 8.07, center: lithuania})
+//    }
+//
+//    initMap();
+//}

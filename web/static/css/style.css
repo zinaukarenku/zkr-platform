@@ -154,7 +154,7 @@ nav .container {
 
 /* banner background images */
 
-.banner--home {
+.banner--home, .banner--elections {
     background-image: url("../img/rinkejo_atmintine_phone.jpg");
 }
 
@@ -422,7 +422,11 @@ main .game_over {
 .card--map-img {
     height: 300px;
     width: 100%;
-    background-color: blue;
+    background-color: white;
+    background-image: url('../img/ZEMELAPIS.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 
 }
 
@@ -589,22 +593,26 @@ footer ul:first {
         padding-right: 15px;
     }
 
+    /*
     .container-content > .row {
         margin-left: -15px;
         margin-right: -15px;
     }
+    */
 
-    .col-md-6,
-    .col-sm-12 {
-        padding-left: 15px;
-        padding-right: 15px;
+    .col-md-6:first-child {
+        padding-right: 5px;
+    }
+
+    .col-md-6:last-child {
+        padding-left: 5px;
     }
 
     .banner {
         height: 300px;
     }
 
-    .banner--home {
+    .banner--home, .banner--elections {
         background-image: url("../img/rinkejo_atmintine_tablet.jpg");
     }
 
@@ -639,12 +647,19 @@ footer ul:first {
         width: 300px;
     }
 
-
-
     .card-election {
         width: 150px;
         height: 225px;
     }
+
+    .card--map-img {
+        height: 500px;
+    }
+
+    .flex-sm-column-reverse {
+        flex-direction: initial;
+    }
+
 }
 
 @media screen and (min-width: 992px) {
@@ -654,6 +669,7 @@ footer ul:first {
         padding-top: initial;
         z-index: 0;
     }
+
 }
 
 @media screen and (min-width: 1024px) {
@@ -662,7 +678,7 @@ footer ul:first {
         height: 350px;
     }
 
-    .banner--home {
+    .banner--home, .banner--elections {
         background-image: url("../img/rinkejo_atmintine_laptop.jpg");
     }
 

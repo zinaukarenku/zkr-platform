@@ -3,7 +3,7 @@ from django.utils.html import format_html
 from reversion.admin import VersionAdmin
 
 from elections.models import Election, ElectionResult, PresidentCandidate, PresidentCandidateArticle, \
-    PresidentCandidateArticleInformation, MayorCandidate
+    PresidentCandidateArticleInformation, MayorCandidate, Moderators, Debates
 from django.utils.translation import gettext_lazy as _
 
 
@@ -60,3 +60,18 @@ class PresidentCandidateArticleAdmin(VersionAdmin):
         return format_html('<a href="{url}" target="_blank">{url}</a>', url=obj.url)
 
     article_url.short_description = _("Naujienos nuoroda")
+
+
+@admin.register(Moderators)
+class ModeratorsAdmin(VersionAdmin):
+    search_fields = ['first_name', 'last_name']
+    list_display = ['name', 'photo']
+    exclude = ['slug']
+
+
+@admin.register(Debates)
+class DebatesAdmin(VersionAdmin):
+    search_fields = ['name']
+    list_display = ['name', 'location', 'municipality', 'date', 'time', 'moderator', 'is_active', 'created_at',
+                    'updated_at']
+    list_filter = ['municipality', 'moderator', 'is_active']
