@@ -36,6 +36,14 @@
                                     </div>
                                 </div>
                             </a>
+                            {% empty %}
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <p class="text-center">
+                                            Kol kas debatai nėra suplanuoti
+                                        </p>
+                                    </div>
+                                </div>
                             {% endfor %}
                         </div>
 
@@ -65,6 +73,14 @@
                                         </div>
                                     </div>
                                 </a>
+                                {% empty %}
+                                    <div class="card m-2">
+                                        <div class="card-body">
+                                            <p class="text-center">
+                                                Kandidatų į merus, kol kas nėra
+                                            </p>
+                                        </div>
+                                    </div>
                             {% endfor %}
                         </div>
                         <div class="col-sm-12 col-lg-4 pl-lg-3 mb-3">
