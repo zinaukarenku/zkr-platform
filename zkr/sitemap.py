@@ -1,6 +1,7 @@
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 
+from elections.models import MayorCandidate
 from seimas.models import Politician
 
 
@@ -32,3 +33,14 @@ class SeimasPoliticianSitemap(Sitemap):
     @staticmethod
     def lastmod(obj):
         return obj.updated_at
+
+
+class MayorCandidateSitemap(Sitemap):
+    protocol = 'https'
+    priority = 0.6
+
+    def items(self):
+        return MayorCandidate.objects.order_by('-pk')
+
+    def location(self, item):
+        return item.profile_url

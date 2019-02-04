@@ -21,7 +21,7 @@ from django.views.defaults import page_not_found
 from django.views.generic import RedirectView
 
 from zkr import settings
-from zkr.sitemap import StaticViewSitemap, SeimasPoliticianSitemap
+from zkr.sitemap import StaticViewSitemap, SeimasPoliticianSitemap, MayorCandidateSitemap
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
@@ -32,7 +32,13 @@ urlpatterns = [
                   path(
                       'sitemap.xml/',
                       sitemap,
-                      {'sitemaps': {'static': StaticViewSitemap, 'seimas': SeimasPoliticianSitemap}},
+                      {
+                          'sitemaps': {
+                              'static': StaticViewSitemap,
+                              'seimas': SeimasPoliticianSitemap,
+                              'mayor_candidates': MayorCandidateSitemap,
+                          }
+                      },
                       name='django.contrib.sitemaps.views.sitemap'
                   ),
                   path('', include('web.urls')),
