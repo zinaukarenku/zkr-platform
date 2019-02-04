@@ -190,6 +190,16 @@ nav .container {
     background-position: center 30%;
 }
 
+.candidate-block-link {
+    background-image: url("../img/kandidatai-medium.jpg");
+    background-position: center;
+}
+
+.debates-block-link {
+    background-image: url("../img/debatai-medium.jpg");
+    background-position: center;
+}
+
 .banner--newsletter {
     background-color: #58397a;
     border-radius: 0;
