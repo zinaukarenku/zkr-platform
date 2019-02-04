@@ -6,8 +6,8 @@ from elections.views import elections, election, president_candidates, president
 urlpatterns = [
     path('', elections, name="elections"),
     path('debatai/', debates, name="debates"),
-    path('kandidatai_i_merus/', mayor_candidates, name='mayor_candidates'),
-    path('kandidatai_i_merus/<slug:slug>/', mayor_candidate, name='mayor_candidate'),
+    path('kandidatai-i-merus/', mayor_candidates, name='mayor_candidates'),
+    path('kandidatai-i-merus/<slug:slug>/', mayor_candidate, name='mayor_candidate'),
     path('prezidentas/', president_candidates, name="president_candidates"),
     path('prezidentas/<slug:slug>/', president_candidate, name="president_candidate"),
     path('<slug:slug>/', election, name="election"),
