@@ -8,7 +8,7 @@ from web.models import Municipality
 class Command(BaseCommand):
     def handle(self, **options):
         response = requests.get(
-            "https://services.arcgis.com/fFwZ4t9mPyCe14FA/arcgis/rest/services/HBContent_SAV/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=OBJECTID%20ASC&resultOffset=0&resultRecordCount=50&quantizationParameters=%7B%22mode%22%3A%22edit%22%7D")
+            "https://services.arcgis.com/fFwZ4t9mPyCe14FA/arcgis/rest/services/HBContent_SAV/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=OBJECTID%20ASC&resultOffset=0&resultRecordCount=100&quantizationParameters=%7B%22mode%22%3A%22edit%22%7D")
         response.raise_for_status()
 
         json = response.json()
