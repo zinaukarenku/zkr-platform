@@ -445,7 +445,7 @@ def fetch_politician_documents():
     updated = 0
 
     for politician in Politician.active.all():
-        req = requests_retry_session().get("http://apps.lrs.lt/sip/p2b.ad_sn_pateikti_ta_projektai", params={
+        req = requests_retry_session().get("http://apps.lrs.lt/sip/p2b.ad_sn_inicijuoti_ta_projektai", params={
             'asmens_id': politician.asm_id
         })
         req.raise_for_status()
