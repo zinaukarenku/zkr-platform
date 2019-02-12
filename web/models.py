@@ -259,6 +259,12 @@ class PoliticianInfo(models.Model):
             if seimas_politician.email:
                 emails.append(seimas_politician.email)
 
+        if hasattr(self, 'mayor_candidate') and self.mayor_candidate:
+            mayor_candidate = self.mayor_candidate
+
+            if mayor_candidate.email:
+                emails.append(mayor_candidate.email)
+
         for user in self.authenticated_users.all():
             emails.append(user.email)
 
