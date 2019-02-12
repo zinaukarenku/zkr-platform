@@ -182,6 +182,8 @@ class MayorCandidate(models.Model):
 
     first_name = models.CharField(max_length=256, verbose_name=_("Kandidato vardas"))
     last_name = models.CharField(max_length=256, verbose_name=_("Kandidato pavardė"))
+    email = models.CharField(max_length=256, blank=True, verbose_name=_("Kandidato el. paštas"))
+
     slug = models.SlugField(unique=True)
     photo = ResizedImageField(blank=True, null=True, upload_to=_candidate_photo_file,
                               crop=['middle', 'center'], size=[256, 256],
