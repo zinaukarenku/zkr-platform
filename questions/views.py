@@ -1,19 +1,35 @@
 import reversion
 from allauth.account.decorators import verified_email_required
+from django.core.paginator import EmptyPage
 from django.db.models.functions import Coalesce
 from django.http import Http404
 from django.shortcuts import redirect, render
+from django.urls import reverse
 
 from questions.forms import NewQuestionForm, PoliticianAnswerFormSet
 from questions.models import Question
-from utils.utils import get_request_information
+from utils.utils import get_request_information, PaginatorWithPageLink
 from web.models import PoliticianInfo
 
 
-def questions_list(request):
+def questions_list(request, page=1):
     questions = Question.active.select_related('politician', 'politian_answer', 'created_by') \
         .annotate(last_created_at=Coalesce('politian_answer__created_at', 'created_at')) \
-        .order_by('-last_created_at')
+        .order_by('-last_created_at', 'pk')
+
+    def page_link(page_number):
+        if page_number == 1:
+            return reverse('questions_list')
+        else:
+            return reverse('questions_list', kwargs={
+                'page': page_number
+            })
+
+    questions = PaginatorWithPageLink(questions, 40, page_link)
+    try:
+        questions = questions.page(page)
+    except EmptyPage:
+        return redirect(page_link(1))
 
     return render(
         request, 'questions/questions-list.html',

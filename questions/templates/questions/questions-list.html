@@ -6,9 +6,12 @@
     {% include 'component/new-question-note.html' %}
 
     <main class="container container-content mt-3">
-        <!-- TODO Pagination -->
         {% include 'component/questions-media-list.html' with questions=questions show_politician_info=True empty_message="Nėra jokių klausimų!" %}
+
+        {% include 'web/component/pagination.html' with paginator_page=questions %}
     </main>
+
+
     <div class="container container-content mt-3 mb-3">
         <div class="card banner--newsletter pt-4 pb-4 pl-2 pr-2">
             {% include 'web/component/subscribe-newsletter.html' %}

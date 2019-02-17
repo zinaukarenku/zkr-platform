@@ -5,6 +5,7 @@ from questions.views import questions_list, new_question, question, question_wit
 
 urlpatterns = [
     path('', questions_list, name="questions_list"),
+    path('<int:page>/', questions_list, name="questions_list"),
     path('klausimas/naujas/', new_question, name="new_question"),
     path('klausimas/naujas/<int:politician_id>/', new_question, name="new_question"),
     path('klausimas/<int:question_id>/', question, name="question"),

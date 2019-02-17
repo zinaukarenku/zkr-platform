@@ -6,6 +6,7 @@ from urllib.parse import urlsplit, unquote, urlparse, parse_qsl, urlencode, Pars
 import requests
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
+from django.core.paginator import Page, Paginator
 from django.utils.timezone import now
 from ipware import get_client_ip
 from requests.adapters import HTTPAdapter
@@ -152,3 +153,29 @@ def distinct_by(seq, idfun=None):
         seen[marker] = 1
         result.append(item)
     return result
+
+
+class PageWithPageLink(Page):
+    def __init__(self, page_link_function, object_list, number, paginator):
+        self._page_link_function = page_link_function
+        super().__init__(object_list, number, paginator)
+
+    def previous_page_link(self):
+        if self.has_previous():
+            return self.page_link(self.previous_page_number())
+
+    def next_page_link(self):
+        if self.has_next():
+            return self.page_link(self.next_page_number())
+
+    def page_link(self, page_number):
+        return self._page_link_function(page_number)
+
+
+class PaginatorWithPageLink(Paginator):
+    def _get_page(self, *args, **kwargs):
+        return PageWithPageLink(self._page_link_function, *args, **kwargs)
+
+    def __init__(self, object_list, per_page, page_link_function, orphans=0, allow_empty_first_page=True):
+        super().__init__(object_list, per_page, orphans, allow_empty_first_page)
+        self._page_link_function = page_link_function
