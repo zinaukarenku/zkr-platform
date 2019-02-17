@@ -13,8 +13,13 @@ from web.models import PoliticianInfo
 
 
 def questions_list(request, page=1):
-    questions = Question.active.select_related('politician', 'politian_answer', 'created_by') \
-        .annotate(last_created_at=Coalesce('politian_answer__created_at', 'created_at')) \
+    questions = Question.active.select_related(
+        'politician',
+        'politian_answer',
+        'politician__mayor_candidate',
+        'politician__seimas_politician',
+        'created_by'
+    ).annotate(last_created_at=Coalesce('politian_answer__created_at', 'created_at')) \
         .order_by('-last_created_at', 'pk')
 
     def page_link(page_number):
