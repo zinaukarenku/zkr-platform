@@ -83,9 +83,9 @@ class QuestionsListFiltersForm(forms.Form):
     status = forms.ChoiceField(
         label=_("Klausimo būsena"),
         choices=(
-            ("visi", _("Visi")),
-            ("atsakyti", _("Atsakyti")),
-            ("neatsakyti", _("Neatsakyti")),
+            ("visi", _("Visi klausimai")),
+            ("atsakyti", _("Atsakyti klausimai")),
+            ("neatsakyti", _("Neatsakyti klausimai")),
         ),
         required=False
     )
