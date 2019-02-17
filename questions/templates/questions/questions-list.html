@@ -6,9 +6,18 @@
     {% include 'component/new-question-note.html' %}
 
     <main class="container container-content mt-3">
-        {% include 'component/questions-media-list.html' with questions=questions show_politician_info=True empty_message="Nėra jokių klausimų!" %}
+        <div class="row">
+            <div class="col-sm-12 col-lg-8">
+                {% include 'component/questions-media-list.html' with questions=questions show_politician_info=True empty_message="Nerasta jokių klausimų!" %}
+                {% include 'web/component/pagination.html' with paginator_page=questions %}
 
-        {% include 'web/component/pagination.html' with paginator_page=questions %}
+            </div>
+
+            {% include 'web/component/filters-card.html' with filters_form=filters_form %}
+
+        </div>
+
+
     </main>
 
 
@@ -17,4 +26,8 @@
             {% include 'web/component/subscribe-newsletter.html' %}
         </div>
     </div>
+{% endblock %}
+
+{% block script %}
+    {% include 'web/js/politician-select.js.html' with selector="#id_politician" placeholder="Visi politikai" %}
 {% endblock %}

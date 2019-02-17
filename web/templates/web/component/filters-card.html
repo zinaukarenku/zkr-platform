@@ -1,0 +1,17 @@
+{% load crispy_forms_tags %}
+
+<div id="filters_card" class="col-lg-4 pr-0 d-none d-lg-block">
+    <aside class="card card--filters">
+        <div class="card-body">
+            <div class="d-flex justify-content-between">
+                <h4 class="card-title d-inline-block">Filtrai</h4>
+                <button id="close_filters" class="d-lg-none btn btn-close ">
+                    <span class="bar lg-bar bar-one"></span>
+                    <span class="bar lg-bar bar-two"></span>
+                </button>
+            </div>
+
+            {% crispy filters_form %}
+        </div>
+    </aside>
+</div>

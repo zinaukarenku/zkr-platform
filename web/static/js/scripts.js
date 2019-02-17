@@ -3,8 +3,8 @@ $(document).ready(function () {
     const openMenuButton = document.querySelector('#open_menu');
     const closeMenuButton = document.querySelector('#close_menu');
     const mobileNav = document.body.querySelector('#mobile_nav');
-    const filtersPoliticianButton = document.body.querySelector('#filtersPoliticianButton');
-    const filtersPoliticiansCard = document.body.querySelector('#filtersPoliticiansCard');
+    const filtersMobileButton = document.body.querySelector('#filters_mobile_button');
+    const filtersCard = document.body.querySelector('#filters_card');
     const closeFilters = document.body.querySelector('#close_filters');
 
 
@@ -25,14 +25,14 @@ $(document).ready(function () {
     }
 
     function togglePoliticianFilters() {
-        if (filtersPoliticiansCard.classList.contains('d-none')) {
+        if (filtersCard.classList.contains('d-none')) {
             body.classList.add('overflow-hidden');
-            filtersPoliticiansCard.classList.remove('d-none');
-            filtersPoliticiansCard.classList.add('d-sm-block');
+            filtersCard.classList.remove('d-none');
+            filtersCard.classList.add('d-sm-block');
         } else {
             body.classList.remove('overflow-hidden');
-            filtersPoliticiansCard.classList.remove('d-sm-block');
-            filtersPoliticiansCard.classList.add('d-none');
+            filtersCard.classList.remove('d-sm-block');
+            filtersCard.classList.add('d-none');
         }
     }
 
@@ -41,13 +41,10 @@ $(document).ready(function () {
         closeMenuButton.addEventListener('click', toggleMobileMenu);
     }
 
-    if (filtersPoliticianButton !== null && closeFilters !== null && window.screen.width < 992) {
-        filtersPoliticianButton.addEventListener('click', togglePoliticianFilters);
+    if (filtersMobileButton !== null && closeFilters !== null && window.screen.width < 992) {
+        filtersMobileButton.addEventListener('click', togglePoliticianFilters);
         closeFilters.addEventListener('click', togglePoliticianFilters);
     }
-
-
-
 
 
     $('.subscribe-form').each(function () {
@@ -69,9 +66,7 @@ $(document).ready(function () {
     });
 
 
-
 });
-
 
 
 //Google maps for debates

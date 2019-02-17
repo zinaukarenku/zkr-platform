@@ -5,11 +5,7 @@
 {% block banner_class %}banner--politicians{% endblock %}
 
 {% block main_content %}
-    <div class="note note--button text-center d-lg-none">
-        <button id="filtersPoliticianButton" class=" btn btn-link pt-0 pb-0 text-uppercase d-block fs-10 fw-500 ls-1">
-            Filtrai
-        </button>
-    </div>
+    {% include 'web/component/note/filters-mobile-note.html' %}
     <main class="container container-content mt-3">
         <div class="row">
             <div class="col-sm-12 col-lg-8">
@@ -35,21 +31,7 @@
                     </div>
                 {% endfor %}
             </div>
-            <div id="filtersPoliticiansCard" class="col-lg-4 pr-0 d-none d-lg-block">
-                <aside class="card  card--filters">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <h4 class="card-title d-inline-block">Filtrai</h4>
-                            <button id="close_filters" class="d-lg-none btn btn-close ">
-                                <span class="bar lg-bar bar-one"></span>
-                                <span class="bar lg-bar bar-two"></span>
-                            </button>
-                        </div>
-
-                        {% crispy filters_form %}
-                    </div>
-                </aside>
-            </div>
+            {% include 'web/component/filters-card.html' with filters_form=filters_form %}
         </div>
     </main>
 {% endblock %}

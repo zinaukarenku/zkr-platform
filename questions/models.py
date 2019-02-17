@@ -42,6 +42,12 @@ class QuestionsQuerySet(models.QuerySet):
 
         return self.none()
 
+    def filter_answered_questions(self):
+        return self.filter(politian_answer__isnull=False)
+
+    def exclude_answered_questions(self):
+        return self.exclude(politian_answer__isnull=False)
+
 
 class ActiveQuestionsManager(models.Manager):
     def get_queryset(self):

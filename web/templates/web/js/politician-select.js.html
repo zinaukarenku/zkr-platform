@@ -1,0 +1,76 @@
+<script>
+    $(document).ready(function () {
+            function formatPolitician(politician) {
+                if (politician.loading) {
+                    return politician.name;
+                }
+
+                let image_markup = null;
+                if (politician.photo) {
+                    image_markup = $('<img>', {
+                        src: politician.photo,
+                        class: "m-2",
+                        width: 36
+                    });
+                }
+
+                return $('<div>', {
+                    class: "media clearfix"
+                }).append(
+                    $('<div>').append(image_markup)
+                ).append(
+                    $('<div>', {
+                        class: 'media-body'
+                    }).append(
+                        $('<p>').append(
+                            $('<strong>', {
+                                text: politician.name
+                            })
+                        )
+                    ).append($('<p>', {
+                        text: politician.short_description
+                    })));
+            }
+
+            $("{{ selector }}").select2({
+                ajax: {
+                    url: "{% url 'api_politicians_list' %}",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            name: params.term,
+                            page: params.page || 1
+                        };
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+
+
+                        const processed_data = $.map(data.results, function (item) {
+                            item.text = item.name;
+
+                            return item;
+                        });
+
+                        return {
+                            results: processed_data,
+                            pagination: {
+                                more: data.next !== null
+                            }
+                        };
+
+                    },
+                    cache: true
+                },
+                placeholder: '{{ placeholder|escapejs }}',
+                escapeMarkup: function (markup) {
+                    return markup;
+                },
+                theme: "bootstrap4",
+                minimumInputLength: 1,
+                templateResult: formatPolitician
+            });
+        }
+    )
+</script>

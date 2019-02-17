@@ -6,13 +6,15 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from questions.forms import NewQuestionForm, PoliticianAnswerFormSet
+from questions.forms import NewQuestionForm, PoliticianAnswerFormSet, QuestionsListFiltersForm
 from questions.models import Question
 from utils.utils import get_request_information, PaginatorWithPageLink
 from web.models import PoliticianInfo
 
 
 def questions_list(request, page=1):
+    filters_form = QuestionsListFiltersForm(request.GET)
+
     questions = Question.active.select_related(
         'politician',
         'politian_answer',
@@ -21,6 +23,8 @@ def questions_list(request, page=1):
         'created_by'
     ).annotate(last_created_at=Coalesce('politian_answer__created_at', 'created_at')) \
         .order_by('-last_created_at', 'pk')
+
+    questions = filters_form.filter_queryset(questions)
 
     def page_link(page_number):
         if page_number == 1:
@@ -39,7 +43,8 @@ def questions_list(request, page=1):
     return render(
         request, 'questions/questions-list.html',
         {
-            'questions': questions
+            'questions': questions,
+            'filters_form': filters_form,
         }
     )
 
