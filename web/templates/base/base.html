@@ -86,8 +86,10 @@
             <div class="float-right d-none d-lg-block align-middle">
                 <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'index' %}">Pradžia</a>
                 <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'seimas_index' %}">Seimas</a>
-                <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'seimas_politician_game' %}">Pažink politiką</a>
-                <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'questions_list' %}">Klausimai politikams</a>
+                <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'seimas_politician_game' %}">Pažink
+                    politiką</a>
+                <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'questions_list' %}">Klausimai
+                    politikams</a>
                 <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'elections' %}">Rinkimai</a>
                 <a class="text-center pr-1 pl-1" aria-current="false" href="{% url 'about' %}">Apie mus</a>
 
@@ -120,16 +122,20 @@
                     <a class="d-block mb-1 mobile-nav-item" aria-current="false" href="{% url 'index' %}">Pradžia</a>
                 </li>
                 <li>
-                    <a class="d-block mb-1 mobile-nav-item" aria-current="false" href="{% url 'seimas_index' %}">Seimas</a>
+                    <a class="d-block mb-1 mobile-nav-item" aria-current="false"
+                       href="{% url 'seimas_index' %}">Seimas</a>
                 </li>
                 <li>
-                    <a class="d-block mb-1 mobile-nav-item" aria-current="false" href="{% url 'seimas_politician_game' %}">Pažink politiką</a>
+                    <a class="d-block mb-1 mobile-nav-item" aria-current="false"
+                       href="{% url 'seimas_politician_game' %}">Pažink politiką</a>
                 </li>
                 <li>
-                    <a class="d-block mb-1 mobile-nav-item" aria-current="false" href="{% url 'questions_list' %}">Klausimai politikams</a>
+                    <a class="d-block mb-1 mobile-nav-item" aria-current="false" href="{% url 'questions_list' %}">Klausimai
+                        politikams</a>
                 </li>
                 <li>
-                    <a class="d-block mb-1 mobile-nav-item" aria-current="false" href="{% url 'elections' %}">Rinkimai</a>
+                    <a class="d-block mb-1 mobile-nav-item" aria-current="false"
+                       href="{% url 'elections' %}">Rinkimai</a>
                 </li>
                 <li>
                     <a class="d-block mb-1 mobile-nav-item" aria-current="false" href="{% url 'about' %}">Apie mus</a>
@@ -170,20 +176,16 @@
     </footer>
 {% endblock %}
 
-{% block script %}
-    <script src="{% static 'js/raven.min.js' %}?v={{ GIT_COMMIT }}"></script>
-    <script>Raven.config('{% sentry_public_dsn 'https' %}').install()</script>
-    <script src="{% static 'js/jquery.min.js' %}?v={{ GIT_COMMIT }}"></script>
-    <script src="{% static 'js/popper.min.js' %}?v={{ GIT_COMMIT }}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}?v={{ GIT_COMMIT }} "></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"
-            integrity="sha256-yNbKY1y6h2rbVcQtf0b8lq4a+xpktyFc3pSYoGAY1qQ=" crossorigin="anonymous"></script>
-    <script src="{% static 'js/scripts.js' %}?v={{ GIT_COMMIT }}"></script>
-    {% comment %}
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0u3bI7CDBE5ZjuJgEDXtEgqTtAQNXFbg&callback=initMap">-->
-    </script>
-    {% endcomment %}
-{% endblock %}
+<script src="{% static 'js/raven.min.js' %}?v={{ GIT_COMMIT }}"></script>
+<script>Raven.config('{% sentry_public_dsn 'https' %}').install()</script>
+<script src="{% static 'js/jquery.min.js' %}?v={{ GIT_COMMIT }}"></script>
+<script src="{% static 'js/popper.min.js' %}?v={{ GIT_COMMIT }}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}?v={{ GIT_COMMIT }} "></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"
+        integrity="sha256-yNbKY1y6h2rbVcQtf0b8lq4a+xpktyFc3pSYoGAY1qQ=" crossorigin="anonymous"></script>
+<script src="{% static 'js/scripts.js' %}?v={{ GIT_COMMIT }}"></script>
+{% block script %}{% endblock %}
+
 </body>
 
 </html>
