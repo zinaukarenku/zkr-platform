@@ -179,3 +179,11 @@ class PaginatorWithPageLink(Paginator):
     def __init__(self, object_list, per_page, page_link_function, orphans=0, allow_empty_first_page=True):
         super().__init__(object_list, per_page, orphans, allow_empty_first_page)
         self._page_link_function = page_link_function
+
+
+def try_parse_int(value):
+    if value:
+        try:
+            return int(value)
+        except ValueError:
+            return None

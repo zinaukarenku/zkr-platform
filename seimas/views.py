@@ -6,7 +6,7 @@ from ipware import get_client_ip
 from questions.models import Question
 from seimas.forms import PrizeFrom, PoliticianFiltersForm
 from seimas.models import Politician, PoliticianTerm, PoliticianGame, LegalActDocument, PoliticianCommittee
-from seimas.utils import try_parse_int
+from utils.utils import try_parse_int
 
 
 def index(request):

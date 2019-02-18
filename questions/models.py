@@ -88,7 +88,7 @@ class Question(models.Model):
         verbose_name=_("Ar laiškas politikui apie jam užduotą klausimą buvo išsiųstas")
     )
 
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Klausimas sukūrimo data"))
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name=_("Klausimas sukūrimo data"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Klausimo atnaujinimo data"))
 
     objects = QuestionsQuerySet.as_manager()
@@ -181,7 +181,7 @@ class PoliticianAnswer(models.Model):
         verbose_name=_("Ar laiškas apie atsakytą klausimą buvo išsiųstas")
     )
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
