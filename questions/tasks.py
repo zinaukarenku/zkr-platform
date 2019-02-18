@@ -103,6 +103,8 @@ def send_new_question_for_politician_letter(question_id=None):
     letters_sent = []
     for question in questions:
         contact_emails = question.politician.contact_emails
+        if len(contact_emails) == 0:
+            continue
 
         SendGrid().send_letter(
             template_id=SendGrid.QUESTION_FOR_POLITICIAN_TRANSACTIONAL_TEMPLATE,
