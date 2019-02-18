@@ -7,7 +7,7 @@ from django.utils.html import format_html
 from reversion.admin import VersionAdmin
 
 from web.models import OrganizationMember, OrganizationMemberGroup, EmailSubscription, OrganizationPartner, User, \
-    PoliticianInfo, Municipality
+    PoliticianInfo, Municipality, PoliticianPromise
 from zkr import settings
 from django.utils.translation import gettext_lazy as _
 
@@ -85,17 +85,33 @@ class EmailSubscriptionAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
 
 
+class PoliticianPromiseInline(SortableInlineAdminMixin, admin.StackedInline):
+    model = PoliticianPromise
+    autocomplete_fields = ['debates']
+
+
 @admin.register(PoliticianInfo)
 class PoliticianInfoAdmin(admin.ModelAdmin):
-    list_display = ['name', 'is_active', 'seimas_politician', 'mayor_candidate', 'created_at', 'updated_at']
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate_with_promise_count()
+
+    list_display = ['name', 'is_active', 'seimas_politician', 'mayor_candidate', 'promise_count', 'created_at',
+                    'updated_at']
 
     list_select_related = ['seimas_politician', 'mayor_candidate', ]
+    inlines = [PoliticianPromiseInline]
     raw_id_fields = ['seimas_politician', 'mayor_candidate', 'authenticated_users']
     readonly_fields = ['registration_secret_id']
     search_fields = ['name']
-    list_filter = ['is_active', 'created_at', ]
+    list_filter = ['is_active', 'mayor_candidate__municipality__name', 'promises__debates__name', 'created_at', ]
     date_hierarchy = 'created_at'
     view_on_site = True
+
+    def promise_count(self, obj):
+        return obj.promise_count
+
+    promise_count.admin_order_field = 'promise_count'
+    promise_count.short_description = _("Pažadai")
 
 
 @admin.register(Municipality)

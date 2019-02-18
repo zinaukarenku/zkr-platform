@@ -192,7 +192,8 @@ class OrganizationPartner(models.Model):
 
 
 class PoliticianInfoQuerySet(models.QuerySet):
-    pass
+    def annotate_with_promise_count(self):
+        return self.annotate(promise_count=models.Count('promises'))
 
 
 class ActivePoliticianInfoManager(models.Manager):
@@ -277,3 +278,22 @@ class PoliticianInfo(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class PoliticianPromise(models.Model):
+    politician = models.ForeignKey(PoliticianInfo, on_delete=models.CASCADE, verbose_name=_("Politikas"))
+    debates = models.ForeignKey("elections.Debates", on_delete=models.CASCADE, verbose_name=_("Debatai"))
+    promise = models.TextField(verbose_name=_("Politiko pažadas"))
+    order = models.PositiveIntegerField(default=0)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = _("Politikų pažadai")
+        verbose_name = _("Politiko pažadas")
+        ordering = ["order"]
+        default_related_name = "promises"
+
+    def __str__(self):
+        return self.promise
