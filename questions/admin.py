@@ -79,7 +79,7 @@ class QuestionsAdmin(VersionAdmin):
         for question_id in question_ids:
             send_new_question_for_politician_letter.delay(question_id=question_id, force_send=True)
 
-        self.message_user(request, f"Netrukus bus išsiųsti ${len(question_ids)} laiškai politikams.")
+        self.message_user(request, f"Netrukus bus išsiųsti {len(question_ids)} laiškai politikams.")
 
     send_politician_letters.short_description = _("Persiųsti el. laiškus apie užduotą klausimą politikams")
 
