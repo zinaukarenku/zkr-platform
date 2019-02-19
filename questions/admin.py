@@ -12,17 +12,6 @@ from utils.utils import try_parse_int
 logger = getLogger(__name__)
 
 
-def _send_politician_letters(self, request, queryset):
-    from questions.tasks import send_new_question_for_politician_letter
-    question_ids = queryset.values_list('id', flat=True)
-
-    for question_id in question_ids:
-        send_new_question_for_politician_letter.delay(question_id=question_id, force_send=True)
-
-
-_send_politician_letters.short_description = _("Persiųsti el. laiškus apie užduotą klausimą politikams")
-
-
 class QuestionHasAnswer(admin.SimpleListFilter):
     title = _("Klausimo atsakymo būseną")
     parameter_name = 'question_has_answer'
@@ -81,7 +70,18 @@ class QuestionsAdmin(VersionAdmin):
         PoliticianAnswerInline
     ]
 
-    actions = [_send_politician_letters]
+    actions = ['send_politician_letters']
+
+    def send_politician_letters(self, request, queryset):
+        from questions.tasks import send_new_question_for_politician_letter
+        question_ids = list(queryset.values_list('id', flat=True))
+
+        for question_id in question_ids:
+            send_new_question_for_politician_letter.delay(question_id=question_id, force_send=True)
+
+        self.message_user(request, f"Netrukus bus išsiųsti ${len(question_ids)} laiškai politikams.")
+
+    send_politician_letters.short_description = _("Persiųsti el. laiškus apie užduotą klausimą politikams")
 
     def politician_letter_sent(self, obj):
         return obj.is_letter_for_politician_sent
