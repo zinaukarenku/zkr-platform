@@ -94,8 +94,10 @@ def send_question_answered_letter(answer_id=None):
 
 
 @shared_task(soft_time_limit=30)
-def send_new_question_for_politician_letter(question_id=None):
-    questions = Question.active.select_related('politician').filter(is_letter_for_politician_sent=False)
+def send_new_question_for_politician_letter(question_id=None, force_send=False):
+    questions = Question.active.select_related('politician')
+    if not force_send:
+        questions = questions.filter(is_letter_for_politician_sent=False)
 
     if question_id:
         questions = questions.filter(pk=question_id)
