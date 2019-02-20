@@ -39,3 +39,4 @@ django-sendgrid-v5==0.7.0
 
 django-extra-fields==1.0.0
 pyOpenSSL==19.0.0
+ddtrace==0.21.0

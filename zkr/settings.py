@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
 
     'raven.contrib.django.raven_compat',
+    'ddtrace.contrib.django',
 
     'rest_framework',
     'rest_framework.authtoken',
@@ -450,6 +451,13 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 30,
     'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%SZ",
+}
+
+# Datadog agent
+DATADOG_TRACE = {
+    'DEFAULT_SERVICE': 'zkr-platform',
+    'AGENT_HOSTNAME': 'ddagent',
+    'TAGS': {'env': 'production'},
 }
 
 # Other general settings
