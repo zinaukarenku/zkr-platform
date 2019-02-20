@@ -10,8 +10,6 @@ services:
       - database_network
     volumes:
       - database_volume:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD", "pg_isready"]
     deploy:
       replicas: 1
       restart_policy:
