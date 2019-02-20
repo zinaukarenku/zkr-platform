@@ -118,8 +118,16 @@ services:
 
   ddagent:
     image: datadog/docker-dd-agent
+    environment:
+      - DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
+      - DD_APM_ENABLED=true
+      - SD_BACKEND=docker
     env_file:
       - .env
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /proc/mounts:/host/proc/mounts:ro
+      - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
     networks:
       - datadog_network
 
