@@ -56,7 +56,7 @@ def mayor_candidate(request, slug):
 def debates(request):
     mayor_candidates_filters_form = MayorCandidatesFiltersForm(request.GET)
 
-    debates = Debates.objects.select_related('municipality').order_by('municipality')
+    debates = Debates.objects.select_related('municipality', 'moderator').order_by('municipality')
 
     debates = mayor_candidates_filters_form.filter_queryset(debates)
 
