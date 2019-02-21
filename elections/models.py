@@ -182,7 +182,7 @@ class MayorCandidate(models.Model):
 
     first_name = models.CharField(max_length=256, verbose_name=_("Kandidato vardas"))
     last_name = models.CharField(max_length=256, verbose_name=_("Kandidato pavardė"))
-    email = models.EmailField(null=True, blank=True,  verbose_name=_("Kandidato el. paštas"))
+    email = models.EmailField(null=True, blank=True, verbose_name=_("Kandidato el. paštas"))
 
     slug = models.SlugField(unique=True)
     photo = ResizedImageField(blank=True, null=True, upload_to=_candidate_photo_file,
@@ -201,6 +201,9 @@ class MayorCandidate(models.Model):
     @property
     def profile_url(self):
         return reverse('mayor_candidate', kwargs={'slug': self.slug})
+
+    def get_absolute_url(self):
+        return self.profile_url
 
     @property
     def politician_info_id(self) -> Optional[int]:
@@ -310,7 +313,8 @@ class ActiveDebatesManager(models.Manager):
 class Debates(models.Model):
     name = models.CharField(max_length=256, verbose_name=_("Debatų pavadinimas"))
     slug = models.SlugField(unique=True)
-    location = models.CharField(max_length=256, verbose_name=_("Debatų vieta"), help_text=_("pvz: M. Mažvydo biblioteka"))
+    location = models.CharField(max_length=256, verbose_name=_("Debatų vieta"),
+                                help_text=_("pvz: M. Mažvydo biblioteka"))
     municipality = models.ForeignKey("web.Municipality", on_delete=models.CASCADE)
     lat = models.DecimalField(max_digits=10, decimal_places=7, verbose_name=_("Platuma"),
                               help_text=_("Google žemėlapiams"))
@@ -330,7 +334,7 @@ class Debates(models.Model):
     active = ActiveDebatesManager()
 
     class Meta:
-        verbose_name_plural =_("Debatai")
+        verbose_name_plural = _("Debatai")
         ordering = ["-created_at"]
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):

@@ -46,6 +46,7 @@ class MayorCandidateAdmin(admin.ModelAdmin):
     list_display = ['first_name', 'last_name', 'party', 'municipality', 'created_at', 'updated_at']
     list_filter = ['municipality', 'party']
     exclude = ['slug']
+    view_on_site = True
 
 
 @admin.register(PresidentCandidateArticle)
