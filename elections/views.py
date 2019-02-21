@@ -1,40 +1,44 @@
+from django.core.paginator import EmptyPage
 from django.db.models import Prefetch
 from django.http import Http404
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 
 from elections.forms import MayorCandidatesFiltersForm
 from elections.models import Election, MayorCandidate, PresidentCandidate, PresidentCandidateArticle, Debates
 from questions.models import Question
+from utils.utils import PaginatorWithPageLink
 from web.models import PoliticianPromise
 
 
 def elections(request):
+    return render(request, 'elections/elections.html')
+
+
+def mayor_candidates(request, page=1):
     mayor_candidates_filters_form = MayorCandidatesFiltersForm(request.GET)
 
-    mayor_candidates = MayorCandidate.objects.select_related('municipality').order_by('municipality',
-                                                                                      'last_name')
+    candidates = MayorCandidate.objects.select_related('municipality').order_by('municipality',
+                                                                                'last_name')
 
-    mayor_candidates = mayor_candidates_filters_form.filter_queryset(mayor_candidates)
+    candidates = mayor_candidates_filters_form.filter_queryset(candidates)
 
-    debates = Debates.objects.select_related('municipality').order_by('municipality')
+    def page_link(page_number):
+        if page_number == 1:
+            return reverse('mayor_candidates')
+        else:
+            return reverse('mayor_candidates', kwargs={
+                'page': page_number
+            })
 
-    return render(request, 'elections/elections.html', {
-        'mayor_candidates': mayor_candidates,
-        'mayor_candidates_filters_form': mayor_candidates_filters_form,
-        'debates': debates
-    })
-
-
-def mayor_candidates(request):
-    mayor_candidates_filters_form = MayorCandidatesFiltersForm(request.GET)
-
-    mayor_candidates = MayorCandidate.objects.select_related('municipality').order_by('municipality',
-                                                                                      'last_name')
-
-    mayor_candidates = mayor_candidates_filters_form.filter_queryset(mayor_candidates)
+    candidates = PaginatorWithPageLink(candidates, 40, page_link)
+    try:
+        candidates = candidates.page(page)
+    except EmptyPage:
+        return redirect(page_link(1))
 
     return render(request, 'elections/mayor/candidates.html', {
-        'mayor_candidates': mayor_candidates,
+        'mayor_candidates': candidates,
         'mayor_candidates_filters_form': mayor_candidates_filters_form
     })
 
@@ -63,13 +67,13 @@ def mayor_candidate(request, slug):
 def debates(request):
     mayor_candidates_filters_form = MayorCandidatesFiltersForm(request.GET)
 
-    debates = Debates.objects.select_related('municipality', 'moderator').order_by('municipality')
+    all_debates = Debates.objects.select_related('municipality', 'moderator').order_by('municipality')
 
-    debates = mayor_candidates_filters_form.filter_queryset(debates)
+    all_debates = mayor_candidates_filters_form.filter_queryset(all_debates)
 
     return render(request, 'elections/debates/debates.html', {
         'mayor_candidates_filters_form': mayor_candidates_filters_form,
-        'debates': debates
+        'debates': all_debates
     })
 
 

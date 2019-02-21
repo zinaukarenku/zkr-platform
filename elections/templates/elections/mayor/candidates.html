@@ -21,15 +21,17 @@
                             </div>
                         </div>
                     </a>
-                    {% empty %}
-                        <div class="card m-2">
-                            <div class="card-body">
-                                <p class="text-center">
-                                    Kandidatų į merus, kol kas nėra šioje savivaldybėje
-                                </p>
-                            </div>
+                {% empty %}
+                    <div class="card m-2">
+                        <div class="card-body">
+                            <p class="text-center">
+                                Kandidatų į merus, kol kas nėra šioje savivaldybėje
+                            </p>
                         </div>
+                    </div>
                 {% endfor %}
+
+                {% include 'web/component/pagination.html' with paginator_page=mayor_candidates %}
             </div>
             <div class="col-sm-12 col-lg-4 pl-lg-3 mb-3">
                 <aside class="card">
