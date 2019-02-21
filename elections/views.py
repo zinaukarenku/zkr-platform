@@ -5,6 +5,7 @@ from django.shortcuts import render
 from elections.forms import MayorCandidatesFiltersForm
 from elections.models import Election, MayorCandidate, PresidentCandidate, PresidentCandidateArticle, Debates
 from questions.models import Question
+from web.models import PoliticianPromise
 
 
 def elections(request):
@@ -39,7 +40,13 @@ def mayor_candidates(request):
 
 
 def mayor_candidate(request, slug):
-    candidate = MayorCandidate.objects.select_related('municipality', 'politician_info').filter(slug=slug).first()
+    candidate = MayorCandidate.objects.select_related(
+        'municipality',
+        'politician_info'
+    ).prefetch_related(Prefetch(
+        'politician_info__promises',
+        PoliticianPromise.objects.select_related('debates')
+    )).filter(slug=slug).first()
 
     if candidate is None:
         raise Http404("Politician does not exist")
