@@ -76,3 +76,5 @@ class DebatesAdmin(VersionAdmin):
     list_display = ['name', 'location', 'municipality', 'date', 'time', 'moderator', 'is_active', 'created_at',
                     'updated_at']
     list_filter = ['municipality', 'moderator', 'is_active']
+    exclude = ['slug']
+    list_select_related = ['municipality', 'moderator']
