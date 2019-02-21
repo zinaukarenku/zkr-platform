@@ -1,12 +1,14 @@
+from django.core.paginator import EmptyPage
 from django.db.models import Prefetch, Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from ipware import get_client_ip
 
 from questions.models import Question
 from seimas.forms import PrizeFrom, PoliticianFiltersForm
 from seimas.models import Politician, PoliticianTerm, PoliticianGame, LegalActDocument, PoliticianCommittee
-from utils.utils import try_parse_int
+from utils.utils import try_parse_int, PaginatorWithPageLink
 
 
 def index(request):
@@ -61,7 +63,7 @@ def politician_game(request):
     return response
 
 
-def politicians(request):
+def politicians(request, page=1):
     filters_form = PoliticianFiltersForm(request.GET)
     politicians_queryset = Politician.active \
         .prefetch_related(Prefetch('politician_committees', PoliticianCommittee.objects.select_related('committee'))) \
@@ -70,6 +72,20 @@ def politicians(request):
                         ).order_by('last_name', 'first_name')
 
     politicians_queryset = filters_form.filter_queryset(politicians_queryset)
+
+    def page_link(page_number):
+        if page_number == 1:
+            return reverse('seimas_politicians')
+        else:
+            return reverse('seimas_politicians', kwargs={
+                'page': page_number
+            })
+
+    politicians_queryset = PaginatorWithPageLink(politicians_queryset, 40, page_link)
+    try:
+        politicians_queryset = politicians_queryset.page(page)
+    except EmptyPage:
+        return redirect(page_link(1))
 
     return render(request, 'seimas/politicians.html', {
         'politicians': politicians_queryset,

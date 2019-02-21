@@ -30,6 +30,8 @@
                         </div>
                     </div>
                 {% endfor %}
+
+                {% include 'web/component/pagination.html' with paginator_page=politicians %}
             </div>
             {% include 'web/component/filters-card.html' with filters_form=filters_form %}
         </div>
