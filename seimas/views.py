@@ -81,7 +81,8 @@ def politicians(request, page=1):
                 'page': page_number
             })
 
-    politicians_queryset = PaginatorWithPageLink(politicians_queryset, 40, page_link)
+    politicians_queryset = PaginatorWithPageLink(politicians_queryset, page_link,
+                                                 query_params=request.GET.urlencode())
     try:
         politicians_queryset = politicians_queryset.page(page)
     except EmptyPage:

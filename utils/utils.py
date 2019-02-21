@@ -156,9 +156,15 @@ def distinct_by(seq, idfun=None):
 
 
 class PageWithPageLink(Page):
-    def __init__(self, page_link_function, object_list, number, paginator):
+    def __init__(self, page_link_function, query_params, object_list, number, paginator):
         self._page_link_function = page_link_function
+        self._query_params = query_params
         super().__init__(object_list, number, paginator)
+
+    def add_query_params(self, link):
+        if self._query_params:
+            return f"{link}?{self._query_params}"
+        return link
 
     def previous_page_link(self):
         if self.has_previous():
@@ -169,16 +175,18 @@ class PageWithPageLink(Page):
             return self.page_link(self.next_page_number())
 
     def page_link(self, page_number):
-        return self._page_link_function(page_number)
+        return self.add_query_params(self._page_link_function(page_number))
 
 
 class PaginatorWithPageLink(Paginator):
     def _get_page(self, *args, **kwargs):
-        return PageWithPageLink(self._page_link_function, *args, **kwargs)
+        return PageWithPageLink(self._page_link_function, self._query_params, *args, **kwargs)
 
-    def __init__(self, object_list, per_page, page_link_function, orphans=0, allow_empty_first_page=True):
+    def __init__(self, object_list, page_link_function, per_page=30, orphans=0, allow_empty_first_page=True,
+                 query_params=None):
         super().__init__(object_list, per_page, orphans, allow_empty_first_page)
         self._page_link_function = page_link_function
+        self._query_params = query_params
 
 
 def try_parse_int(value):

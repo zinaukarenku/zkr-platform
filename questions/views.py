@@ -34,7 +34,7 @@ def questions_list(request, page=1):
                 'page': page_number
             })
 
-    questions = PaginatorWithPageLink(questions, 40, page_link)
+    questions = PaginatorWithPageLink(questions, page_link, query_params=request.GET.urlencode())
     try:
         questions = questions.page(page)
     except EmptyPage:

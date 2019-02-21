@@ -31,7 +31,7 @@ def mayor_candidates(request, page=1):
                 'page': page_number
             })
 
-    candidates = PaginatorWithPageLink(candidates, 40, page_link)
+    candidates = PaginatorWithPageLink(candidates, page_link, query_params=request.GET.urlencode())
     try:
         candidates = candidates.page(page)
     except EmptyPage:
