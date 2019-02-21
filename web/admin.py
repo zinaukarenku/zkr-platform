@@ -6,6 +6,7 @@ from django.db.models import Count
 from django.utils.html import format_html
 from reversion.admin import VersionAdmin
 
+from questions.models import Question
 from web.models import OrganizationMember, OrganizationMemberGroup, EmailSubscription, OrganizationPartner, User, \
     PoliticianInfo, Municipality, PoliticianPromise
 from zkr import settings
@@ -14,6 +15,12 @@ from django.utils.translation import gettext_lazy as _
 if not settings.DEBUG:
     admin.site.login = login_required(admin.site.login)
 
+
+class UserQuestionsInline(admin.StackedInline):
+    model = Question
+    extra = 0
+
+
 UserAdmin.fieldsets = (
     (None, {'fields': ('username', 'password')}),
     (_('Personal info'), {'fields': ('first_name', 'last_name', 'email', 'photo')}),
@@ -21,6 +28,7 @@ UserAdmin.fieldsets = (
                                    'groups', 'user_permissions')}),
     (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
 )
+UserAdmin.inlines = [UserQuestionsInline]
 
 admin.site.register(User, UserAdmin)
 
