@@ -1,27 +1,21 @@
 import reversion
 from allauth.account.decorators import verified_email_required
 from django.core.paginator import EmptyPage
-from django.db.models.functions import Coalesce
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from questions.forms import NewQuestionForm, PoliticianAnswerFormSet, QuestionsListFiltersForm
 from questions.models import Question
-from utils.utils import get_request_information, PaginatorWithPageLink
+from utils.utils import PaginatorWithPageLink, get_request_information
 from web.models import PoliticianInfo
 
 
 def questions_list(request, page=1):
     filters_form = QuestionsListFiltersForm(request.GET)
 
-    questions = Question.active.select_related(
-        'politician',
-        'politian_answer',
-        'politician__mayor_candidate',
-        'politician__seimas_politician',
-        'created_by'
-    ).annotate(last_created_at=Coalesce('politian_answer__created_at', 'created_at')) \
+    questions = Question.active.all().select_related_for_display() \
+        .annotate_with_last_created_at() \
         .order_by('-last_created_at', 'pk')
 
     questions = filters_form.filter_queryset(questions)

@@ -67,7 +67,11 @@ def subscribe(request):
 
 @login_required
 def user_profile(request):
-    user_questions = Question.objects.filter_questions_by_user_or_for_user(request.user)
+    user_questions = Question.objects.filter_questions_by_user_or_for_user(request.user) \
+        .select_related_for_display() \
+        .annotate_with_last_created_at() \
+        .order_by('-last_created_at', 'pk')
+
     error = None
     if request.method == 'POST':
         disconnect_form = DisconnectForm(request.POST, request=request)

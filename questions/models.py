@@ -6,6 +6,7 @@ import reversion
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.db import models
 from django.db.models import Q
+from django.db.models.functions import Coalesce
 from django.urls import reverse
 from django.utils.functional import cached_property
 from enumfields import EnumIntegerField, Enum
@@ -47,6 +48,18 @@ class QuestionsQuerySet(models.QuerySet):
 
     def exclude_answered_questions(self):
         return self.exclude(politian_answer__isnull=False)
+
+    def annotate_with_last_created_at(self):
+        return self.annotate(last_created_at=Coalesce('politian_answer__created_at', 'created_at'))
+
+    def select_related_for_display(self):
+        return self.select_related(
+            'politician',
+            'politian_answer',
+            'politician__mayor_candidate',
+            'politician__seimas_politician',
+            'created_by'
+        )
 
 
 class ActiveQuestionsManager(models.Manager):
