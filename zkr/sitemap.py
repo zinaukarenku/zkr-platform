@@ -40,7 +40,7 @@ class MayorCandidateSitemap(Sitemap):
     priority = 0.6
 
     def items(self):
-        return MayorCandidate.objects.order_by('-pk')
+        return MayorCandidate.active.order_by('-pk')
 
     def location(self, item):
         return item.profile_url
