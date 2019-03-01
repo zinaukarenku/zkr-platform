@@ -2,6 +2,7 @@ from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 
 from elections.models import MayorCandidate
+from questions.models import Question
 from seimas.models import Politician
 
 
@@ -44,3 +45,18 @@ class MayorCandidateSitemap(Sitemap):
 
     def location(self, item):
         return item.profile_url
+
+
+class QuestionsSitemap(Sitemap):
+    protocol = 'https'
+    priority = 0.5
+
+    def items(self):
+        return Question.objects.annotate_with_last_created_at().order_by('-pk')
+
+    def location(self, item):
+        return item.get_relative_url()
+
+    @staticmethod
+    def lastmod(obj):
+        return obj.last_created_at

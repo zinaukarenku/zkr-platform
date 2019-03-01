@@ -157,7 +157,10 @@ class Question(models.Model):
         return self.created_by.email
 
     def get_absolute_url(self):
-        return urljoin(settings.BASE_DOMAIN, reverse("question", kwargs={'question_id': self.id}))
+        return urljoin(settings.BASE_DOMAIN, self.get_relative_url())
+
+    def get_relative_url(self):
+        return reverse("question", kwargs={'question_id': self.id})
 
     def get_editable_absolute_url_for_politician(self):
         return urljoin(settings.BASE_DOMAIN, reverse("question",
