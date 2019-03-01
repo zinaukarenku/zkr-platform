@@ -43,8 +43,8 @@ class PresidentCandidateAdmin(VersionAdmin):
 @admin.register(MayorCandidate)
 class MayorCandidateAdmin(admin.ModelAdmin):
     search_fields = ['first_name', 'last_name', ]
-    list_display = ['first_name', 'last_name', 'party', 'municipality', 'created_at', 'updated_at']
-    list_filter = ['municipality', 'party']
+    list_display = ['first_name', 'last_name', 'is_active', 'party', 'municipality', 'created_at', 'updated_at']
+    list_filter = ['is_active', 'municipality', 'party']
     exclude = ['slug']
     view_on_site = True
 

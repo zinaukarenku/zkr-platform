@@ -18,8 +18,8 @@ def elections(request):
 def mayor_candidates(request, page=1):
     mayor_candidates_filters_form = MayorCandidatesFiltersForm(request.GET)
 
-    candidates = MayorCandidate.objects.select_related('municipality').order_by('municipality',
-                                                                                'last_name')
+    candidates = MayorCandidate.active.select_related('municipality').order_by('municipality',
+                                                                               'last_name')
 
     candidates = mayor_candidates_filters_form.filter_queryset(candidates)
 

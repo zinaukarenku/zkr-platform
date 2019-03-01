@@ -171,6 +171,15 @@ class PresidentCandidate(models.Model):
         return self.name
 
 
+class MayorCandidateQuerySet(models.QuerySet):
+    pass
+
+
+class ActiveMayorCandidateManager(models.Manager):
+    def get_queryset(self):
+        return MayorCandidateQuerySet(self.model, using=self._db).filter(is_active=True)
+
+
 class MayorCandidate(models.Model):
 
     def _candidate_photo_file(self, filename):
@@ -179,6 +188,11 @@ class MayorCandidate(models.Model):
         slug = slugify(self.name)
         filename = f"{slug}-photo.{ext}"
         return join('img', 'elections', 'meras-2019', 'candidates', self.municipality.slug, filename)
+
+    is_active = models.BooleanField(db_index=True, verbose_name=_("Aktyvus"), default=True,
+                                    help_text=_(
+                                        "Indikuoja ar kandidatas į merus matomas merų sąraše bei galima "
+                                        "užduoti naują klausimą."))
 
     first_name = models.CharField(max_length=256, verbose_name=_("Kandidato vardas"))
     last_name = models.CharField(max_length=256, verbose_name=_("Kandidato pavardė"))
@@ -193,6 +207,9 @@ class MayorCandidate(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinta"))
+
+    objects = MayorCandidateQuerySet.as_manager()
+    active = ActiveMayorCandidateManager()
 
     @property
     def name(self):

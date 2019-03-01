@@ -1,9 +1,11 @@
 from celery import shared_task
+from django.db.models import F, Q
 from requests import HTTPError
 
 from elections.models import Election, ElectionResult, PresidentCandidateArticle, PresidentCandidateArticleInformation
 from elections.vrk import VRK
 from utils.utils import save_image_from_url, first_or_none
+from web.models import PoliticianInfo
 
 
 @shared_task(soft_time_limit=60)
@@ -129,3 +131,10 @@ def fetch_president_articles():
         'created': created,
         'updated': updated
     }
+
+
+@shared_task(soft_time_limit=60)
+def sync_mayor_candidate_status_with_politician_info():
+    return PoliticianInfo.objects.filter(mayor_candidate__isnull=False) \
+        .exclude(mayor_candidate__is_active=F('is_active')) \
+        .update(is_active=Q(is_active=False))
