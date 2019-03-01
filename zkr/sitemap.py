@@ -52,7 +52,7 @@ class QuestionsSitemap(Sitemap):
     priority = 0.5
 
     def items(self):
-        return Question.objects.annotate_with_last_created_at().order_by('-pk')
+        return Question.active.all().annotate_with_last_created_at().order_by('-pk')
 
     def location(self, item):
         return item.get_relative_url()
