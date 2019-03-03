@@ -148,13 +148,13 @@
 
             const setTimer = () => {
                 let currentTime = new Date();
-                let deadline = new Date(2019, 2, 3, 21, 0, 0);
+                let deadline = new Date(2019, 2, 3, 20, 0, 0);
                 let timeLeft = deadline - currentTime;
                 let hours = (timeLeft / (1000 * 60 * 60)) % 24;
                 let minutes = (timeLeft / (1000 * 60)) % 60;
                 let seconds = (timeLeft / 1000) % 60;
 
-                countDownClock(hours, minutes, seconds);
+                countDownClock(Math.floor(hours), Math.floor(minutes), Math.floor(seconds));
             };
 
             setTimer();
