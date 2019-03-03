@@ -13,14 +13,17 @@ from questions.models import Question
 from utils.utils import get_request_information
 from web.forms import EmailSubscriptionForm
 from web.models import EmailSubscription, OrganizationPartner, OrganizationMember, Municipality
+from datetime import datetime
 
 logger = getLogger(__name__)
 
 
 def index(request):
     partners = OrganizationPartner.objects.all()
+    voting_ended = datetime.now() > datetime(2019, 3, 3, 20, 0, 0)
     return render(request, 'web/index.html', {
-        'partners': partners
+        'partners': partners,
+        'voting_ended': voting_ended
     })
 
 

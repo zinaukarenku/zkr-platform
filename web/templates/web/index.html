@@ -1,13 +1,63 @@
 {% extends "base/base-regular-page.html" %}
 {% load static %}
 {% block title %}Politinės stebėsenos platforma{% endblock %}
-{% block banner_title %}Žinau, ką renku{% endblock %}
-{% block banner_class %}banner--home{% endblock %}
-{% block banner_description %}Politinės stebėsenos platforma{% endblock %}
-{% block main_content %}
+{#{% block banner_title %}Žinau, ką renku{% endblock %}#}
+{#{% block banner_class %}banner--home{% endblock %}#}
+{#{% block banner_description %}Politinės stebėsenos platforma{% endblock %}#}
 
+{% block head %}
+    <style>
+        .timer-symbols {
+            color: #59387a;
+            font-size: 90px;
+        }
+
+    @media(max-width: 747px) {
+        .timer-symbols {
+            font-size: 50px;
+        }
+    }
+    </style>
+{% endblock %}
+
+{% block map %}
+    <div class="container">
+        <div class="row">
+            {% if  voting_ended %}
+                <div class="col-sm-12 mt-25">
+                    <iframe id="map-iframe" frameborder="0" style="width: 100%; min-height: 600px" scrolling="no" marginheight="0" marginwidth="0" src="https://www.maps.lt/rinkimai2019sav/rezultatai_I_turas?level=1"></iframe>
+                    <small class="text-muted">Žemėlapiai sukurti UAB "HNIT-BALTIC" naudojant Esri ArcGIS Online technologiją.</small>
+                </div>
+            {% else %}
+                <div class="text-center mt-2 mb-3" style="width: 100%;" id="timer-container">
+                    <h3 class="mt-3 mb-2" style="text-transform: uppercase; font-weight: 600;">Laikas iki balsavimo pabaigos</h3>
+                    <span id="hours" class="timer-symbols">00</span>
+                    <span class="timer-symbols">:</span>
+                    <span id="minutes" class="timer-symbols">00</span>
+                    <span class="timer-symbols">:</span>
+                    <span id="seconds" class="timer-symbols">00</span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block main_content %}
     <main class="container container-content mt-3">
-        <a href="{% url 'elections' %}" class="card d-flex align-items-center justify-content-center card-block-link text-center user-block-link mb-2 pl-0 pr-0">Merų rinkimai 2019</a>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <a href="{% url 'mayor_candidates' %}"
+                   class="card d-flex align-items-center justify-content-center card-block-link text-center candidate-block-link">
+                    Kandidatai į merus
+                </a>
+            </div>
+            <div class="col-md-6">
+                <a href="{% url 'debates' %}"
+                   class="card d-flex align-items-center justify-content-center card-block-link text-center debates-block-link">
+                    Debatai
+                </a>
+            </div>
+        </div>
         <div class="row">
             <div class="col-sm-12 col-md-6">
                 <a href="{% url 'seimas_politician_game' %}" class="card d-flex align-items-center justify-content-center card-block-link text-center kyp-block-link">Pažink politiką</a>
@@ -26,10 +76,6 @@
                 <a href="{% url 'questions_list' %}" class="card d-flex align-items-center justify-content-center card-block-link text-center questions-block-link">Klausimai politikams</a>
             </div>
         </div>
-
-
-
-
     </main>
     <div class="d-none container container-content mt-3 mb-3">
         <div class="card banner--newsletter pt-4 pb-4 pl-2 pr-2">
@@ -52,5 +98,66 @@
             </div>
         </div>
     </div>
+{% endblock %}
 
+{% block script %}
+    {% if not voting_ended %}
+        <script>
+            const countDownClock = (hours, minutes, Seconds) => {
+
+                const d = document;
+                const hoursElement = d.querySelector('#hours');
+                const minutesElement = d.querySelector('#minutes');
+                const secondsElement = d.querySelector('#seconds');
+                let countdown;
+                let hoursInSeconds = hours * 60 * 60;
+                let minutesInSeconds = minutes * 60;
+                let seconds = hoursInSeconds + minutesInSeconds + Seconds;
+
+                const timer = (seconds) => {
+
+                    const now = Date.now();
+                    const then = now + seconds * 1000;
+
+                    countdown = setInterval(() => {
+                        const secondsLeft = Math.round((then - Date.now()) / 1000);
+
+                        if (secondsLeft <= 0) {
+                            clearInterval(countdown);
+                            return;
+                        }
+
+                        displayTimeLeft(secondsLeft);
+
+                    }, 1000);
+
+                    const displayTimeLeft = (seconds) => {
+                        if (hoursElement || minutesElement || secondsElement) {
+                            hoursElement.textContent = Math.floor((seconds % 86400) / 3600) < 10 ? `0${Math.floor((seconds % 86400) / 3600)}` : Math.floor((seconds % 86400) / 3600);
+                            minutesElement.textContent = Math.floor((seconds % 86400) % 3600 / 60) % 60 < 10 ? `0${Math.floor((seconds % 86400) % 3600 / 60)}` : Math.floor((seconds % 86400) % 3600 / 60);
+                            secondsElement.textContent = seconds % 60 < 10 ? `0${seconds % 60}` : seconds % 60;
+                        }
+
+                    };
+
+                };
+
+                timer(seconds);
+
+            };
+
+            const setTimer = () => {
+                let currentTime = new Date();
+                let deadline = new Date(2019, 3, 3, 20, 0, 0);
+                let timeLeft = deadline - currentTime;
+                let hours = (timeLeft / (1000 * 60 * 60)) % 24;
+                let minutes = (timeLeft / (1000 * 60)) % 60;
+                let seconds = (timeLeft / 1000) % 60;
+
+                countDownClock(hours, minutes, seconds);
+            };
+
+            setTimer();
+        </script>
+    {% endif %}
 {% endblock %}
