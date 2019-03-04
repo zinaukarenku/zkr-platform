@@ -344,6 +344,8 @@ class Debates(models.Model):
     youtube_video_url = models.URLField(blank=True, verbose_name=_("Debatų YouTube video url"))
     moderator = models.ForeignKey("Moderators", on_delete=models.CASCADE)
 
+    tour_id = models.IntegerField(default=1, verbose_name=_("Turo numeris"))
+
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinta"))
 

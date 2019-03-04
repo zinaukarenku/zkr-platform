@@ -73,8 +73,8 @@ class ModeratorsAdmin(VersionAdmin):
 @admin.register(Debates)
 class DebatesAdmin(VersionAdmin):
     search_fields = ['name']
-    list_display = ['name', 'location', 'municipality', 'date', 'time', 'moderator', 'is_active', 'created_at',
-                    'updated_at']
-    list_filter = ['municipality', 'moderator', 'is_active']
+    list_display = ['name', 'tour_id', 'location', 'municipality', 'date', 'time', 'moderator', 'is_active',
+                    'created_at', 'updated_at']
+    list_filter = ['municipality', 'moderator', 'is_active', 'tour_id']
     exclude = ['slug']
     list_select_related = ['municipality', 'moderator']

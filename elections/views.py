@@ -73,7 +73,8 @@ def debates(request):
 
     return render(request, 'elections/debates/debates.html', {
         'mayor_candidates_filters_form': mayor_candidates_filters_form,
-        'debates': all_debates
+        'debates_1_tour': all_debates.filter(tour_id=1),
+        'debates_2_tour': all_debates.filter(tour_id=2)
     })
 
 
