@@ -54,7 +54,7 @@ services:
       - redis
 
   nginx:
-    image: nginx:1.15
+    image: funkygibbon/nginx-pagespeed
     ports:
       - 80:80
       - 443:443
