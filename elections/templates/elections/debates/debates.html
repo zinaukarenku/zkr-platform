@@ -10,7 +10,8 @@
         .hidden {
             display: none;
         }
-        .nav-link{
+
+        .nav-link {
             cursor: pointer;
         }
     </style>
@@ -18,27 +19,25 @@
 
 {% block main_content %}
     <main class="container container-content mt-3">
-        <div id="map" class="card card--map-img mb-5"></div>
-
         <div class="row mb-2 flex-sm-column-reverse flex-lg-row">
             <div class="col-sm-12 col-lg-8">
                 <ul class="nav nav-tabs">
-                  <li class="nav-item">
-                    <span class="nav-link" data-tour-tab-id="1">I turas</span>
-                  </li>
-                  <li class="nav-item">
-                    <span class="nav-link" data-tour-tab-id="2">II turas</span>
-                  </li>
+                    <li class="nav-item">
+                        <span class="nav-link" data-tour-tab-id="1">I turas</span>
+                    </li>
+                    <li class="nav-item">
+                        <span class="nav-link" data-tour-tab-id="2">II turas</span>
+                    </li>
                 </ul>
                 <div class="tour-content" data-tour-content="1">
                     {% for debate in debates_1_tour %}
-                        <a href="{{debate.facebook_url}}" class="card mb-3">
+                        <a href="{{ debate.facebook_url }}" class="card mb-3">
                             <div class="card-body d-flex">
                                 <div class="d-inline-block">
-                                    <h4 class="card-title text-left mb-0">{{debate.name}}</h4>
-                                    <span class="text-muted mb-0 text-80">{{debate.location}} &bull;</span>
-                                    <span class="text-muted mb-0 text-80">{{debate.date}} {{debate.time}}</span>
-                                    <span class="d-block text-muted mb-0 text-80">Moderuos: {{debate.moderator}}</span>
+                                    <h4 class="card-title text-left mb-0">{{ debate.name }}</h4>
+                                    <span class="text-muted mb-0 text-80">{{ debate.location }} &bull;</span>
+                                    <span class="text-muted mb-0 text-80">{{ debate.date }} {{ debate.time }}</span>
+                                    <span class="d-block text-muted mb-0 text-80">Moderuos: {{ debate.moderator }}</span>
                                 </div>
                             </div>
                         </a>
@@ -54,13 +53,13 @@
                 </div>
                 <div class="tour-content" data-tour-content="2">
                     {% for debate in debates_2_tour %}
-                        <a href="{{debate.facebook_url}}" class="card mb-3">
+                        <a href="{{ debate.facebook_url }}" class="card mb-3">
                             <div class="card-body d-flex">
                                 <div class="d-inline-block">
-                                    <h4 class="card-title text-left mb-0">{{debate.name}}</h4>
-                                    <span class="text-muted mb-0 text-80">{{debate.location}} &bull;</span>
-                                    <span class="text-muted mb-0 text-80">{{debate.date}} {{debate.time}}</span>
-                                    <span class="d-block text-muted mb-0 text-80">Moderuos: {{debate.moderator}}</span>
+                                    <h4 class="card-title text-left mb-0">{{ debate.name }}</h4>
+                                    <span class="text-muted mb-0 text-80">{{ debate.location }} &bull;</span>
+                                    <span class="text-muted mb-0 text-80">{{ debate.date }} {{ debate.time }}</span>
+                                    <span class="d-block text-muted mb-0 text-80">Moderuos: {{ debate.moderator }}</span>
                                 </div>
                             </div>
                         </a>
@@ -148,9 +147,8 @@
                 var newUri;
                 if (uri.match(re)) {
                     newUri = uri.replace(re, '$1' + key + "=" + value + '$2');
-                }
-                else {
-                    newUri =  uri + separator + key + "=" + value;
+                } else {
+                    newUri = uri + separator + key + "=" + value;
                 }
                 window.history.pushState("", "", newUri);
             }
