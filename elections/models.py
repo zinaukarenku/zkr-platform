@@ -332,17 +332,17 @@ class Debates(models.Model):
     slug = models.SlugField(unique=True)
     location = models.CharField(max_length=256, verbose_name=_("Debatų vieta"),
                                 help_text=_("pvz: M. Mažvydo biblioteka"))
-    municipality = models.ForeignKey("web.Municipality", on_delete=models.CASCADE)
+    municipality = models.ForeignKey("web.Municipality", on_delete=models.CASCADE, verbose_name=_("Savivaldybė"))
     lat = models.DecimalField(max_digits=10, decimal_places=7, verbose_name=_("Platuma"),
                               help_text=_("Google žemėlapiams"))
     lng = models.DecimalField(max_digits=10, decimal_places=7, verbose_name=_("Ilguma"),
                               help_text=_("Google žemėlapiams"))
     date = models.DateField(verbose_name=_("Debatų data"))
     time = models.TimeField(verbose_name=_("Debatų laikas"))
-    is_active = models.BooleanField(default=True, db_index=True)
+    is_active = models.BooleanField(default=True, db_index=True, verbose_name=_("Aktyvus"))
     facebook_url = models.URLField(blank=True, verbose_name=_("Debatų Facebook Event puslapio url"))
     youtube_video_url = models.URLField(blank=True, verbose_name=_("Debatų YouTube video url"))
-    moderator = models.ForeignKey("Moderators", on_delete=models.CASCADE)
+    moderator = models.ForeignKey("Moderators", on_delete=models.CASCADE, verbose_name=_("Moderatorius"))
 
     tour_id = models.IntegerField(default=1, verbose_name=_("Turo numeris"))
 
@@ -353,6 +353,7 @@ class Debates(models.Model):
     active = ActiveDebatesManager()
 
     class Meta:
+        verbose_name = _("Debatai")
         verbose_name_plural = _("Debatai")
         ordering = ["-created_at"]
 

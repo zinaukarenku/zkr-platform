@@ -78,3 +78,4 @@ class DebatesAdmin(VersionAdmin):
     list_filter = ['municipality', 'moderator', 'is_active', 'tour_id']
     exclude = ['slug']
     list_select_related = ['municipality', 'moderator']
+    autocomplete_fields = ['municipality', 'moderator']
