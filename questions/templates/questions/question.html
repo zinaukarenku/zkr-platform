@@ -60,7 +60,10 @@
             <div class="card">
                 <div class="card-body">
                     <h3 class="card-title">Atsakyti į klausimą</h3>
-                    {% crispy politician_answer_form politician_answer_form.form.helper %}
+                    <div class="alert alert-danger" role="alert">
+                        Dėl VRK ribojimų į klausimus atsakyti laikinai negalima.
+                    </div>
+{#                    {% crispy politician_answer_form politician_answer_form.form.helper %}#}
                 </div>
             </div>
         {% endif %}

@@ -113,22 +113,22 @@ def question(request, question_id):
         raise Http404("Question does not exist")
 
     politician_answer_form = None
-    if not selected_question.has_politician_answer and selected_question.is_question_for_user(user):
-        politician_answer_form = PoliticianAnswerFormSet(instance=selected_question)
-
-        if request.method == 'POST':
-            politician_answer_form = PoliticianAnswerFormSet(request.POST, instance=selected_question)
-
-            if politician_answer_form.is_valid():
-                answers = politician_answer_form.save(commit=False)
-                for answer in answers:
-                    answer.created_by = user
-                    answer.user_ip = request_info.client_ip
-                    answer.user_agent = request_info.client_user_agent
-                    answer.user_country = request_info.client_country
-                    answer.save()
-
-                politician_answer_form = None
+    # if not selected_question.has_politician_answer and selected_question.is_question_for_user(user):
+    #     politician_answer_form = PoliticianAnswerFormSet(instance=selected_question)
+    #
+    #     if request.method == 'POST':
+    #         politician_answer_form = PoliticianAnswerFormSet(request.POST, instance=selected_question)
+    #
+    #         if politician_answer_form.is_valid():
+    #             answers = politician_answer_form.save(commit=False)
+    #             for answer in answers:
+    #                 answer.created_by = user
+    #                 answer.user_ip = request_info.client_ip
+    #                 answer.user_agent = request_info.client_user_agent
+    #                 answer.user_country = request_info.client_country
+    #                 answer.save()
+    #
+    #             politician_answer_form = None
 
     return render(request, 'questions/question.html', {
         'question': selected_question,
