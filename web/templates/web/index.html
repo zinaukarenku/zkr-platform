@@ -184,39 +184,39 @@
                 }
             })();
         </script>
+    {% else %}
+        <script>
+            (function () {
+                var $tabs = $('[data-map-tab]');
+                var $contents = $('[data-map-content]');
+
+                setActiveTab(2);
+
+                $tabs.click(function () {
+                    var tabId = parseInt($(this).data('map-tab'));
+                    setActiveTab(tabId)
+                });
+
+                function setActiveTab(tabId) {
+                    $tabs.each(function (i, tab) {
+                        var $tab = $(tab);
+                        if (parseInt($tab.data('map-tab')) === tabId) {
+                            $tab.addClass('active');
+                        } else {
+                            $tab.removeClass('active');
+                        }
+                    });
+
+                    $contents.each(function (i, content) {
+                        var $content = $(content);
+                        if (parseInt($content.data('map-content')) === tabId) {
+                            $content.removeClass('hidden');
+                        } else {
+                            $content.addClass('hidden');
+                        }
+                    });
+                }
+            })()
+        </script>
     {% endif %}
-
-    <script>
-        (function () {
-            var $tabs = $('[data-map-tab]');
-            var $contents = $('[data-map-content]');
-
-            setActiveTab(2);
-
-            $tabs.click(function (event) {
-                var tabId = parseInt($(this).data('map-tab'));
-                setActiveTab(tabId)
-            });
-
-            function setActiveTab(tabId) {
-                $tabs.each(function (i, tab) {
-                    var $tab = $(tab);
-                    if (parseInt($tab.data('map-tab')) === tabId) {
-                        $tab.addClass('active');
-                    } else {
-                        $tab.removeClass('active');
-                    }
-                });
-
-                $contents.each(function (i, content) {
-                    var $content = $(content);
-                    if (parseInt($content.data('map-content')) === tabId) {
-                        $content.removeClass('hidden');
-                    } else {
-                        $content.addClass('hidden');
-                    }
-                });
-            }
-        })()
-    </script>
 {% endblock %}
