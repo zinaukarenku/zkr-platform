@@ -70,6 +70,16 @@ class ModeratorsAdmin(VersionAdmin):
     exclude = ['slug']
 
 
+
+def deactivate_debates(ModelAdmin, request, queryset):
+    for debate in queryset:
+        if debate.is_active == True:
+            debate.is_active = False
+        debate.save()
+ 
+deactivate_debates.short_description = "Išjungti pasirinktu debatus"
+
+
 @admin.register(Debates)
 class DebatesAdmin(VersionAdmin):
     search_fields = ['name']
@@ -79,3 +89,4 @@ class DebatesAdmin(VersionAdmin):
     exclude = ['slug']
     list_select_related = ['municipality', 'moderator']
     autocomplete_fields = ['municipality', 'moderator']
+    actions = [deactivate_debates]
