@@ -337,7 +337,7 @@ class Debates(models.Model):
     )
     name = models.CharField(max_length=256, verbose_name=_("Debatų pavadinimas"))
     slug = models.SlugField(unique=True)
-    election_type = models.IntegerField(default=1, choices=ELECTION_TYPES, verbose_name=_("Rinkimų tipas"))
+    election_type = models.IntegerField(choices=ELECTION_TYPES, verbose_name=_("Rinkimų tipas"))
     location = models.CharField(max_length=256, verbose_name=_("Debatų vieta"),
                                 help_text=_("pvz: M. Mažvydo biblioteka"))
     municipality = models.ForeignKey("web.Municipality", on_delete=models.CASCADE, verbose_name=_("Savivaldybė"))
