@@ -671,8 +671,14 @@ footer ul:first {
 
 }
 
+@media screen and (min-width: 667px) {
+    .col-md-4 {
+        padding-right: 15px;
+    }
+}
+
 @media screen and (min-width: 959px) {
-    
+
     .col-md-6:first-child {
         padding-right: 5px;
     }
