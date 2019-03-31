@@ -328,14 +328,22 @@ class ActiveDebatesManager(models.Manager):
 
 
 class Debates(models.Model):
+    ELECTION_TYPES = (
+        (1, "Merų rinkimai"),
+        (2, "Seimo rinkimai"),
+        (3, "Europos Parlamento rinkimai"),
+        (4, "Prezidento rinkimai"),
+        (5, "Savivaldos tarybų rinkimai")
+    )
     name = models.CharField(max_length=256, verbose_name=_("Debatų pavadinimas"))
     slug = models.SlugField(unique=True)
+    election_type = models.IntegerField(default=1, choices=ELECTION_TYPES, verbose_name=_("Rinkimų tipas"))
     location = models.CharField(max_length=256, verbose_name=_("Debatų vieta"),
                                 help_text=_("pvz: M. Mažvydo biblioteka"))
     municipality = models.ForeignKey("web.Municipality", on_delete=models.CASCADE, verbose_name=_("Savivaldybė"))
-    lat = models.DecimalField(max_digits=10, decimal_places=7, verbose_name=_("Platuma"),
+    lat = models.DecimalField(null=True, blank=True, max_digits=10, decimal_places=7, verbose_name=_("Platuma"),
                               help_text=_("Google žemėlapiams"))
-    lng = models.DecimalField(max_digits=10, decimal_places=7, verbose_name=_("Ilguma"),
+    lng = models.DecimalField(null=True, blank=True, max_digits=10, decimal_places=7, verbose_name=_("Ilguma"),
                               help_text=_("Google žemėlapiams"))
     date = models.DateField(verbose_name=_("Debatų data"))
     time = models.TimeField(verbose_name=_("Debatų laikas"))
