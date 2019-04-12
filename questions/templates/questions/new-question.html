@@ -10,15 +10,16 @@
     <main class="container container-content mt-3">
         <div class="card">
             <div class="card-body">
-
+                {% comment %}
                 Dėl VRK ribojimų užduoti klausimo laikinai negalima.
+                {% endcomment %}
 
-{#                <div class="mb-3">#}
-{#                    <a href="{% url 'seimas_politicians' %}" class="btn btn-primary btn-sm">Seimo Nariai</a>#}
-{#                    <a href="{% url 'mayor_candidates' %}" class="btn btn-primary btn-sm">Kandidatai į merus</a>#}
-{#                </div>#}
-{##}
-{#                {% crispy new_question_form %}#}
+                <div class="mb-3">
+                   <a href="{% url 'seimas_politicians' %}" class="btn btn-primary btn-sm">Seimo Nariai</a>
+                    <a href="{% url 'president_candidates' %}" class="btn btn-primary btn-sm">Kandidatai į LR Prezidento postą</a>
+               </div>
+
+                {% crispy new_question_form %}
 
             </div>
         </div>

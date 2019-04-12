@@ -103,12 +103,12 @@ class PoliticianInfoAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         return super().get_queryset(request).annotate_with_promise_count()
 
-    list_display = ['name', 'is_active', 'seimas_politician', 'mayor_candidate', 'promise_count', 'created_at',
+    list_display = ['name', 'is_active', 'seimas_politician', 'mayor_candidate', 'president_candidate', 'promise_count', 'created_at',
                     'updated_at']
 
-    list_select_related = ['seimas_politician', 'mayor_candidate', ]
+    list_select_related = ['seimas_politician', 'mayor_candidate', 'president_candidate']
     inlines = [PoliticianPromiseInline]
-    raw_id_fields = ['seimas_politician', 'mayor_candidate', 'authenticated_users']
+    raw_id_fields = ['seimas_politician', 'mayor_candidate', 'president_candidate', 'authenticated_users']
     readonly_fields = ['registration_secret_id']
     search_fields = ['name']
     list_filter = ['is_active', 'mayor_candidate__municipality__name', 'promises__debates__name', 'created_at', ]

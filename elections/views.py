@@ -108,6 +108,10 @@ def president_candidate(request, slug):
     if candidate is None:
         raise Http404("President candidate does not exist")
 
+    questions = Question.active.select_related('politician', 'politian_answer', 'created_by').filter(
+    politician__president_candidate=candidate).order_by('-updated_at')
+
     return render(request, 'elections/president/candidate.html', {
-        'candidate': candidate
+        'candidate': candidate,
+        'questions': questions
     })

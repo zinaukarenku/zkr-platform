@@ -10,7 +10,7 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django_resized import ResizedImageField
 
-from elections.models import MayorCandidate
+from elections.models import MayorCandidate, PresidentCandidate
 from seimas.models import Politician as SeimasPolitician
 from utils.utils import distinct_by, file_extension, gravatar_url
 from zkr import settings
@@ -214,6 +214,10 @@ class PoliticianInfo(models.Model):
                                            related_name="politician_info",
                                            verbose_name=_("Kandidatas į merus"),
                                            help_text=_("Sujungia kandidatą į merus su politiku"))
+    president_candidate = models.OneToOneField(PresidentCandidate, on_delete=models.CASCADE, null=True, blank=True,
+                                            related_name="politician_info",
+                                            verbose_name=_("Kandidatas į LR Prezidento postą"),
+                                            help_text=_("Sujungti kandidatą į LR Prezidento postą su politiku"))
 
     authenticated_users = models.ManyToManyField(
         settings.AUTH_USER_MODEL, blank=True,
@@ -237,6 +241,8 @@ class PoliticianInfo(models.Model):
             return self.seimas_politician.photo
         if self.mayor_candidate:
             return self.mayor_candidate.photo
+        if self.president_candidate:
+            return self.president_candidate.photo
 
     def get_absolute_url(self):
         if self.seimas_politician is not None:

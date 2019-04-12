@@ -35,7 +35,7 @@ class PresidentCandidateArticleInformationInline(admin.StackedInline):
 class PresidentCandidateAdmin(VersionAdmin):
     inlines = [PresidentCandidateArticleInline]
     search_fields = ['name']
-    list_display = ['name', 'photo', 'candidate_program', 'created_at', 'updated_at']
+    list_display = ['name', 'photo', 'candidate_program_title', 'candidate_program_summary', 'candidate_program_link', 'created_at', 'updated_at']
     exclude = ['slug']
     view_on_site = True
 
@@ -77,7 +77,7 @@ def deactivate_debates(ModelAdmin, request, queryset):
             debate.is_active = False
         debate.save()
  
-deactivate_debates.short_description = "Išjungti pasirinktu debatus"
+deactivate_debates.short_description = "Išjungti pasirinktus debatus"
 
 
 @admin.register(Debates)

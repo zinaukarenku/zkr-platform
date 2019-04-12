@@ -16,12 +16,12 @@
         {% endif %}
 
         <div class="row">
-            <main class="col-sm-12 col-md-8">
+            <main class="col-sm-12 col-lg-8">
                 <h2 class="text-center mb-3">Mano klausimai</h2>
                 {% include 'component/questions-media-list.html' with questions=user_questions show_politician_info=True empty_message="Nesate uždavęs jokių klausimų politikams!" %}
             </main>
 
-            <aside class="col-sm-12 col-md-4">
+            <aside class="col-sm-12 col-lg-4">
                 <div class="card text-center pt-5 mb-4">
                     <img src="{% static 'img/zkr-medium-logo.png' %}" width="120" style="margin: 0 auto;">
 

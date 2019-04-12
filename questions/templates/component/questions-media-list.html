@@ -12,7 +12,8 @@
                     {{ question.name|default:question.status_text }}
                 </h3>
                 {% if show_politician_info %}
-                    <span class="d-inline-block text-muted">{{ question.politician_name }} &bull; </span> {% endif %}
+                    <span class="d-inline-block text-muted">{{ question.politician_name }} &bull; </span> 
+                {% endif %}
                 <time class="d-inline-block text-muted">{{ question.last_activity|naturaltime }}</time>
                 <span class="d-block text-muted text-eyebrow mt-1">{{ question.status_text }}</span>
             </div>

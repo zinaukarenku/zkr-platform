@@ -149,9 +149,11 @@ class PresidentCandidate(models.Model):
     name = models.CharField(max_length=256, verbose_name=_("Kandidato vardas"))
     slug = models.SlugField(unique=True)
     photo = models.ImageField(upload_to=_candidate_photo_file, verbose_name=_("Kandidato nuotrauka"))
-    short_description = models.CharField(max_length=280, blank=True, verbose_name=_("Trumpas aprašymas"))
+    party = models.CharField(max_length=280, blank=True, verbose_name=_("Partija"), help_text=_("Jeigu kandidatas - be partijos, nurodykite, kad nepriklausomas"))
 
-    candidate_program = models.URLField(blank=True, verbose_name=_("Kandidato rinkimė programa"))
+    candidate_program_title = models.CharField(max_length=280, blank=True, verbose_name=_("Kandidato programos pavadinimas"))
+    candidate_program_summary = models.TextField(blank=True, verbose_name=_("Kandidato programos santrauka"))
+    candidate_program_link = models.URLField(blank=True, verbose_name=_("Kandidato rinkimė programa"))
     facebook = models.URLField(blank=True)
     linkedin = models.URLField(blank=True)
     twitter = models.URLField(blank=True)

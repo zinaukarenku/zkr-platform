@@ -195,6 +195,11 @@ nav .container {
     background-position: center;
 }
 
+.candidate-president-block-link {
+    background-image: url("../img/prezidentura.jpg");
+    background-position: center;
+}
+
 .debates-block-link {
     background-image: url("../img/debatai-medium.jpg");
     background-position: center;
@@ -692,6 +697,10 @@ footer ul:first {
         height: initial;
         padding-top: initial;
         z-index: 0;
+    }
+
+    .col-lg-4 {
+        padding-left: 15px;
     }
 
 }
