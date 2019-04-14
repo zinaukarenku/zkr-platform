@@ -287,6 +287,70 @@ class PresidentCandidateArticleInformation(models.Model):
     def __str__(self):
         return self.url
 
+class MepCandidateQuerySet(models.QuerySet):
+    pass
+
+class ActiveMepCandidateManager(models.Manager):
+    def get_queryset(self):
+        return MepCandidateQuerySet(self.model, using=self._db).filter(is_active=True)
+
+
+class EuroParliamentCandidate(models.Model):
+    def _candidate_photo_file(self, filename):
+        ext = file_extension(filename)
+
+        slug = slugify(self.name)
+        filename = f"{slug}-photo.{ext}"
+        return join('img', 'elections', 'MEP-2019', 'candidates', self.municipality.slug, filename)
+
+    is_active = models.BooleanField(db_index=True, verbose_name=_("Aktyvus"), default=True,
+                                    help_text=_(
+                                        "Indikuoja ar kandidatas į Europos Parlamentą matomas kandidatų sąraše bei galima "
+                                        "užduoti naują klausimą."))
+    first_name = models.CharField(max_length=256, verbose_name=_("Kandidato vardas"))
+    last_name = models.CharField(max_length=256, verbose_name=_("Kandidato pavardė"))
+    email = models.EmailField(null=True, blank=True, verbose_name=_("Kandidato el. paštas"))
+
+    slug = models.SlugField(unique=True)
+    photo = ResizedImageField(blank=True, null=True, upload_to=_candidate_photo_file,
+                              crop=['middle', 'center'], size=[256, 256],
+                              verbose_name=_("Kandidato nuotrauka"), )
+    party = models.CharField(max_length=256, verbose_name=_("Iškėlusi partija arba rinkiminis komitetas"), blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinta"))
+
+    objects = MepCandidateQuerySet.as_manager()
+    active = ActiveMepCandidateManager()
+
+    @property
+    def name(self):
+        return f"{self.first_name} {self.last_name}"
+
+    @property
+    def profile_url(self):
+        return reverse('mep_candidate', kwargs={'slug': self.slug})
+
+    def get_absolute_url(self):
+        return self.profile_url
+
+    @property
+    def politician_info_id(self) -> Optional[int]:
+        if hasattr(self, 'politician_info') and self.politician_info:
+            return self.politician_info.id
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if not self.slug:
+            self.slug = slugify(self.name)
+
+        super().save(force_insert, force_update, using, update_fields)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _("Kandidatas į Europos parlamentą")
+        verbose_name_plural = _("Kandidatai į Europos parlamentą")
+
 
 class Moderators(models.Model):
     def _moderator_photo_file(self, filename):
