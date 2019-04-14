@@ -9,7 +9,18 @@ Local development
 
 It's a standart Django based project. After cloning project:
 1. Create [Python virtual environment](https://docs.python.org/3/tutorial/venv.html)
-2. Install project requirements using pip e.g `pip install requirements.txt`
+```
+python -m venv virtual-env
+```
+Windows:
+```
+virtual-env\Scripts\activate.bat
+```
+Unix/MacOS:
+```
+source virtual-env/bin/activate
+```
+2. Install project requirements using pip e.g `pip install -r requirements.txt`
 3. Set environment variable `DEV=1`
 4. Create Sqlite database file `db.sqlite3` or Postgres database and apply migrations using `python manage.py migrate`
 5. Fetch some data by running `python manage.py fetch_seimas_data`. You can see all possible Celery tasks in `zkr/settings.py` near `CELERY_BEAT_SCHEDULE`
