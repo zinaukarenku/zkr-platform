@@ -1,10 +1,10 @@
-{#<div class="note note--button text-center">#}
-{#    {% if politician_info_id %}#}
-{#        {% url 'new_question' politician_info_id as new_question_url %}#}
-{#    {% else %}#}
-{#        {% url 'new_question' as new_question_url %}#}
-{#    {% endif %}#}
-{#    <a class="text-uppercase d-block fs-10 fw-500 ls-1" href="{{ new_question_url }}">#}
-{#        Užduoti naują klausimą politikui#}
-{#    </a>#}
-{#</div>#}
+<div class="note note--button text-center">
+    {% if politician_info_id %}
+        {% url 'new_question' politician_info_id as new_question_url %}
+    {% else %}
+        {% url 'new_question' as new_question_url %}
+    {% endif %}
+    <a class="text-uppercase d-block fs-10 fw-500 ls-1" href="{{ new_question_url }}">
+        Užduoti naują klausimą politikui
+    </a>
+</div>
