@@ -249,6 +249,8 @@ class PoliticianInfo(models.Model):
             return self.seimas_politician.profile_url
         if self.mayor_candidate is not None:
             return self.mayor_candidate.profile_url
+        if self.president_candidate is not None:
+            return self.president_candidate.profile_url
 
     @property
     def short_description(self) -> Optional[str]:
@@ -256,6 +258,8 @@ class PoliticianInfo(models.Model):
             return self.seimas_politician.fraction_name
         if self.mayor_candidate:
             return f"Kandidatas į merus {self.mayor_candidate.municipality.name}"
+        if self.president_candidate:
+            return f"Kandidatas į LR Prezidentus"
 
     @property
     def contact_emails(self):

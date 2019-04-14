@@ -58,6 +58,7 @@ class QuestionsQuerySet(models.QuerySet):
             'politian_answer',
             'politician__mayor_candidate',
             'politician__seimas_politician',
+            'politician__president_candidate',
             'created_by'
         )
 
