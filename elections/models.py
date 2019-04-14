@@ -301,7 +301,7 @@ class EuroParliamentCandidate(models.Model):
 
         slug = slugify(self.name)
         filename = f"{slug}-photo.{ext}"
-        return join('img', 'elections', 'MEP-2019', 'candidates', self.municipality.slug, filename)
+        return join('img', 'elections', 'MEP-2019', 'candidates', self.party, filename)
 
     is_active = models.BooleanField(db_index=True, verbose_name=_("Aktyvus"), default=True,
                                     help_text=_(

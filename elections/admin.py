@@ -3,7 +3,7 @@ from django.utils.html import format_html
 from reversion.admin import VersionAdmin
 
 from elections.models import Election, ElectionResult, PresidentCandidate, PresidentCandidateArticle, \
-    PresidentCandidateArticleInformation, MayorCandidate, Moderators, Debates
+    PresidentCandidateArticleInformation, MayorCandidate, Moderators, Debates, EuroParliamentCandidate
 from django.utils.translation import gettext_lazy as _
 
 
@@ -45,6 +45,14 @@ class MayorCandidateAdmin(admin.ModelAdmin):
     search_fields = ['first_name', 'last_name', ]
     list_display = ['first_name', 'last_name', 'is_active', 'party', 'municipality', 'created_at', 'updated_at']
     list_filter = ['is_active', 'municipality', 'party']
+    exclude = ['slug']
+    view_on_site = True
+
+@admin.register(EuroParliamentCandidate)
+class MepCandidateAdmin(admin.ModelAdmin):
+    search_fields = ['first_name', 'last_name']
+    list_display = ['first_name', 'last_name', 'is_active', 'party', 'created_at', 'updated_at']
+    list_filters = ['is_active', 'party']
     exclude = ['slug']
     view_on_site = True
 
