@@ -709,13 +709,7 @@ footer ul:first {
 
 }
 
-@media screen and (min-width: 994px) {
-    
-    .card--flex {
-        min-width: 49%;
-    }
 
-}
 
 @media screen and (min-width: 1024px) {
 
