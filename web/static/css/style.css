@@ -452,6 +452,10 @@ main .game_over {
 
 }
 
+.card--flex {
+    min-width: 100%;
+}
+
 
 button.btn {
     -webkit-appearance: none;
@@ -704,6 +708,8 @@ footer ul:first {
     }
 
 }
+
+
 
 @media screen and (min-width: 1024px) {
 
