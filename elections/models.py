@@ -173,6 +173,67 @@ class PresidentCandidate(models.Model):
         return self.name
 
 
+
+class PresidentCandidateBiography(models.Model):
+    candidate = models.ForeignKey(PresidentCandidate, on_delete=models.CASCADE, related_name="biographies")
+    bio_period = models.CharField(max_length=15, blank=True, verbose_name=_("Periodas"))
+    bio_text = models.TextField(blank=True, verbose_name=_("Biografijos įrašas"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
+
+    class Meta:
+        verbose_name = _("Biografijos įrašas")
+        verbose_name_plural = _("Biografijos įrašai")
+        ordering = ["-created_at"]
+    
+    def __str__(self):
+        return self.bio_period + " " + self.bio_text
+
+
+
+class PresidentCandidateArticle(models.Model):
+    candidate = models.ForeignKey(PresidentCandidate, on_delete=models.CASCADE, related_name="articles")
+    url = models.URLField(verbose_name=_("Naujienos nuoroda"))
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
+
+    class Meta:
+        verbose_name = _("Naujiena apie kandidatą į prezidentus")
+        verbose_name_plural = _("Naujienos apie kandidatus į prezidentus")
+        unique_together = [('candidate', 'url')]
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.url
+
+
+class PresidentCandidateArticleInformation(models.Model):
+    def _article_photo_file(self, filename):
+        ext = file_extension(filename)
+        slug = slugify(self.title)
+
+        filename = f"{slug}-photo.{ext}"
+        candidate = self.article.candidate.slug
+        return join('img', 'elections', 'president-2019', 'candidates', 'articles', candidate, filename)
+
+    article = models.OneToOneField(PresidentCandidateArticle, on_delete=models.CASCADE, related_name="information",
+                                   verbose_name=_("Naujiena"))
+    url = models.URLField()
+
+    title = models.CharField(max_length=256, verbose_name=_("Pavadinimas"))
+    site = models.CharField(max_length=256, blank=True, verbose_name=_("Šaltinis"))
+    image = ResizedImageField(blank=True, null=True, upload_to=_article_photo_file,
+                              crop=['middle', 'center'], size=[256, 256],
+                              verbose_name=_("Nuotrauka"))
+    description = models.TextField(verbose_name=_("Aprašymas"))
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.url
+
 class MayorCandidateQuerySet(models.QuerySet):
     pass
 
@@ -243,50 +304,6 @@ class MayorCandidate(models.Model):
         verbose_name_plural = _("Kandidatai į savivaldybės merus")
 
 
-class PresidentCandidateArticle(models.Model):
-    candidate = models.ForeignKey(PresidentCandidate, on_delete=models.CASCADE, related_name="articles")
-    url = models.URLField(verbose_name=_("Naujienos nuoroda"))
-
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
-
-    class Meta:
-        verbose_name = _("Naujiena apie kandidatą į prezidentus")
-        verbose_name_plural = _("Naujienos apie kandidatus į prezidentus")
-        unique_together = [('candidate', 'url')]
-        ordering = ['-created_at']
-
-    def __str__(self):
-        return self.url
-
-
-class PresidentCandidateArticleInformation(models.Model):
-    def _article_photo_file(self, filename):
-        ext = file_extension(filename)
-        slug = slugify(self.title)
-
-        filename = f"{slug}-photo.{ext}"
-        candidate = self.article.candidate.slug
-        return join('img', 'elections', 'president-2019', 'candidates', 'articles', candidate, filename)
-
-    article = models.OneToOneField(PresidentCandidateArticle, on_delete=models.CASCADE, related_name="information",
-                                   verbose_name=_("Naujiena"))
-    url = models.URLField()
-
-    title = models.CharField(max_length=256, verbose_name=_("Pavadinimas"))
-    site = models.CharField(max_length=256, blank=True, verbose_name=_("Šaltinis"))
-    image = ResizedImageField(blank=True, null=True, upload_to=_article_photo_file,
-                              crop=['middle', 'center'], size=[256, 256],
-                              verbose_name=_("Nuotrauka"))
-    description = models.TextField(verbose_name=_("Aprašymas"))
-
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
-
-    class Meta:
-        ordering = ['-created_at']
-
-    def __str__(self):
-        return self.url
-
 class MepCandidateQuerySet(models.QuerySet):
     pass
 
@@ -351,6 +368,20 @@ class EuroParliamentCandidate(models.Model):
         verbose_name = _("Kandidatas į Europos parlamentą")
         verbose_name_plural = _("Kandidatai į Europos parlamentą")
 
+
+class EuroParliamentCandidateBiography(models.Model):
+    candidate = models.ForeignKey(EuroParliamentCandidate, on_delete=models.CASCADE, related_name="biographies")
+    bio_period = models.CharField(max_length=15, blank=True, verbose_name=_("Periodas"))
+    bio_text = models.TextField(blank=True, verbose_name=_("Biografijos įrašas"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
+
+    class Meta:
+        verbose_name = _("Biografijos įrašas")
+        verbose_name_plural = _("Biografijos įrašai")
+        ordering = ["-created_at"]
+    
+    def __str__(self):
+        return self.bio_period + " " + self.bio_text
 
 class Moderators(models.Model):
     def _moderator_photo_file(self, filename):
