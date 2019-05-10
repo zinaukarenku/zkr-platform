@@ -149,8 +149,12 @@ class PresidentCandidate(models.Model):
     name = models.CharField(max_length=256, verbose_name=_("Kandidato vardas"))
     slug = models.SlugField(unique=True)
     photo = models.ImageField(upload_to=_candidate_photo_file, verbose_name=_("Kandidato nuotrauka"))
-    party = models.CharField(max_length=280, blank=True, verbose_name=_("Partija"), help_text=_("Jeigu kandidatas - be partijos, nurodykite, kad nepriklausomas"))
-
+    party = models.CharField(max_length=280, blank=True, verbose_name=_("Partija"), help_text=_("Jeigu kandidatas - be partijos, nurodykite, kad savarankiškas"))
+    email = models.EmailField(null=True, blank=True, verbose_name=_("Kandidato el. paštas")) 
+    birth_date = models.DateField(null=True, blank=True, verbose_name=_("Gimimo data"))
+    birth_place = models.CharField(max_length=100, blank=True, verbose_name=_("Gimimo vieta"))
+    languages = models.CharField(max_length=300, blank=True, verbose_name=_("Užsienio kalbos"))
+    hobbies = models.CharField(max_length=500, blank=True, verbose_name=_("Pomėgiai"))
     candidate_program_title = models.CharField(max_length=280, blank=True, verbose_name=_("Kandidato programos pavadinimas"))
     candidate_program_summary = models.TextField(blank=True, verbose_name=_("Kandidato programos santrauka"))
     candidate_program_link = models.URLField(blank=True, verbose_name=_("Kandidato rinkimė programa"))
@@ -187,8 +191,42 @@ class PresidentCandidateBiography(models.Model):
     
     def __str__(self):
         return self.bio_period + " " + self.bio_text
+    
 
+class PresidentCandidatePoliticalExperience(models.Model):
+    candidate = models.ForeignKey(PresidentCandidate, on_delete=models.CASCADE, related_name="political_experience")
+    position = models.CharField(max_length=100, blank=True, verbose_name=_("Pareigos"))
+    office = models.CharField(max_length=100, blank=True, verbose_name=_("Institucija"))
+    start = models.DateField(null=True, blank=True, verbose_name=_("Pereigų pradžia"))
+    end = models.DateField(null=True, blank=True, verbose_name=_("Pereigų pabaiga"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinta"))
 
+    class Meta:
+        verbose_name = _("Politinė patirties įrašas")
+        verbose_name_plural = _("Politinės patirties įrašai")
+        ordering = ["created_at"]
+
+    def __str__(self):
+        return self.office + ", " + self.position 
+    
+
+class PresidentCandidateWorkExperience(models.Model):
+    candidate = models.ForeignKey(PresidentCandidate, on_delete=models.CASCADE, related_name="work_experience")
+    position = models.CharField(max_length=100, blank=True, verbose_name=_("Pareigos"))
+    office = models.CharField(max_length=100, blank=True, verbose_name=_("Darbovietė"))
+    start = models.DateField(null=True, blank=True, verbose_name=_("Pereigų pradžia"))
+    end = models.DateField(null=True, blank=True, verbose_name=_("Pereigų pabaiga"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinta"))
+
+    class Meta:
+        verbose_name = _("Darbo patirties įrašas")
+        verbose_name_plural = _("Darbo patirties įrašai")
+        ordering = ["created_at"]
+
+    def __str__(self):
+        return self.office + ", " + self.position 
 
 class PresidentCandidateArticle(models.Model):
     candidate = models.ForeignKey(PresidentCandidate, on_delete=models.CASCADE, related_name="articles")
@@ -324,15 +362,18 @@ class EuroParliamentCandidate(models.Model):
                                     help_text=_(
                                         "Indikuoja ar kandidatas į Europos Parlamentą matomas kandidatų sąraše bei galima "
                                         "užduoti naują klausimą."))
-    first_name = models.CharField(max_length=256, verbose_name=_("Kandidato vardas"))
-    last_name = models.CharField(max_length=256, verbose_name=_("Kandidato pavardė"))
-    email = models.EmailField(null=True, blank=True, verbose_name=_("Kandidato el. paštas"))
-
     slug = models.SlugField(unique=True)
     photo = ResizedImageField(blank=True, null=True, upload_to=_candidate_photo_file,
                               crop=['middle', 'center'], size=[256, 256],
                               verbose_name=_("Kandidato nuotrauka"), )
-    party = models.CharField(max_length=256, verbose_name=_("Iškėlusi partija arba rinkiminis komitetas"), blank=True)
+    party = models.CharField(max_length=256, blank=True, verbose_name=_("Iškėlusi partija arba rinkiminis komitetas"))                                   
+    first_name = models.CharField(max_length=256, verbose_name=_("Kandidato vardas"))
+    last_name = models.CharField(max_length=256, verbose_name=_("Kandidato pavardė"))
+    email = models.EmailField(null=True, blank=True, verbose_name=_("Kandidato el. paštas")) 
+    birth_date = models.DateField(null=True, blank=True, verbose_name=_("Gimimo data"))
+    birth_place = models.CharField(max_length=100, blank=True, verbose_name=_("Gimimo vieta"))
+    languages = models.CharField(max_length=300, blank=True, verbose_name=_("Užsienio kalbos"))
+    hobbies = models.CharField(max_length=500, blank=True, verbose_name=_("Pomėgiai"))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinta"))
 
@@ -374,6 +415,7 @@ class EuroParliamentCandidateBiography(models.Model):
     bio_period = models.CharField(max_length=15, blank=True, verbose_name=_("Periodas"))
     bio_text = models.TextField(blank=True, verbose_name=_("Biografijos įrašas"))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinta"))
 
     class Meta:
         verbose_name = _("Biografijos įrašas")
@@ -382,6 +424,41 @@ class EuroParliamentCandidateBiography(models.Model):
     
     def __str__(self):
         return self.bio_period + " " + self.bio_text
+
+class EuroParliamentCandidatePoliticalExperience(models.Model):
+    candidate = models.ForeignKey(EuroParliamentCandidate, on_delete=models.CASCADE, related_name="political_experience")
+    position = models.CharField(max_length=100, blank=True, verbose_name=_("Pareigos"))
+    office = models.CharField(max_length=100, blank=True, verbose_name=_("Institucija"))
+    start = models.DateField(blank=True, verbose_name=_("Pereigų pradžia"))
+    end = models.DateField(blank=True, verbose_name=_("Pereigų pabaiga"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinta"))
+
+    class Meta:
+        verbose_name = _("Politinė patirties įrašas")
+        verbose_name_plural = _("Politinės patirties įrašai")
+        ordering = ["created_at"]
+
+    def __str__(self):
+        return self.office + ", " + self.position 
+
+class EuroParliamentCandidateWorkExperience(models.Model):
+    candidate = models.ForeignKey(EuroParliamentCandidate, on_delete=models.CASCADE, related_name="work_experience")
+    position = models.CharField(max_length=100, blank=True, verbose_name=_("Pareigos"))
+    office = models.CharField(max_length=100, blank=True, verbose_name=_("Darbovietė"))
+    start = models.DateField(blank=True, verbose_name=_("Pereigų pradžia"))
+    end = models.DateField(blank=True, verbose_name=_("Pereigų pabaiga"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinta"))
+
+    class Meta:
+        verbose_name = _("Darbo patirties įrašas")
+        verbose_name_plural = _("Darbo patirties įrašai")
+        ordering = ["created_at"]
+
+    def __str__(self):
+        return self.office + ", " + self.position 
+
 
 class Moderators(models.Model):
     def _moderator_photo_file(self, filename):

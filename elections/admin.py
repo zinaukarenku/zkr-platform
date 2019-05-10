@@ -2,8 +2,10 @@ from django.contrib import admin
 from django.utils.html import format_html
 from reversion.admin import VersionAdmin
 
-from elections.models import Election, ElectionResult, PresidentCandidate, PresidentCandidateBiography, PresidentCandidateArticle, \
-    PresidentCandidateArticleInformation, MayorCandidate, Moderators, Debates, EuroParliamentCandidate
+from elections.models import Election, ElectionResult, PresidentCandidate, PresidentCandidateBiography, \
+    PresidentCandidatePoliticalExperience, PresidentCandidateWorkExperience, PresidentCandidateArticle, \
+    PresidentCandidateArticleInformation, MayorCandidate, Moderators, Debates, EuroParliamentCandidate, \
+    EuroParliamentCandidatePoliticalExperience, EuroParliamentCandidateWorkExperience
 from django.utils.translation import gettext_lazy as _
 
 
@@ -26,16 +28,22 @@ class ElectionAdmin(VersionAdmin):
 class PresidentCandidateArticleInline(admin.StackedInline):
     model = PresidentCandidateArticle
 
-
 class PresidentCandidateArticleInformationInline(admin.StackedInline):
     model = PresidentCandidateArticleInformation
 
 class PresidentCandidateBiographyInline(admin.StackedInline):
     model = PresidentCandidateBiography
 
+
+class PresidentCandidatePoliticalExperienceInline(admin.StackedInline):
+    model = PresidentCandidatePoliticalExperience 
+
+class PresidentCandidateWorkExperienceInline(admin.StackedInline):
+    model = PresidentCandidateWorkExperience
+
 @admin.register(PresidentCandidate)
 class PresidentCandidateAdmin(VersionAdmin):
-    inlines = [PresidentCandidateBiographyInline, PresidentCandidateArticleInline]
+    inlines = [PresidentCandidatePoliticalExperienceInline, PresidentCandidateWorkExperienceInline]
     search_fields = ['name']
     list_display = ['name', 'photo', 'candidate_program_title', 'candidate_program_summary', 'candidate_program_link', 'created_at', 'updated_at']
     exclude = ['slug']
@@ -50,8 +58,15 @@ class MayorCandidateAdmin(admin.ModelAdmin):
     exclude = ['slug']
     view_on_site = True
 
+class EuroParliamentCandidatePoliticalExperienceInline(admin.StackedInline):
+    model = EuroParliamentCandidatePoliticalExperience 
+
+class EuroParliamentCandidateWorkExperienceInline(admin.StackedInline):
+    model = EuroParliamentCandidateWorkExperience
+
 @admin.register(EuroParliamentCandidate)
 class MepCandidateAdmin(admin.ModelAdmin):
+    inlines = [EuroParliamentCandidatePoliticalExperienceInline, EuroParliamentCandidateWorkExperienceInline]
     search_fields = ['first_name', 'last_name']
     list_display = ['first_name', 'last_name', 'is_active', 'party', 'created_at', 'updated_at']
     list_filters = ['is_active', 'party']

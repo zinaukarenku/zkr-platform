@@ -98,13 +98,9 @@ def president_candidates(request):
 
 
 def president_candidate(request, slug):
-    candidate = PresidentCandidate.objects.prefetch_related(
-        Prefetch(
-            'biographies',
-            PresidentCandidateBiography.objects.all()
-                .order_by('-created_at')
-        )
-    ).filter(slug=slug).first()
+    candidate = PresidentCandidate.objects.select_related("politician_info").filter(slug=slug).first()
+
+    #candidate = PresidentCandidate.objects.
 
     if candidate is None:
         raise Http404("President candidate does not exist")
@@ -124,4 +120,15 @@ def ep_candidates(request):
     })
 
 def ep_candidate(request, slug):
-    return render(request, 'elections/ep/candidate.html')
+    candidate = EuroParliamentCandidate.objects.select_related("political_experience", "work_experience").order_by("start")
+
+    if candidate is None:
+        raise Http404("European Parliament candidate does not exist")
+    
+    questions = Question.active.select_related('politician', 'politian_answer', 'created_by').filter(
+    politician__mep_candidate=candidate).order_by('-updated_at')
+
+    return render(request, 'elections/ep/candidate.html', {
+        'candidate': candidate,
+        'questions': questions
+    })

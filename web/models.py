@@ -218,6 +218,10 @@ class PoliticianInfo(models.Model):
                                             related_name="politician_info",
                                             verbose_name=_("Kandidatas į LR Prezidento postą"),
                                             help_text=_("Sujungti kandidatą į LR Prezidento postą su politiku"))
+    mep_candidate = models.OneToOneField(EuroParliamentCandidate, on_delete=models.CASCADE, null=True, blank=True,
+                                            related_name="politician_info",
+                                            verbose_name=_("Kandidatas į Europos Parlamentą"),
+                                            help_text=_("Sujungti kandidatą į Europos Parlamentą su politiku"))
 
     authenticated_users = models.ManyToManyField(
         settings.AUTH_USER_MODEL, blank=True,

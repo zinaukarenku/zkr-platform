@@ -13,6 +13,12 @@
                         <h2 class="text-center">{{ candidate.name }}</h2>
                         <span class="d-block text-muted text-center mb-3">{{candidate.party}}</span>
                         <span class="d-block text-eyebrow mt-3">Kontaktai</span>
+                        {% if candidate.candidate_program %}
+                            <span class="d-block text-muted">
+                                <i class="fas fa-book-open mr-1"></i>
+                                <a href="{{ politician.bio_url }}" target="_blank">Rinkiminė programa</a>
+                            </span>
+                        {% endif %}
                         {% if candidate.facebook %}
                             <span class="d-block text-muted">
                                 <i class="fab fa-facebook mr-1"></i>
@@ -59,61 +65,57 @@
                         </ul>
                         <div class="tab-content">
                             <div id="bio" class="tab-pane fade show active" role="tabpanel" aria-labelledby="bio-tab">
-                                    <div class="card-body d-flex flex-column">
-                                        <section class="mb-4">
-                                            <h3>Bendra informacija</h3>
-                                            <span class="d-block mb-3"><span class="text-muted">Gimimo data </span> {{candidate.birth_date|default:"Nenurodė"}}</span>
-                                            <span class="d-block mb-3"><span class="text-muted">Gimimo vieta </span> {{candidate.birth_place|default:"Nenurodė"}}</span>
-                                            <span class="d-block mb-3"><span class="text-muted">Užsienio kalbos </span> {{candidate.languages|default:"Nenurodė"}}</span>
-                                            {% if candidate.hobbies %}
-                                                <span class="d-block mb-3"><span class="text-muted">Pomėgiai </span> {{candidate.hobbies }}</span>
-                                            {% endif %}
-                                        </section>
-                                        <section class="mb-4">
-                                            <h3>Darbo patirtis</h3>
-                                            {% if candidate.work_experience.all %}
-                                                <ul class="pl-0 list-unstyled">
-                                                    {% for work in candidate.work_experience.all %}
-                                                        <li class="mb-2">
-                                                            <span class="d-block">{{ work.position }}</span>
-                                                            <span class="d-inline-block text-muted mr-1">{{ work.office }}</span>
-                                                            <span class="d-block text-muted">{{ work.start|date:"SHORT_DATE_FORMAT" }} - {{ work.end|date:"SHORT_DATE_FORMAT"|default:"Nesibaigė" }}</span>
-                                                        </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            {% else %}
-                                                <p class="text-center mb-0 text-80 mb-2">Nėra darbo patirties</p>
-                                            {% endif %}
-                                        </section>
-                                        <section class="mb-4">
-                                            <h3>Politinė patirtis</h3>
-                                            {% if candidate.political_experience.all %}
-                                                <ul class="pl-0 list-unstyled">
-                                                    {% for poli_xp in candidate.political_experience.all %}
-                                                        <li class="mb-2">
-                                                            <span class="d-block">{{ poli_xp.position}}</span>
-                                                            <span class="d-inline-block text-muted mr-1">{{ poli_xp.office }}</span>
-                                                            <span class="d-block text-muted">{{ poli_xp.start|date:"SHORT_DATE_FORMAT" }} - {{ poli_xp.end|date:"SHORT_DATE_FORMAT"|default:"Nesibaigė" }}</span>
-                                                        </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            {% else %}
-                                                <p class="text-center mb-0 text-80 mb-2">Nėra politinės patirties</p>
-                                            {% endif %}
-                                        </section>
+                                    <div class="card-body d-flex">
+                                            <section class="mb-4">
+                                                    <h3>Bendra informacija</h3>
+                                                    <span class="d-block mb-3"><span class="text-muted">Gimimo data </span> {{candidate.birth_date|default:"Nenurodė"}}</span>
+                                                    <span class="d-block mb-3"><span class="text-muted">Gimimo vieta </span> {{candidate.birth_place|default:"Nenurodė"}}</span>
+                                                    <span class="d-block mb-3"><span class="text-muted">Užsienio kalbos </span> {{candidate.languages|default:"Nenurodė"}}</span>
+                                                    {% if candidate.hobbies %}
+                                                        <span class="d-block mb-3"><span class="text-muted">Pomėgiai </span> {{candidate.hobbies }}</span>
+                                                    {% endif %}
+                                                </section>
+                                                <section class="mb-4">
+                                                    <h3>Darbo patirtis</h3>
+                                                    {% if candidate.work_experience.all %}
+                                                        <ul class="pl-0 list-unstyled">
+                                                            {% for work in candidate.work_experience.all %}
+                                                                <li class="mb-2">
+                                                                    <span class="d-block">{{ work.position }}</span>
+                                                                    <span class="d-inline-block text-muted mr-1">{{ work.work_place }}</span>
+                                                                    <span class="d-block text-muted">{{ work.start|date:"SHORT_DATE_FORMAT" }} - {{ work.end|date:"SHORT_DATE_FORMAT"|default:"Nesibaigė" }}</span>
+                                                                </li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    {% else %}
+                                                        <p class="text-center mb-0 text-80 mb-2">Nėra darbo patirties</p>
+                                                    {% endif %}
+                                                </section>
+                                                <section class="mb-4">
+                                                    <h3>Politinė patirtis</h3>
+                                                    {% if politician.politician_terms.all %}
+                                                        <ul class="pl-0 list-unstyled">
+                                                            {% for poli_xp in candidate.political_experience.all %}
+                                                                <li class="mb-2">
+                                                                    <span class="d-block">{{ poli_xp.position}}</span>
+                                                                    <span class="d-inline-block text-muted mr-1">{{ poli_xp.office }}</span>
+                                                                    <span class="d-block text-muted">{{ poli_xp.start|date:"SHORT_DATE_FORMAT" }} - {{ poli_xp.end|date:"SHORT_DATE_FORMAT"|default:"Nesibaigė" }}</span>
+                                                                </li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    {% else %}
+                                                        <p class="text-center mb-0 text-80 mb-2">Nėra politinės patirties</p>
+                                                    {% endif %}
+                                                </section>
                                     </div>
                                 </a>
                             </div>
                             <div id="program" class="tab-pane fade show" role="tabpanel" aria-labelledby="program-tab">
                                     <div class="card-body d-flex">
                                         <div class="d-inline-block">
-                                            {% if candidate.candidate_program_title %}
-                                                <h5 class="card-title text-left mb-2">{{ candidate.candidate_program_title }}</h5>
-                                                <p class="text-muted mb-0 text-80 mb-2">{{ candidate.candidate_program_summary }}</p>
-                                                <a href="{{ candidate.candidate_program_link }}">Šaltinis</a>
-                                            {% else %}
-                                                <p class="text-muted mb-0 text-80 mb-2">Kandidatas programos dar neturi</p>
-                                            {% endif %}
+                                            <h5 class="card-title text-left mb-2">{{ candidate.candidate_program_title }}</h5>
+                                            <p class="text-muted mb-0 text-80 mb-2">{{ candidate.candidate_program_summary }}</p>
+                                            <a href="{{ candidate.candidate_program_link }}">Šaltinis</a>
                                         </div>
                                     </div>
                                 </a>
