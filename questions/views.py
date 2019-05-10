@@ -92,6 +92,15 @@ def question_with_secret(request, question_id, secret_id):
     return redirect('question', question_id)
 
 
+@verified_email_required(login_url='/accounts/signup/')
+def after_registration_list(request, secret_id):
+    politician = PoliticianInfo.objects.filter(registration_secret_id=secret_id).first()
+    if politician is not None:
+        politician.authenticated_users.add(request.user)
+
+    return redirect('questions_list')
+
+
 def question(request, question_id):
     user = request.user
     request_info = get_request_information(request)
