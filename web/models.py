@@ -10,7 +10,7 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django_resized import ResizedImageField
 
-from elections.models import MayorCandidate, PresidentCandidate
+from elections.models import MayorCandidate, PresidentCandidate, EuroParliamentCandidate
 from seimas.models import Politician as SeimasPolitician
 from utils.utils import distinct_by, file_extension, gravatar_url
 from zkr import settings
@@ -312,3 +312,4 @@ class PoliticianPromise(models.Model):
 
     def __str__(self):
         return self.promise
+

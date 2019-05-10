@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from reversion.admin import VersionAdmin
 
-from elections.models import Election, ElectionResult, PresidentCandidate, PresidentCandidateArticle, \
+from elections.models import Election, ElectionResult, PresidentCandidate, PresidentCandidateBiography, PresidentCandidateArticle, \
     PresidentCandidateArticleInformation, MayorCandidate, Moderators, Debates, EuroParliamentCandidate
 from django.utils.translation import gettext_lazy as _
 
@@ -30,10 +30,12 @@ class PresidentCandidateArticleInline(admin.StackedInline):
 class PresidentCandidateArticleInformationInline(admin.StackedInline):
     model = PresidentCandidateArticleInformation
 
+class PresidentCandidateBiographyInline(admin.StackedInline):
+    model = PresidentCandidateBiography
 
 @admin.register(PresidentCandidate)
 class PresidentCandidateAdmin(VersionAdmin):
-    inlines = [PresidentCandidateArticleInline]
+    inlines = [PresidentCandidateBiographyInline, PresidentCandidateArticleInline]
     search_fields = ['name']
     list_display = ['name', 'photo', 'candidate_program_title', 'candidate_program_summary', 'candidate_program_link', 'created_at', 'updated_at']
     exclude = ['slug']

@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from elections.forms import MayorCandidatesFiltersForm
-from elections.models import Election, MayorCandidate, PresidentCandidate, PresidentCandidateArticle, Debates
+from elections.models import Election, MayorCandidate, EuroParliamentCandidate, PresidentCandidate, PresidentCandidateBiography, PresidentCandidateArticle, Debates
 from questions.models import Question
 from utils.utils import PaginatorWithPageLink
 from web.models import PoliticianPromise
@@ -100,9 +100,9 @@ def president_candidates(request):
 def president_candidate(request, slug):
     candidate = PresidentCandidate.objects.prefetch_related(
         Prefetch(
-            'articles',
-            PresidentCandidateArticle.objects.filter(information__isnull=False)
-                .select_related('information').order_by('-created_at')
+            'biographies',
+            PresidentCandidateBiography.objects.all()
+                .order_by('-created_at')
         )
     ).filter(slug=slug).first()
 
@@ -116,3 +116,12 @@ def president_candidate(request, slug):
         'candidate': candidate,
         'questions': questions
     })
+
+def ep_candidates(request):
+    candidates = EuroParliamentCandidate.objects.all()
+    return render(request, 'elections/ep/candidate.html', {
+        'candidates': candidates
+    })
+
+def ep_candidate(request, slug):
+    return render(request, 'elections/ep/candidate.html')
