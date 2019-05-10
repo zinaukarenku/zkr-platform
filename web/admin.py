@@ -1,10 +1,11 @@
 from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.utils.html import format_html
 from reversion.admin import VersionAdmin
+from web.tasks import send_registration_email as send_registration_email_task
 
 from questions.models import Question
 from web.models import OrganizationMember, OrganizationMemberGroup, EmailSubscription, OrganizationPartner, User, \
@@ -98,12 +99,24 @@ class PoliticianPromiseInline(SortableInlineAdminMixin, admin.StackedInline):
     autocomplete_fields = ['debates']
 
 
+def send_registration_email(model_admin, request, politicians_set):
+    for politician in politicians_set:
+        if politician.email is None:
+            messages.error(request, f'{politician.name} neturi priskirto el. pašto. Priskirkite ir bandykite vėl')
+            continue
+
+        send_registration_email_task.delay(request, politician.email, politician.registration_secret_id)
+
+
+send_registration_email.short_description = 'Nusiųsti kvietimą registruotis'
+
+
 @admin.register(PoliticianInfo)
 class PoliticianInfoAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         return super().get_queryset(request).annotate_with_promise_count()
 
-    list_display = ['name', 'is_active', 'seimas_politician', 'mayor_candidate', 'president_candidate', 'promise_count', 'created_at',
+    list_display = ['name', 'email', 'is_active', 'seimas_politician', 'mayor_candidate', 'president_candidate', 'promise_count', 'created_at',
                     'updated_at']
 
     list_select_related = ['seimas_politician', 'mayor_candidate', 'president_candidate']
@@ -114,6 +127,7 @@ class PoliticianInfoAdmin(admin.ModelAdmin):
     list_filter = ['is_active', 'mayor_candidate__municipality__name', 'promises__debates__name', 'created_at', ]
     date_hierarchy = 'created_at'
     view_on_site = True
+    actions = [send_registration_email]
 
     def promise_count(self, obj):
         return obj.promise_count

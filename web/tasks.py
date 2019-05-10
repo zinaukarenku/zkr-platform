@@ -1,6 +1,7 @@
 import logging
 
 from celery import shared_task
+from django.urls import reverse
 
 from elections.models import MayorCandidate
 from seimas.models import Politician as SeimasPolitician
@@ -61,3 +62,16 @@ def sync_newsletter_subscribers():
         )
     )
     return SendGrid().sync_recipients_to_list(SendGrid.NEWSLETTER_SUBSCRIBERS_LIST, contacts_list)
+
+
+@shared_task(soft_time_limit=30)
+def send_registration_email(request, email, secret):
+    url = request.build_absolute_uri(reverse('questions_list_after_registration', args=[secret]))
+    SendGrid().send_letter(
+        template_id=SendGrid.INVITE_FOR_REGISTRATION_TRANSACTIONAL_TEMPLATE,
+        emails=[email],
+        dynamic_template_data={
+            'registration_url': url,
+        },
+        categories=["Invite for registration"]
+    )

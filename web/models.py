@@ -229,6 +229,8 @@ class PoliticianInfo(models.Model):
 
     registration_secret_id = models.UUIDField(default=uuid.uuid4)
 
+    email = models.EmailField(null=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -275,6 +277,9 @@ class PoliticianInfo(models.Model):
 
             if mayor_candidate.email:
                 emails.append(mayor_candidate.email)
+
+        if self.email:
+            emails.append(self.email)
 
         for user in self.authenticated_users.all():
             emails.append(user.email)
