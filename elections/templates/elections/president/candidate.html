@@ -70,22 +70,6 @@
                                             {% endif %}
                                         </section>
                                         <section class="mb-4">
-                                            <h3>Darbo patirtis</h3>
-                                            {% if candidate.work_experience.all %}
-                                                <ul class="pl-0 list-unstyled">
-                                                    {% for work in candidate.work_experience.all %}
-                                                        <li class="mb-2">
-                                                            <span class="d-block">{{ work.position }}</span>
-                                                            <span class="d-inline-block text-muted mr-1">{{ work.office }}</span>
-                                                            <span class="d-block text-muted">{{ work.start|date:"SHORT_DATE_FORMAT" }} - {{ work.end|date:"SHORT_DATE_FORMAT"|default:"Nesibaigė" }}</span>
-                                                        </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            {% else %}
-                                                <p class="text-center mb-0 text-80 mb-2">Nėra darbo patirties</p>
-                                            {% endif %}
-                                        </section>
-                                        <section class="mb-4">
                                             <h3>Politinė patirtis</h3>
                                             {% if candidate.political_experience.all %}
                                                 <ul class="pl-0 list-unstyled">
@@ -93,14 +77,28 @@
                                                         <li class="mb-2">
                                                             <span class="d-block">{{ poli_xp.position}}</span>
                                                             <span class="d-inline-block text-muted mr-1">{{ poli_xp.office }}</span>
-                                                            <span class="d-block text-muted">{{ poli_xp.start|date:"SHORT_DATE_FORMAT" }} - {{ poli_xp.end|date:"SHORT_DATE_FORMAT"|default:"Nesibaigė" }}</span>
+                                                            <span class="d-block text-muted">{{ poli_xp.start|date:"Y" }} - {{ poli_xp.end|date:"Y"|default:"Nesibaigė" }}</span>
                                                         </li>
                                                     {% endfor %}
                                                 </ul>
                                             {% else %}
-                                                <p class="text-center mb-0 text-80 mb-2">Nėra politinės patirties</p>
+                                                <p class="mb-0 text-80 mb-2">Nėra politinės patirties</p>
                                             {% endif %}
                                         </section>
+                                        {% if candidate.work_experience.all %}
+                                            <section class="mb-4">
+                                            <h3>Darbo patirtis</h3>
+                                                <ul class="pl-0 list-unstyled">
+                                                    {% for work in candidate.work_experience.all %}
+                                                        <li class="mb-2">
+                                                            <span class="d-block">{{ work.position }}</span>
+                                                            <span class="d-inline-block text-muted mr-1">{{ work.office }}</span>
+                                                            <span class="d-block text-muted">{{ work.start|date:"Y" }} - {{ work.end|date:"Y"|default:"Nesibaigė" }}</span>
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </section>
+                                        {% endif %}
                                     </div>
                                 </a>
                             </div>
