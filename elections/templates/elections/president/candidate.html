@@ -119,9 +119,11 @@
                             <div id="communicate" class="tab-pane" aria-labelledby="communicate-tab">
 
                                 <h3>Klausimai ir atsakymai</h3>
-
+                                {% if candidate.politician_info.is_active %}
                                 <a class="text-uppercase btn btn-block btn-question mb-3"
-                                    href="{% url 'new_question' %}">Užduoti naują klausimą kandidatui</a>
+                                    href="{% url 'new_question' %}">Užduoti naują klausimą kandidatui
+                                </a>
+                                {% endif %}
                                 {% for question in questions %}
                                     <a href="{% url 'question' question.id %}" class="d-block mb-3">
                                         <h4 class="card-title card-title--question text-left mb-0">{{ question.name }}</h4>

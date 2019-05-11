@@ -233,7 +233,7 @@ class PoliticianInfo(models.Model):
 
     registration_secret_id = models.UUIDField(default=uuid.uuid4)
 
-    email = models.EmailField(null=True)
+    email = models.EmailField(null=True, blank=True, verbose_name=_("politiko el. paštas"))
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
