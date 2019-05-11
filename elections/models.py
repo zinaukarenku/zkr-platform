@@ -203,7 +203,7 @@ class PresidentCandidatePoliticalExperience(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinta"))
 
     class Meta:
-        verbose_name = _("Politinė patirties įrašas")
+        verbose_name = _("Politinės patirties įrašas")
         verbose_name_plural = _("Politinės patirties įrašai")
         ordering = ["created_at"]
 
@@ -435,7 +435,7 @@ class EuroParliamentCandidatePoliticalExperience(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinta"))
 
     class Meta:
-        verbose_name = _("Politinė patirties įrašas")
+        verbose_name = _("Politinės patirties įrašas")
         verbose_name_plural = _("Politinės patirties įrašai")
         ordering = ["created_at"]
 
