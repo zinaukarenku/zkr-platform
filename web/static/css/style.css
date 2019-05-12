@@ -684,10 +684,8 @@ footer ul:first {
     .col-md-4 {
         padding-right: 15px;
     }
-}
 
-@media screen and (min-width: 959px) {
-
+    
     .col-md-6:first-child {
         padding-right: 5px;
     }
@@ -695,6 +693,17 @@ footer ul:first {
     .col-md-6:last-child {
         padding-left: 5px;
     }
+}
+
+@media screen and (min-width: 959px) {
+/* 
+    .col-md-6:first-child {
+        padding-right: 5px;
+    }
+
+    .col-md-6:last-child {
+        padding-left: 5px;
+    } */
 
     .card--filters {
         position: relative;
