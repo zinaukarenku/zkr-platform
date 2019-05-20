@@ -5,7 +5,8 @@ from reversion.admin import VersionAdmin
 from elections.models import Election, ElectionResult, PresidentCandidate, PresidentCandidateBiography, \
     PresidentCandidatePoliticalExperience, PresidentCandidateWorkExperience, PresidentCandidateArticle, \
     PresidentCandidateArticleInformation, MayorCandidate, Moderators, Debates, EuroParliamentCandidate, \
-    EuroParliamentCandidatePoliticalExperience, EuroParliamentCandidateWorkExperience
+    EuroParliamentCandidatePoliticalExperience, EuroParliamentCandidateWorkExperience, EuroParliamentCandidateEducation, \
+    EuroParliamentCandidateConviction
 from django.utils.translation import gettext_lazy as _
 
 
@@ -64,9 +65,15 @@ class EuroParliamentCandidatePoliticalExperienceInline(admin.StackedInline):
 class EuroParliamentCandidateWorkExperienceInline(admin.StackedInline):
     model = EuroParliamentCandidateWorkExperience
 
+class EuroParliamentCandidateEducationInline(admin.StackedInline):
+    model = EuroParliamentCandidateEducation
+
+class EuroParliamentCandidateConvictionInline(admin.StackedInline):
+    model = EuroParliamentCandidateConviction
+
 @admin.register(EuroParliamentCandidate)
 class MepCandidateAdmin(admin.ModelAdmin):
-    inlines = [EuroParliamentCandidatePoliticalExperienceInline, EuroParliamentCandidateWorkExperienceInline]
+    inlines = [EuroParliamentCandidatePoliticalExperienceInline, EuroParliamentCandidateWorkExperienceInline, EuroParliamentCandidateEducationInline, EuroParliamentCandidateConvictionInline]
     search_fields = ['first_name', 'last_name']
     list_display = ['first_name', 'last_name', 'is_active', 'party', 'created_at', 'updated_at']
     list_filters = ['is_active', 'party']

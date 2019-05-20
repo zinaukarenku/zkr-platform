@@ -459,6 +459,47 @@ class EuroParliamentCandidateWorkExperience(models.Model):
     def __str__(self):
         return self.office + ", " + self.position 
 
+class EuroParliamentCandidateEducation(models.Model):
+    EDUCATION_TYPES = (
+        (1, "Vidurinis"),
+        (2, "Aukštasis universitetinis"),
+        (3, "Aukštasis neuniversitetinis")        
+    )
+    candidate = models.ForeignKey(EuroParliamentCandidate, on_delete=models.CASCADE, related_name="education")
+    edu_type = models.IntegerField(choices=EDUCATION_TYPES, null=True, blank=True, verbose_name=_("Išsilavinimo tipas"))
+    school = models.CharField(max_length=250, blank=True, verbose_name=_("Mokykla/Universitetas"))
+    degree = models.CharField(max_length=250, blank=True, verbose_name=_("Mokslo laipsnis"))
+    speciality = models.CharField(max_length=250, blank=True, verbose_name=_("Specialybė"))
+    grad_year = models.DateField(null=True, blank=True, verbose_name=_("Baigimo metai"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinta"))
+
+    class Meta:
+        verbose_name = _("Išsilavinimo įrašas")
+        verbose_name_plural = _("Išsilavinimo įrašai")
+        ordering = ["created_at"]
+    
+    def __str__(slef):
+        return self.speciality + ", " + self.school
+
+
+class EuroParliamentCandidateConviction(models.Model):
+    candidate = models.ForeignKey(EuroParliamentCandidate, on_delete=models.CASCADE, related_name="conviction")
+    text = models.CharField(max_length=250, blank=True, verbose_name=_("Nuosprendžio tekstas"))
+    court = models.CharField(max_length=150, blank=True, verbose_name=_("Institucija"))
+    country = models.CharField(max_length=100, blank=True, verbose_name=_("Nuosprendžio šalis"))
+    year = models.DateField(null=True, blank=True, verbose_name=_("Nuosprendžio metai"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinta"))
+
+    class Meta:
+        verbose_name = _("Teistumo įrašas")
+        verbose_name_plural = _("Teistumo įrašai")
+        ordering = ["created_at"]
+    
+    def __str__(slef):
+        return self.year + ", " + self.text
+    
 
 class Moderators(models.Model):
     def _moderator_photo_file(self, filename):
