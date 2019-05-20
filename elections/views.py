@@ -91,7 +91,7 @@ def election(request, slug):
 
 
 def president_candidates(request):
-    candidates = PresidentCandidate.objects.all()
+    candidates = PresidentCandidate.objects.filter(is_active=True)
     return render(request, 'elections/president/candidates.html', {
         'candidates': candidates
     })

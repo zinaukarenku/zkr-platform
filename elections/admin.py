@@ -46,7 +46,7 @@ class PresidentCandidateWorkExperienceInline(admin.StackedInline):
 class PresidentCandidateAdmin(VersionAdmin):
     inlines = [PresidentCandidatePoliticalExperienceInline, PresidentCandidateWorkExperienceInline]
     search_fields = ['name']
-    list_display = ['name', 'photo', 'candidate_program_title', 'candidate_program_summary', 'candidate_program_link', 'created_at', 'updated_at']
+    list_display = ['name', 'photo', 'is_active', 'candidate_program_title', 'candidate_program_summary', 'candidate_program_link', 'created_at', 'updated_at']
     exclude = ['slug']
     view_on_site = True
 

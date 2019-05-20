@@ -131,6 +131,14 @@ class ElectionResult(models.Model):
     def __str__(self):
         return self.name
 
+class PresidentCandidateQuerySet(models.QuerySet):
+    pass
+
+
+class ActivePresidentCandidateManager(models.Manager):
+    def get_queryset(self):
+        return PresidentCandidateQuerySet(self.model, using=self._db).filter(is_active=True)
+
 
 class PresidentCandidate(models.Model):
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
@@ -149,6 +157,10 @@ class PresidentCandidate(models.Model):
     name = models.CharField(max_length=256, verbose_name=_("Kandidato vardas"))
     slug = models.SlugField(unique=True)
     photo = models.ImageField(upload_to=_candidate_photo_file, verbose_name=_("Kandidato nuotrauka"))
+    is_active = models.BooleanField(db_index=True, verbose_name=_("Aktyvus"), default=True,
+                                    help_text=_(
+                                        "Indikuoja ar kandidatas į prezidentus matomas prezidenų sąraše bei galima "
+                                        "užduoti naują klausimą."))
     party = models.CharField(max_length=280, blank=True, verbose_name=_("Partija"), help_text=_("Jeigu kandidatas - be partijos, nurodykite, kad savarankiškas"))
     email = models.EmailField(null=True, blank=True, verbose_name=_("Kandidato el. paštas")) 
     birth_date = models.DateField(null=True, blank=True, verbose_name=_("Gimimo data"))
@@ -165,6 +177,9 @@ class PresidentCandidate(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinta"))
+
+    objects = PresidentCandidateQuerySet.as_manager()
+    active = ActivePresidentCandidateManager()
 
     class Meta:
         verbose_name = _("Kandidatas į prezidentus")
