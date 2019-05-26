@@ -46,22 +46,22 @@
                             <span class="nav-link" data-map-tab="2">Prezidento rinkimų rezultatai</span>
                         </li>
                         <li class="nav-item text-center">
-                            <span class="nav-link" data-map-tab="3">Referendumų rezultatai</span>
+                            <span class="nav-link" data-map-tab="3">EP rezultatai</span>
                         </li>
                     </ul>
                     <div data-map-content="1">
-                        <iframe style="width: 100%; min-height: 600px; border: none" scrolling="no" marginheight="0" marginwidth="0" src="https://rinkimai.maps.lt/rinkimai2019/aktyvumas/?embed=1&map=1"></iframe>
+                        <iframe style="width: 100%; min-height: 600px; border: none" scrolling="no" marginheight="0" marginwidth="0" src="https://rinkimai.maps.lt/rinkimai2019/aktyvumas/?embed=1&map=2"></iframe>
                     </div>
                     <div data-map-content="2">
-                        <iframe style="width: 100%; min-height: 600px; border: none" scrolling="no" marginheight="0" marginwidth="0" src="https://rinkimai.maps.lt/rinkimai2019/prezidentas/?embed=1&map=1"></iframe>
+                        <iframe style="width: 100%; min-height: 600px; border: none" scrolling="no" marginheight="0" marginwidth="0" src="https://rinkimai.maps.lt/rinkimai2019/prezidentas/?embed=1&map=2"></iframe>
                     </div>
                     <div data-map-content="3">
-                        <iframe style="width: 100%; min-height: 600px; border: none" scrolling="no" marginheight="0" marginwidth="0" src="https://rinkimai.maps.lt/rinkimai2019/referendumai/?embed=1&map=1"></iframe>
+                        <iframe style="width: 100%; min-height: 600px; border: none" scrolling="no" marginheight="0" marginwidth="0" src="https://rinkimai.maps.lt/rinkimai2019/ep/?embed=1&map=1"></iframe>
                     </div>
                 </div>
             {% else %}
                 <div class="text-center mt-2 mb-3" style="width: 100%;" id="timer-container">
-                    <h3 class="mt-3 mb-2 timer-header">Laikas iki prezidento rinkimų II turo balsavimo pradžios</h3>
+                    <h3 class="mt-3 mb-2 timer-header">Laikas iki prezidento rinkimų II turo ir EP balsavimo pabaigos</h3>
                     <div class="col-md-8 offset-md-2 col-xs-12 align-items-center">
                         <div style="display: flex; justify-content: space-between">
                             <div>
@@ -160,7 +160,7 @@
                 var minutesElement = document.querySelector('#minutes');
                 var secondsElement = document.querySelector('#seconds');
 
-                var countDownDate = new Date(2019, 4, 26, 8, 0, 0).getTime();
+                var countDownDate = new Date(2019, 4, 26, 20, 0, 0).getTime();
 
                 var timer = setInterval(function() {
                     var now = new Date().getTime();
