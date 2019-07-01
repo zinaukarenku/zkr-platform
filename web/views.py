@@ -21,9 +21,11 @@ logger = getLogger(__name__)
 def index(request):
     partners = OrganizationPartner.objects.all()
     voting_ended = datetime.now() > datetime(2019, 5, 26, 20, 0, 0)
+    voting_in_session = False
     return render(request, 'web/index.html', {
         'partners': partners,
-        'voting_ended': voting_ended
+        'voting_ended': voting_ended,
+        'voting_in_session': voting_in_session
     })
 
 
