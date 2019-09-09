@@ -66,10 +66,10 @@
         ga('create', 'UA-59241682-1', 'auto');
         ga('send', 'pageview');
     </script>
-
+    {% comment %}
     <link rel="manifest" href="{% static 'notifications/manifest.json' %}"/>
-    <!-- <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script> -->
-    <!-- <script>
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script> -->
+    <script>
         var OneSignal = window.OneSignal || [];
         OneSignal.push(function () {
             OneSignal.init({
@@ -78,7 +78,8 @@
                 autoRegister: false
             });
         });
-    </script> -->
+    </script>
+    {% endcomment %}
     {% block head %}{% endblock %}
 </head>
 
