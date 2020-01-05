@@ -100,6 +100,7 @@ class Promises(CommonModel):
     politician = models.ForeignKey(Politicians, on_delete=models.CASCADE, related_name='promises')
     promise_text = models.TextField(null=False, blank=False, verbose_name=_('Pažadas'))
     video_url = models.URLField(max_length=200, null=True, blank=True, verbose_name=_('Pažado įrašo nuoroda'))
+    news_url = models.URLField(max_length=200, null=True, blank=True, verbose_name=_('Pažado įgyvendinimo įrodymai'))
     is_measurable = models.BooleanField(default=False, verbose_name=_('Ar pamatuojamas?'))
     status = models.SmallIntegerField(choices=STATUS_TYPES, null=True, blank=True, verbose_name=_('Būsena'))
     target = models.CharField(max_length=200, null=True, blank=True, verbose_name=_('Pažado tikslas'))
