@@ -33,7 +33,7 @@ class Politicians(CommonModel):
     slug = models.SlugField(unique=True)
     is_active = models.BooleanField(default=True, db_index=True)
     is_male = models.BooleanField(default=False)
-    asm_id = models.IntegerField(unique=True, help_text="Asmens id is used internally in seimas web")
+    asm_id = models.IntegerField(unique=True, blank=True, null=True, help_text="Asmens id is used internally in seimas web")
     email = models.EmailField(null=True, blank=True)
     phone = models.CharField(max_length=12, null=True, blank=True)
     personal_website = models.URLField(null=True, blank=True)
