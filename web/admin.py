@@ -25,10 +25,11 @@ class UserQuestionsInline(admin.StackedInline):
 UserAdmin.fieldsets = (
     (None, {'fields': ('username', 'password')}),
     (_('Personal info'), {'fields': ('first_name', 'last_name', 'email', 'photo')}),
-    (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+    (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'is_politician' ,
                                    'groups', 'user_permissions')}),
     (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
 )
+
 UserAdmin.inlines = [UserQuestionsInline]
 
 admin.site.register(User, UserAdmin)

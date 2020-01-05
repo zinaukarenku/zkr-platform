@@ -20,10 +20,15 @@ class User(AbstractUser):
     def _user_photo_file(self, filename):
         ext = file_extension(filename)
         slug = slugify(self.get_full_name())
+        if self.is_politician: 
+            foldername = 'politicians'
+        else:
+            foldername = 'users'
 
         filename = f"{slug}-photo.{ext}"
-        return join('img', 'users', filename)
+        return join('img', foldername, filename)
 
+    is_politician = models.BooleanField(default=False, db_index=True)
     photo = ResizedImageField(blank=True, null=True, upload_to=_user_photo_file,
                               crop=['middle', 'center'], size=[256, 256],
                               verbose_name=_("Nuotrauka"))

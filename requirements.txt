@@ -1,4 +1,4 @@
-Django>=2.2.2
+Django>=2.2.2, <3.0.0
 Pillow>=5.2,<5.3
 requests>=2.19.0,<2.20.0
 uWSGI==2.0.17.1
@@ -18,7 +18,7 @@ drf-yasg==1.10.0
 git+git://github.com/aschn/drf-tracking.git
 
 django-enumfields==0.10.1
-celery[redis]==4.2.1
+celery[redis]==4.3
 django-redis==4.10.0
 metadata_parser==0.9.21
 beautifulsoup4==4.6.3
@@ -40,3 +40,4 @@ django-sendgrid-v5==0.7.0
 django-extra-fields==1.0.0
 pyOpenSSL==19.0.0
 ddtrace==0.21.0
+django-nested-inline==0.4.0

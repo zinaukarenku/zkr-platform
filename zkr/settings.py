@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'django.contrib.sites',
     'django.contrib.postgres',
+    
 
     'raven.contrib.django.raven_compat',
     'ddtrace.contrib.django',
@@ -76,6 +77,8 @@ INSTALLED_APPS = [
     'web',
     'questions',
     'api',
+    'politicians',
+    'nested_inline',
 
     'allauth',
     'allauth.account',
