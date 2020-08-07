@@ -1,8 +1,8 @@
 Django>=2.2.2, <3.0.0
-Pillow>=5.2,<5.3
+Pillow==7.2.0
 requests>=2.19.0,<2.20.0
 uWSGI==2.0.17.1
-psycopg2-binary==2.7.5
+psycopg2-binary==2.8.5
 django-debug-toolbar==1.11
 django-admin-sortable2==0.6.21
 django-allauth==0.38.0
