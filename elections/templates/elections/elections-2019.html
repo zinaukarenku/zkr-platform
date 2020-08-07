@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% load static %}
-{% block title %}{% block banner_title %}Rinkimai 2020{% endblock %}{% endblock %}
+{% block title %}{% block banner_title %}Rinkimai 2019{% endblock %}{% endblock %}
 {% block banner_class %}banner--elections{% endblock %}
 
 {% block main_content %}
@@ -10,14 +10,22 @@
 
 
         <div class="row">
-            <div class="col-12">
+            <div class="col-md-6">
                 <a href="{% url 'mayor_candidates' %}"
                    class="card d-flex align-items-center justify-content-center card-block-link text-center candidate-block-link">
-                    Kandidatai į Seimą
+                    Kandidatai į merus
                 </a>
             </div>
-            <div class="col-sm">
-                <a href="{% url 'debates' %}"
+            <div class="col-md-6">
+                <a href="{% url 'president_candidates' %}"
+                   class="card d-flex align-items-center justify-content-center card-block-link text-center candidate-president-block-link">
+                    Kandidatai į LR Prezidento postą
+                </a>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-12">
+                <a href="{% url 'debates_2019' %}"
                    class="card d-flex align-items-center justify-content-center card-block-link text-center debates-block-link">
                     Debatai
                 </a>

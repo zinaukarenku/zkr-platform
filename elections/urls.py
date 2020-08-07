@@ -1,11 +1,14 @@
 from django.urls import path
 
-from elections.views import elections, election, president_candidates, president_candidate, mayor_candidates, \
-    mayor_candidate, debates_2019, ep_candidates, ep_candidate
+from elections.views import elections, election, elections_2019, president_candidates, president_candidate, \
+    mayor_candidates, \
+    mayor_candidate, debates_2019, ep_candidates, ep_candidate, debates_2020
 
 urlpatterns = [
     path('', elections, name="elections"),
-    path('debatai/', debates_2019, name="debates"),
+    path('', elections_2019, name="elections_2019"),
+    path('debatai/', debates_2020, name="debates"),
+    path('debatai-2019/', debates_2019, name="debates_2019"),
     path('kandidatai-i-merus/', mayor_candidates, name='mayor_candidates'),
     path('kandidatai-i-merus/<int:page>/', mayor_candidates, name='mayor_candidates'),
     path('kandidatai-i-merus/<slug:slug>/', mayor_candidate, name='mayor_candidate'),

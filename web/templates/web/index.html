@@ -18,18 +18,20 @@
             text-transform: uppercase;
             font-weight: 600;
         }
+
         .nav-link {
             cursor: pointer;
         }
-    @media(max-width: 747px) {
-        .timer-symbols {
-            font-size: 50px;
-        }
 
-        .timer-header {
-            font-size: 21px;
+        @media (max-width: 747px) {
+            .timer-symbols {
+                font-size: 50px;
+            }
+
+            .timer-header {
+                font-size: 21px;
+            }
         }
-    }
     </style>
 {% endblock %}
 
@@ -51,18 +53,25 @@
                             </li>
                         </ul>
                         <div data-map-content="1">
-                            <iframe style="width: 100%; min-height: 600px; border: none" scrolling="no" marginheight="0" marginwidth="0" src="https://rinkimai.maps.lt/rinkimai2019/aktyvumas/?embed=1&map=2"></iframe>
+                            <iframe style="width: 100%; min-height: 600px; border: none" scrolling="no" marginheight="0"
+                                    marginwidth="0"
+                                    src="https://rinkimai.maps.lt/rinkimai2019/aktyvumas/?embed=1&map=2"></iframe>
                         </div>
                         <div data-map-content="2">
-                            <iframe style="width: 100%; min-height: 600px; border: none" scrolling="no" marginheight="0" marginwidth="0" src="https://rinkimai.maps.lt/rinkimai2019/prezidentas/?embed=1&map=2"></iframe>
+                            <iframe style="width: 100%; min-height: 600px; border: none" scrolling="no" marginheight="0"
+                                    marginwidth="0"
+                                    src="https://rinkimai.maps.lt/rinkimai2019/prezidentas/?embed=1&map=2"></iframe>
                         </div>
                         <div data-map-content="3">
-                            <iframe style="width: 100%; min-height: 600px; border: none" scrolling="no" marginheight="0" marginwidth="0" src="https://rinkimai.maps.lt/rinkimai2019/ep/?embed=1&map=1"></iframe>
+                            <iframe style="width: 100%; min-height: 600px; border: none" scrolling="no" marginheight="0"
+                                    marginwidth="0"
+                                    src="https://rinkimai.maps.lt/rinkimai2019/ep/?embed=1&map=1"></iframe>
                         </div>
                     </div>
                 {% else %}
                     <div class="text-center mt-2 mb-3" style="width: 100%;" id="timer-container">
-                        <h3 class="mt-3 mb-2 timer-header">Laikas iki prezidento rinkimų II turo ir EP balsavimo pabaigos</h3>
+                        <h3 class="mt-3 mb-2 timer-header">Laikas iki prezidento rinkimų II turo ir EP balsavimo
+                            pabaigos</h3>
                         <div class="col-md-8 offset-md-2 col-xs-12 align-items-center">
                             <div style="display: flex; justify-content: space-between">
                                 <div>
@@ -98,37 +107,43 @@
 {% block main_content %}
     <main class="container container-content mt-3">
         <div class="row">
-            {% comment %}
-            <div class="col-md-6">
-                <a href="{% url 'president_candidates' %}"
-                   class="card d-flex align-items-center justify-content-center card-block-link text-center candidate-president-block-link">
-                    Kandidatai į LR Prezidento postą
+            <div class="col-sm-12 col-md-6">
+                <a href="{% url 'debates' %}"
+                   class="card d-flex align-items-center justify-content-center card-block-link text-center candidate-block-link">
+                    Kandidatai į seimą
                 </a>
             </div>
-            {% endcomment %}
-            <div class="col-sm-12 col-md-12">
+            <div class="col-sm-12 col-md-6">
                 <a href="{% url 'debates' %}"
                    class="card d-flex align-items-center justify-content-center card-block-link text-center debates-block-link">
                     Debatai
                 </a>
             </div>
         </div>
+
         <div class="row">
             <div class="col-sm-12 col-md-6">
-                <a href="{% url 'seimas_politician_game' %}" class="card d-flex align-items-center justify-content-center card-block-link text-center kyp-block-link">Pažink politiką</a>
+                <a href="{% url 'questions_list' %}"
+                   class="card d-flex align-items-center justify-content-center card-block-link text-center questions-block-link">Klausimai
+                    politikams</a>
             </div>
 
             <div class="col-sm-12 col-md-6">
-                <a href="{% url 'seimas_politicians' %}" class="card d-flex align-items-center justify-content-center card-block-link text-center politicians-block-link">Seimo nariai</a>
+                <a href="{% url 'join_us' %}"
+                   class="card d-flex align-items-center justify-content-center card-block-link text-center mes-block-link">Prisijunk</a>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-12 col-md-6">
-                <a href="{% url 'join_us' %}" class="card d-flex align-items-center justify-content-center card-block-link text-center mes-block-link">Prisijunk</a>
+                <a href="{% url 'seimas_politician_game' %}"
+                   class="card d-flex align-items-center justify-content-center card-block-link text-center kyp-block-link">Pažink
+                    politiką</a>
             </div>
 
             <div class="col-sm-12 col-md-6">
-                <a href="{% url 'questions_list' %}" class="card d-flex align-items-center justify-content-center card-block-link text-center questions-block-link">Klausimai politikams</a>
+                <a href="{% url 'seimas_politicians' %}"
+                   class="card d-flex align-items-center justify-content-center card-block-link text-center politicians-block-link">Seimo
+                    nariai</a>
             </div>
         </div>
     </main>
@@ -145,7 +160,8 @@
                     <div class="col-md-6 d-flex pb-3">
                         <a href="{{ partner.url }}" class="mx-auto my-auto" target="_blank" rel="noopener"
                            title="{{ partner.name }}">
-                            <img class="img--partner-logo" src="{{ partner.logo.url }}" alt="{{ partner.name }}" width="100%">
+                            <img class="img--partner-logo" src="{{ partner.logo.url }}" alt="{{ partner.name }}"
+                                 width="100%">
                         </a>
                     </div>
 
@@ -166,7 +182,7 @@
 
                 var countDownDate = new Date(2019, 4, 26, 20, 0, 0).getTime();
 
-                var timer = setInterval(function() {
+                var timer = setInterval(function () {
                     var now = new Date().getTime();
                     var distance = countDownDate - now;
 

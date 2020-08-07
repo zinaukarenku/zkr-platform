@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% load static %}
-{% block title %}{% block banner_title %}Debatai 2019{% endblock %}{% endblock %}
+{% block title %}{% block banner_title %}Debatai {{ year }}{% endblock %}{% endblock %}
 {% block banner_class %}banner--elections{% endblock %}
 
 {% block head %}
@@ -33,7 +33,7 @@
             </div>
         {% else %}
             {% for type, debates in debates_list %}
-                <h3 class="text-center text-md-left mt-4 mb-3">{{ filters_form.election_type_text }} debatai</h3>
+                <h3 class="text-center text-md-left mt-4 mb-3">{{ type|title }} Debatai</h3>
                 <div class="row mb-2 justify-content-between">
                     {% for debate in debates %}
                         <a href="{{ debate.facebook_url }}" class="card card--flex mb-3">
