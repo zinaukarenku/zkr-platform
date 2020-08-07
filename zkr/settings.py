@@ -307,66 +307,66 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
 
 CELERY_BEAT_SCHEDULE = {
-    'fetch_politicians': {
-        'task': 'seimas.tasks.fetch_politicians',
-        'schedule': crontab(minute='0', hour='*')
-    },
-    'fetch_and_match_fractions_with_politicians': {
-        'task': 'seimas.tasks.fetch_and_match_fractions_with_politicians',
-        'schedule': crontab(minute='10', hour='*')
-    },
-    'fetch_and_match_committees_with_politicians': {
-        'task': 'seimas.tasks.fetch_and_match_committees_with_politicians',
-        'schedule': crontab(minute='15', hour='*')
-    },
-    'fetch_and_match_commissions_with_politicians': {
-        'task': 'seimas.tasks.fetch_and_match_commissions_with_politicians',
-        'schedule': crontab(minute='20', hour='*')
-    },
-    'fetch_terms': {
-        'task': 'seimas.tasks.fetch_terms',
-        'schedule': crontab(minute='30', hour='11')
-    },
-    'fetch_sessions': {
-        'task': 'seimas.tasks.fetch_sessions',
-        'schedule': crontab(minute='30', hour='12')
-    },
-    'fetch_and_match_sessions_with_politicians': {
-        'task': 'seimas.tasks.fetch_and_match_sessions_with_politicians',
-        'schedule': crontab(minute='50', hour='12')
-    },
-    'fetch_business_trips': {
-        'task': 'seimas.tasks.fetch_business_trips',
-        'schedule': crontab(minute='20', hour='*')
-    },
-    'fetch_politician_documents': {
-        'task': 'seimas.tasks.fetch_politician_documents',
-        'schedule': crontab(minute='30', hour='*')
-    },
-    'fetch_vrk_elections': {
-        'task': 'elections.tasks.fetch_vrk_elections',
-        'schedule': crontab(minute='30', hour='*')
-    },
-    # 'fetch_vrk_election_results': {
-    #     'task': 'elections.tasks.fetch_vrk_election_results',
-    #     'schedule': crontab(minute='*/5', hour='*')
-    # },
     'sync_politician_information': {
         'task': 'web.tasks.sync_politician_information',
         'schedule': crontab(minute='*/5', hour='*')
     },
-    'sync_newsletter_subscribers': {
-        'task': 'web.tasks.sync_newsletter_subscribers',
-        'schedule': crontab(minute='*/15', hour='*')
-    },
-    'sync_seimas_with_sendgrid': {
-        'task': 'seimas.tasks.sync_seimas_with_sendgrid',
-        'schedule': crontab(minute='10', hour='*')
-    },
-    'fetch_president_articles': {
-        'task': 'elections.tasks.fetch_president_articles',
-        'schedule': crontab(minute='*/30', hour='*')
-    },
+    # 'fetch_politicians': {
+    #     'task': 'seimas.tasks.fetch_politicians',
+    #     'schedule': crontab(minute='0', hour='*')
+    # },
+    # 'fetch_and_match_fractions_with_politicians': {
+    #     'task': 'seimas.tasks.fetch_and_match_fractions_with_politicians',
+    #     'schedule': crontab(minute='10', hour='*')
+    # },
+    # 'fetch_and_match_committees_with_politicians': {
+    #     'task': 'seimas.tasks.fetch_and_match_committees_with_politicians',
+    #     'schedule': crontab(minute='15', hour='*')
+    # },
+    # 'fetch_and_match_commissions_with_politicians': {
+    #     'task': 'seimas.tasks.fetch_and_match_commissions_with_politicians',
+    #     'schedule': crontab(minute='20', hour='*')
+    # },
+    # 'fetch_terms': {
+    #     'task': 'seimas.tasks.fetch_terms',
+    #     'schedule': crontab(minute='30', hour='11')
+    # },
+    # 'fetch_sessions': {
+    #     'task': 'seimas.tasks.fetch_sessions',
+    #     'schedule': crontab(minute='30', hour='12')
+    # },
+    # 'fetch_and_match_sessions_with_politicians': {
+    #     'task': 'seimas.tasks.fetch_and_match_sessions_with_politicians',
+    #     'schedule': crontab(minute='50', hour='12')
+    # },
+    # 'fetch_business_trips': {
+    #     'task': 'seimas.tasks.fetch_business_trips',
+    #     'schedule': crontab(minute='20', hour='*')
+    # },
+    # 'fetch_politician_documents': {
+    #     'task': 'seimas.tasks.fetch_politician_documents',
+    #     'schedule': crontab(minute='30', hour='*')
+    # },
+    # 'fetch_vrk_elections': {
+    #     'task': 'elections.tasks.fetch_vrk_elections',
+    #     'schedule': crontab(minute='30', hour='*')
+    # },
+    # 'fetch_vrk_election_results': {
+    #     'task': 'elections.tasks.fetch_vrk_election_results',
+    #     'schedule': crontab(minute='*/5', hour='*')
+    # },
+    # 'sync_newsletter_subscribers': {
+    #     'task': 'web.tasks.sync_newsletter_subscribers',
+    #     'schedule': crontab(minute='*/15', hour='*')
+    # },
+    # 'sync_seimas_with_sendgrid': {
+    #     'task': 'seimas.tasks.sync_seimas_with_sendgrid',
+    #     'schedule': crontab(minute='10', hour='*')
+    # },
+    # 'fetch_president_articles': {
+    #     'task': 'elections.tasks.fetch_president_articles',
+    #     'schedule': crontab(minute='*/30', hour='*')
+    # },
 }
 
 CELERYD_TASK_SOFT_TIME_LIMIT = 45 * 60
