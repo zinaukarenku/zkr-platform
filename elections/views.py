@@ -113,7 +113,7 @@ def mayor_candidate(request, slug):
 
 def debates_2020(request):
     all_debates = Debates.objects.select_related('municipality', 'moderator').filter(
-        created_at__year__gte=2020).order_by('election_type', '-tour_id', '-pk')
+        date__year__gte=2020).order_by('election_type', '-tour_id', '-pk')
 
     return render(request, 'elections/debates/debates.html', {
         'all_debates': all_debates,
@@ -123,7 +123,7 @@ def debates_2020(request):
 
 def debates_2019(request):
     all_debates = Debates.objects.select_related('municipality', 'moderator').filter(
-        created_at__year__lt=2020).order_by('election_type', '-tour_id', '-pk')
+        date__year__lt=2020).order_by('election_type', '-tour_id', '-pk')
 
     return render(request, 'elections/debates/debates.html', {
         'all_debates': all_debates,
