@@ -5,7 +5,8 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from elections.forms import MayorCandidatesFiltersForm
-from elections.models import Debates, Election, EuroParliamentCandidate, MayorCandidate, PresidentCandidate
+from elections.models import Debates, Election, EuroParliamentCandidate, MayorCandidate, PresidentCandidate, \
+    SeimasCandidate
 from questions.models import Question
 from utils.utils import PaginatorWithPageLink
 from web.models import PoliticianPromise
@@ -17,6 +18,48 @@ def elections(request):
 
 def elections_2019(request):
     return render(request, 'elections/elections-2019.html')
+
+
+def seimas_candidates(request, page=1):
+    candidates = SeimasCandidate.active.order_by('name', 'pk')
+
+    def page_link(page_number):
+        if page_number == 1:
+            return reverse('seimas_candidates')
+        else:
+            return reverse('seimas_candidates', kwargs={
+                'page': page_number
+            })
+
+    candidates = PaginatorWithPageLink(candidates, page_link, query_params=request.GET.urlencode())
+    try:
+        candidates = candidates.page(page)
+    except EmptyPage:
+        return redirect(page_link(1))
+
+    return render(request, 'elections/seimas/candidates.html', {
+        'candidates': candidates,
+    })
+
+
+def seimas_candidate(request, slug):
+    candidate = SeimasCandidate.objects.select_related(
+        'politician_info'
+    ).prefetch_related(Prefetch(
+        'politician_info__promises',
+        PoliticianPromise.objects.select_related('debates')
+    )).filter(slug=slug).first()
+
+    if candidate is None:
+        raise Http404("Politician does not exist")
+
+    questions = Question.active.select_related('politician', 'politian_answer', 'created_by').filter(
+        politician__seimas_candidate=candidate).order_by('-updated_at')
+
+    return render(request, 'elections/mayor/candidate.html', {
+        'candidate': candidate,
+        'questions': questions,
+    })
 
 
 def mayor_candidates(request, page=1):

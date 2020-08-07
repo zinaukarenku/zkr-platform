@@ -3,7 +3,7 @@ import logging
 from celery import shared_task
 from django.urls import reverse
 
-from elections.models import MayorCandidate
+from elections.models import MayorCandidate, SeimasCandidate
 from seimas.models import Politician as SeimasPolitician
 from web.models import EmailSubscription, PoliticianInfo, User
 from web.sendgrid import SendGrid
@@ -27,6 +27,7 @@ def send_email_confirmation_letter(email, activate_url):
 def sync_politician_information():
     seimas_created = 0
     mayors_created = 0
+    seimas_candidate_created = 0
     for politician in SeimasPolitician.active.filter(politician_info__isnull=True):
         PoliticianInfo(name=politician.name, seimas_politician=politician).save()
         seimas_created += 1
@@ -35,9 +36,14 @@ def sync_politician_information():
         PoliticianInfo(name=candidate.name, mayor_candidate=candidate).save()
         mayors_created += 1
 
+    for candidate in SeimasCandidate.objects.filter(politician_info__isnull=True):
+        PoliticianInfo(name=candidate.name, seimas_candidate=candidate).save()
+        seimas_candidate_created += 1
+
     return {
         'seimas_created': seimas_created,
         'mayors_created': mayors_created,
+        'seimas_candidate_created': seimas_candidate_created,
     }
 
 

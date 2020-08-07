@@ -1,0 +1,63 @@
+{% extends "base/base-regular-page.html" %}
+{% block title %}{{ candidate.name }}{% endblock %}
+{% load humanize %}
+{% block main_content %}
+    {% include 'component/new-question-note.html' with politician_info_id=candidate.politician_info_id %}
+
+    <main class="container container-content" style="padding-top:25px;">
+        <div class="row">
+            <div class="col-sm-12 col-md-4">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        {% if candidate.photo %}
+                            <div class="card-big-img ml-auto mr-auto mb-3"
+                                 style="background-image:url('{{ candidate.photo.url }}')"></div>
+                        {% endif %}
+                        <h2 class="text-center">{{ candidate.name }}</h2>
+                        <span class="d-block text-center text-muted"> Kandidatas į seimą</span>
+                        <span class="d-block text-center text-muted">{{ candidate.party }}</span>
+                        <span class="d-block text-center text-muted">{{ candidate.district }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        {% with promises=candidate.politician_info.promises %}
+                            {% if promises.exists %}
+                                <h3>Politiko pažadai</h3>
+
+                                {% for promise in promises.all %}
+                                    <blockquote class="blockquote">
+                                        <p class="mb-0">{{ promise.promise }}</p>
+                                        <footer class="blockquote-footer">{{ promise.debates.date }}
+                                            <cite title="{{ promise.debates.name }}">{{ promise.debates.name }}</cite>
+                                        </footer>
+                                    </blockquote>
+
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+
+                        <h3>Klausimai ir atsakymai</h3>
+                        {% for question in questions %}
+                            <a href="{% url 'question' question.id %}" class="d-block mb-3">
+                                <h4 class="card-title card-title--question text-left mb-0">{{ question.name }}</h4>
+                                <time class="d-inline-block text-muted">{{ question.last_activity|naturaltime }}</time>
+                                <span class="d-block text-muted text-eyebrow">{{ question.status_text }}</span>
+                            </a>
+                        {% empty %}
+                            <div class="card m-2">
+                                <div class="card-body">
+                                    <p class="text-center">
+                                        Kandidatui į seimą nėra užduota nė vieno klausimo.
+                                    </p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

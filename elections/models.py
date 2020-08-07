@@ -131,6 +131,7 @@ class ElectionResult(models.Model):
     def __str__(self):
         return self.name
 
+
 class PresidentCandidateQuerySet(models.QuerySet):
     pass
 
@@ -161,13 +162,15 @@ class PresidentCandidate(models.Model):
                                     help_text=_(
                                         "Indikuoja ar kandidatas į prezidentus matomas prezidenų sąraše bei galima "
                                         "užduoti naują klausimą."))
-    party = models.CharField(max_length=280, blank=True, verbose_name=_("Partija"), help_text=_("Jeigu kandidatas - be partijos, nurodykite, kad savarankiškas"))
-    email = models.EmailField(null=True, blank=True, verbose_name=_("Kandidato el. paštas")) 
+    party = models.CharField(max_length=280, blank=True, verbose_name=_("Partija"),
+                             help_text=_("Jeigu kandidatas - be partijos, nurodykite, kad savarankiškas"))
+    email = models.EmailField(null=True, blank=True, verbose_name=_("Kandidato el. paštas"))
     birth_date = models.DateField(null=True, blank=True, verbose_name=_("Gimimo data"))
     birth_place = models.CharField(max_length=100, blank=True, verbose_name=_("Gimimo vieta"))
     languages = models.CharField(max_length=300, blank=True, verbose_name=_("Užsienio kalbos"))
     hobbies = models.CharField(max_length=500, blank=True, verbose_name=_("Pomėgiai"))
-    candidate_program_title = models.CharField(max_length=280, blank=True, verbose_name=_("Kandidato programos pavadinimas"))
+    candidate_program_title = models.CharField(max_length=280, blank=True,
+                                               verbose_name=_("Kandidato programos pavadinimas"))
     candidate_program_summary = models.TextField(blank=True, verbose_name=_("Kandidato programos santrauka"))
     candidate_program_link = models.URLField(blank=True, verbose_name=_("Kandidato rinkimė programa"))
     facebook = models.URLField(blank=True)
@@ -192,7 +195,6 @@ class PresidentCandidate(models.Model):
         return self.name
 
 
-
 class PresidentCandidateBiography(models.Model):
     candidate = models.ForeignKey(PresidentCandidate, on_delete=models.CASCADE, related_name="biographies")
     bio_period = models.CharField(max_length=15, blank=True, verbose_name=_("Periodas"))
@@ -203,10 +205,10 @@ class PresidentCandidateBiography(models.Model):
         verbose_name = _("Biografijos įrašas")
         verbose_name_plural = _("Biografijos įrašai")
         ordering = ["-created_at"]
-    
+
     def __str__(self):
         return self.bio_period + " " + self.bio_text
-    
+
 
 class PresidentCandidatePoliticalExperience(models.Model):
     candidate = models.ForeignKey(PresidentCandidate, on_delete=models.CASCADE, related_name="political_experience")
@@ -223,8 +225,8 @@ class PresidentCandidatePoliticalExperience(models.Model):
         ordering = ["created_at"]
 
     def __str__(self):
-        return self.office + ", " + self.position 
-    
+        return self.office + ", " + self.position
+
 
 class PresidentCandidateWorkExperience(models.Model):
     candidate = models.ForeignKey(PresidentCandidate, on_delete=models.CASCADE, related_name="work_experience")
@@ -241,7 +243,8 @@ class PresidentCandidateWorkExperience(models.Model):
         ordering = ["created_at"]
 
     def __str__(self):
-        return self.office + ", " + self.position 
+        return self.office + ", " + self.position
+
 
 class PresidentCandidateArticle(models.Model):
     candidate = models.ForeignKey(PresidentCandidate, on_delete=models.CASCADE, related_name="articles")
@@ -286,6 +289,73 @@ class PresidentCandidateArticleInformation(models.Model):
 
     def __str__(self):
         return self.url
+
+
+class SeimasCandidateQuerySet(models.QuerySet):
+    pass
+
+
+class ActiveSeimasCandidateManager(models.Manager):
+    def get_queryset(self):
+        return SeimasCandidateQuerySet(self.model, using=self._db).filter(is_active=True)
+
+
+class SeimasCandidate(models.Model):
+
+    def _candidate_photo_file(self, filename):
+        ext = file_extension(filename)
+
+        slug = slugify(self.name)
+        filename = f"{slug}-photo.{ext}"
+        return join('img', 'elections', 'seimas-2020', 'candidates', filename)
+
+    is_active = models.BooleanField(db_index=True, verbose_name=_("Aktyvus"), default=True,
+                                    help_text=_(
+                                        "Indikuoja ar kandidatas į matomas sąraše bei galima "
+                                        "užduoti naują klausimą."))
+
+    name = models.CharField(max_length=256, verbose_name=_("Kandidato vardas ir pavardė"))
+    email = models.EmailField(null=True, blank=True, verbose_name=_("Kandidato el. paštas"))
+
+    slug = models.SlugField(unique=True, editable=False)
+    photo = ResizedImageField(blank=True, null=True, upload_to=_candidate_photo_file,
+                              crop=['middle', 'center'], size=[256, 256],
+                              verbose_name=_("Kandidato nuotrauka"), )
+    party = models.CharField(max_length=256, verbose_name=_("Iškėlusi partija arba rinkiminis komitetas"), blank=True,
+                             null=True)
+    district = models.CharField(max_length=256, verbose_name=_("Apygarda"), blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Sukurta"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinta"))
+
+    @property
+    def profile_url(self):
+        return reverse('seimas_candidate', kwargs={'slug': self.slug})
+
+    def get_absolute_url(self):
+        return self.profile_url
+
+    @property
+    def politician_info_id(self) -> Optional[int]:
+        if hasattr(self, 'politician_info') and self.politician_info:
+            return self.politician_info.id
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if not self.slug:
+            self.slug = slugify(self.name)
+
+        super().save(force_insert, force_update, using, update_fields)
+
+    def __str__(self):
+        return self.name
+
+    objects = SeimasCandidateQuerySet.as_manager()
+    active = ActiveSeimasCandidateManager()
+
+    class Meta:
+        verbose_name = _("Kandidatas į seimą")
+        verbose_name_plural = _("Kandidatai į seimą")
+
 
 class MayorCandidateQuerySet(models.QuerySet):
     pass
@@ -360,6 +430,7 @@ class MayorCandidate(models.Model):
 class MepCandidateQuerySet(models.QuerySet):
     pass
 
+
 class ActiveMepCandidateManager(models.Manager):
     def get_queryset(self):
         return MepCandidateQuerySet(self.model, using=self._db).filter(is_active=True)
@@ -381,10 +452,10 @@ class EuroParliamentCandidate(models.Model):
     photo = ResizedImageField(blank=True, null=True, upload_to=_candidate_photo_file,
                               crop=['middle', 'center'], size=[256, 256],
                               verbose_name=_("Kandidato nuotrauka"), )
-    party = models.CharField(max_length=256, blank=True, verbose_name=_("Iškėlusi partija arba rinkiminis komitetas"))                                   
+    party = models.CharField(max_length=256, blank=True, verbose_name=_("Iškėlusi partija arba rinkiminis komitetas"))
     first_name = models.CharField(max_length=256, verbose_name=_("Kandidato vardas"))
     last_name = models.CharField(max_length=256, verbose_name=_("Kandidato pavardė"))
-    email = models.EmailField(null=True, blank=True, verbose_name=_("Kandidato el. paštas")) 
+    email = models.EmailField(null=True, blank=True, verbose_name=_("Kandidato el. paštas"))
     birth_date = models.DateField(null=True, blank=True, verbose_name=_("Gimimo data"))
     birth_place = models.CharField(max_length=100, blank=True, verbose_name=_("Gimimo vieta"))
     languages = models.CharField(max_length=300, blank=True, verbose_name=_("Užsienio kalbos"))
@@ -436,12 +507,14 @@ class EuroParliamentCandidateBiography(models.Model):
         verbose_name = _("Biografijos įrašas")
         verbose_name_plural = _("Biografijos įrašai")
         ordering = ["-created_at"]
-    
+
     def __str__(self):
         return self.bio_period + " " + self.bio_text
 
+
 class EuroParliamentCandidatePoliticalExperience(models.Model):
-    candidate = models.ForeignKey(EuroParliamentCandidate, on_delete=models.CASCADE, related_name="political_experience")
+    candidate = models.ForeignKey(EuroParliamentCandidate, on_delete=models.CASCADE,
+                                  related_name="political_experience")
     position = models.CharField(max_length=100, blank=True, verbose_name=_("Pareigos"))
     office = models.CharField(max_length=100, blank=True, verbose_name=_("Institucija"))
     start = models.DateField(blank=True, verbose_name=_("Pereigų pradžia"))
@@ -455,7 +528,8 @@ class EuroParliamentCandidatePoliticalExperience(models.Model):
         ordering = ["created_at"]
 
     def __str__(self):
-        return self.office + ", " + self.position 
+        return self.office + ", " + self.position
+
 
 class EuroParliamentCandidateWorkExperience(models.Model):
     candidate = models.ForeignKey(EuroParliamentCandidate, on_delete=models.CASCADE, related_name="work_experience")
@@ -472,13 +546,14 @@ class EuroParliamentCandidateWorkExperience(models.Model):
         ordering = ["created_at"]
 
     def __str__(self):
-        return self.office + ", " + self.position 
+        return self.office + ", " + self.position
+
 
 class EuroParliamentCandidateEducation(models.Model):
     EDUCATION_TYPES = (
         (1, "Vidurinis"),
         (2, "Aukštasis universitetinis"),
-        (3, "Aukštasis neuniversitetinis")        
+        (3, "Aukštasis neuniversitetinis")
     )
     candidate = models.ForeignKey(EuroParliamentCandidate, on_delete=models.CASCADE, related_name="education")
     edu_type = models.IntegerField(choices=EDUCATION_TYPES, null=True, blank=True, verbose_name=_("Išsilavinimo tipas"))
@@ -493,7 +568,7 @@ class EuroParliamentCandidateEducation(models.Model):
         verbose_name = _("Išsilavinimo įrašas")
         verbose_name_plural = _("Išsilavinimo įrašai")
         ordering = ["created_at"]
-    
+
     def __str__(slef):
         return self.speciality + ", " + self.school
 
@@ -511,10 +586,10 @@ class EuroParliamentCandidateConviction(models.Model):
         verbose_name = _("Teistumo įrašas")
         verbose_name_plural = _("Teistumo įrašai")
         ordering = ["created_at"]
-    
+
     def __str__(slef):
         return self.year + ", " + self.text
-    
+
 
 class Moderators(models.Model):
     def _moderator_photo_file(self, filename):

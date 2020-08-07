@@ -10,7 +10,7 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django_resized import ResizedImageField
 
-from elections.models import MayorCandidate, PresidentCandidate, EuroParliamentCandidate
+from elections.models import MayorCandidate, PresidentCandidate, EuroParliamentCandidate, SeimasCandidate
 from seimas.models import Politician as SeimasPolitician
 from utils.utils import distinct_by, file_extension, gravatar_url
 from zkr import settings
@@ -20,7 +20,7 @@ class User(AbstractUser):
     def _user_photo_file(self, filename):
         ext = file_extension(filename)
         slug = slugify(self.get_full_name())
-        if self.is_politician: 
+        if self.is_politician:
             foldername = 'politicians'
         else:
             foldername = 'users'
@@ -219,14 +219,18 @@ class PoliticianInfo(models.Model):
                                            related_name="politician_info",
                                            verbose_name=_("Kandidatas į merus"),
                                            help_text=_("Sujungia kandidatą į merus su politiku"))
+    seimas_candidate = models.OneToOneField(SeimasCandidate, on_delete=models.CASCADE, null=True, blank=True,
+                                            related_name="politician_info",
+                                            verbose_name=_("Kandidatas į seimą"),
+                                            help_text=_("Sujungia kandidatą į seimą su politiku"))
     president_candidate = models.OneToOneField(PresidentCandidate, on_delete=models.CASCADE, null=True, blank=True,
-                                            related_name="politician_info",
-                                            verbose_name=_("Kandidatas į LR Prezidento postą"),
-                                            help_text=_("Sujungti kandidatą į LR Prezidento postą su politiku"))
+                                               related_name="politician_info",
+                                               verbose_name=_("Kandidatas į LR Prezidento postą"),
+                                               help_text=_("Sujungti kandidatą į LR Prezidento postą su politiku"))
     mep_candidate = models.OneToOneField(EuroParliamentCandidate, on_delete=models.CASCADE, null=True, blank=True,
-                                            related_name="politician_info",
-                                            verbose_name=_("Kandidatas į Europos Parlamentą"),
-                                            help_text=_("Sujungti kandidatą į Europos Parlamentą su politiku"))
+                                         related_name="politician_info",
+                                         verbose_name=_("Kandidatas į Europos Parlamentą"),
+                                         help_text=_("Sujungti kandidatą į Europos Parlamentą su politiku"))
 
     authenticated_users = models.ManyToManyField(
         settings.AUTH_USER_MODEL, blank=True,
@@ -321,4 +325,3 @@ class PoliticianPromise(models.Model):
 
     def __str__(self):
         return self.promise
-
