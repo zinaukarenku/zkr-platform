@@ -1,11 +1,11 @@
 from django.core.paginator import EmptyPage
 from django.db.models import Prefetch
 from django.http import Http404
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from elections.forms import MayorCandidatesFiltersForm
-from elections.models import Election, MayorCandidate, EuroParliamentCandidate, PresidentCandidate, PresidentCandidateBiography, PresidentCandidateArticle, Debates
+from elections.models import Debates, Election, EuroParliamentCandidate, MayorCandidate, PresidentCandidate
 from questions.models import Question
 from utils.utils import PaginatorWithPageLink
 from web.models import PoliticianPromise
@@ -64,18 +64,12 @@ def mayor_candidate(request, slug):
     })
 
 
-def debates(request):
-    mayor_candidates_filters_form = MayorCandidatesFiltersForm(request.GET)
-
-    all_debates = Debates.objects.select_related('municipality', 'moderator').order_by('municipality')
-
-    all_debates = mayor_candidates_filters_form.filter_queryset(all_debates)
+def debates_2019(request):
+    all_debates = Debates.objects.select_related('municipality', 'moderator').filter(
+        created_at__year__lt=2020).order_by('election_type', '-tour_id', '-pk')
 
     return render(request, 'elections/debates/debates.html', {
-        'mayor_candidates_filters_form': mayor_candidates_filters_form,
-        'debates_1_tour': all_debates.filter(tour_id=1),
-        'debates_2_tour': all_debates.filter(tour_id=2),
-        'debates_ep': all_debates.filter(election_type=3, is_active=True)
+        'all_debates': all_debates,
     })
 
 
@@ -100,18 +94,19 @@ def president_candidates(request):
 def president_candidate(request, slug):
     candidate = PresidentCandidate.objects.select_related("politician_info").filter(slug=slug).first()
 
-    #candidate = PresidentCandidate.objects.
+    # candidate = PresidentCandidate.objects.
 
     if candidate is None:
         raise Http404("President candidate does not exist")
 
     questions = Question.active.select_related('politician', 'politian_answer', 'created_by').filter(
-    politician__president_candidate=candidate).order_by('-updated_at')
+        politician__president_candidate=candidate).order_by('-updated_at')
 
     return render(request, 'elections/president/candidate.html', {
         'candidate': candidate,
         'questions': questions
     })
+
 
 def ep_candidates(request):
     candidates = EuroParliamentCandidate.objects.all()
@@ -119,14 +114,16 @@ def ep_candidates(request):
         'candidates': candidates
     })
 
+
 def ep_candidate(request, slug):
-    candidate = EuroParliamentCandidate.objects.select_related("political_experience", "work_experience").order_by("start")
+    candidate = EuroParliamentCandidate.objects.select_related("political_experience", "work_experience").order_by(
+        "start")
 
     if candidate is None:
         raise Http404("European Parliament candidate does not exist")
-    
+
     questions = Question.active.select_related('politician', 'politian_answer', 'created_by').filter(
-    politician__mep_candidate=candidate).order_by('-updated_at')
+        politician__mep_candidate=candidate).order_by('-updated_at')
 
     return render(request, 'elections/ep/candidate.html', {
         'candidate': candidate,
