@@ -56,7 +56,7 @@ def seimas_candidate(request, slug):
     questions = Question.active.select_related('politician', 'politian_answer', 'created_by').filter(
         politician__seimas_candidate=candidate).order_by('-updated_at')
 
-    return render(request, 'elections/mayor/candidate.html', {
+    return render(request, 'elections/seimas/candidate.html', {
         'candidate': candidate,
         'questions': questions,
     })
