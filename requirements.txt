@@ -18,7 +18,7 @@ drf-yasg==1.10.0
 git+git://github.com/aschn/drf-tracking.git
 
 django-enumfields==0.10.1
-celery[redis]==4.3
+celery[redis]==4.4.7
 django-redis==4.10.0
 metadata_parser==0.9.21
 beautifulsoup4==4.6.3
