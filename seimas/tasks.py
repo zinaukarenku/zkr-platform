@@ -405,7 +405,7 @@ def fetch_business_trips():
     created = 0
     updated = 0
 
-    req = requests_retry_session().get("http://apps.lrs.lt/sip/p2b.ad_seimo_nariu_komandiruotes")
+    req = requests_retry_session().get("http://apps.lrs.lt/sip/p2b.ad_sn_komandiruotes")
     req.raise_for_status()
 
     soup = parse_xml(req.text)
