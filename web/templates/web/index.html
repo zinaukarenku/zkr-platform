@@ -38,6 +38,36 @@
 {% block map %}
     <div class="container container-content">
         <div class="row">
+            {% if voting_not_started %}
+                <div class="text-center mt-2 mb-3" style="width: 100%;" id="timer-container">
+                    <h3 class="mt-3 mb-2 timer-header">Laikas iki 2020 LR Seimo rinkimų pradžios</h3>
+                    <div class="col-md-8 offset-md-2 col-xs-12 align-items-center">
+                        <div style="display: flex; justify-content: space-between">
+                            <div>
+                                <div id="days" class="timer-symbols">0</div>
+                                <span class="d-none d-sm-block">DIENŲ</span>
+                                <span class="d-md-none">D</span>
+                            </div>
+                            <div>
+                                <div id="hours" class="timer-symbols">00</div>
+                                <span class="d-none d-sm-block">VALANDOS</span>
+                                <span class="d-md-none">VAL</span>
+                            </div>
+                            <div>
+                                <div id="minutes" class="timer-symbols">00</div>
+                                <span class="d-none d-sm-block">MINUTĖS</span>
+                                <span class="d-md-none">MIN</span>
+                            </div>
+                            <div>
+                                <div id="seconds" class="timer-symbols">00</div>
+                                <span class="d-none d-sm-block">SEKUNDĖS</span>
+                                <span class="d-md-none">SEK</span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
             {% if voting_in_session %}
                 {% if voting_ended %}
                     <div class="col-sm-12" style="margin-top: 20px">
@@ -70,8 +100,7 @@
                     </div>
                 {% else %}
                     <div class="text-center mt-2 mb-3" style="width: 100%;" id="timer-container">
-                        <h3 class="mt-3 mb-2 timer-header">Laikas iki prezidento rinkimų II turo ir EP balsavimo
-                            pabaigos</h3>
+                        <h3 class="mt-3 mb-2 timer-header">Laikas iki 2020 LR Seimo rinkimų balsavimo pabaigos</h3>
                         <div class="col-md-8 offset-md-2 col-xs-12 align-items-center">
                             <div style="display: flex; justify-content: space-between">
                                 <div>
@@ -107,7 +136,9 @@
 {% block main_content %}
     <main class="container container-content mt-3">
         <div class="row">
-           
+            <div class="col-12 card card-map">
+                <img class="card-map-img" src="{% static 'img/ZEMELAPIS_pilnas_reduced.jpg'%}" alt="">
+            </div>
         </div>
         <div class="row">
             <div class="col-sm-12 col-md-6">
@@ -183,7 +214,7 @@
                 var minutesElement = document.querySelector('#minutes');
                 var secondsElement = document.querySelector('#seconds');
 
-                var countDownDate = new Date(2019, 4, 26, 20, 0, 0).getTime();
+                var countDownDate = new Date(2020, 09, 11, 8, 0, 0).getTime();
 
                 var timer = setInterval(function () {
                     var now = new Date().getTime();

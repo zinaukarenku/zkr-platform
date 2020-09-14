@@ -185,6 +185,16 @@ nav .container {
     background-image: url("../img/questions-phone.jpg");
 }
 
+.card-map {
+    margin-bottom: 10px;
+    padding: 0px;
+}
+
+.card-map-img {
+    border-radius: 0px;
+    width: 100%;
+}
+
 .kyp-block-link {
     background-image: url("../img/kyp-phone.jpg");
     background-position: center 30%;
@@ -652,7 +662,8 @@ footer ul:first {
 
     .card,
     .banner--newsletter,
-    .card--map-img {
+    .card--map-img, 
+    .card-map-img {
         border-radius: 5px;
     }
 
