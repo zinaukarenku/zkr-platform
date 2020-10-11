@@ -73,30 +73,21 @@
                     <div class="col-sm-12" style="margin-top: 20px">
                         <ul class="nav nav-pills nav-fill align-items-center mb-3 pl-1 pr-1 pl-md-0 pr-md-0">
                             <li class="nav-item text-center">
-                                <span class="nav-link active" data-map-tab="1">Prezidento rinkimų aktyvumas</span>
+                                <span class="nav-link active" data-map-tab="1">LR Seimo rinkimų aktyvumas</span>
                             </li>
                             <li class="nav-item text-center">
-                                <span class="nav-link" data-map-tab="2">Prezidento rinkimų rezultatai</span>
-                            </li>
-                            <li class="nav-item text-center">
-                                <span class="nav-link" data-map-tab="3">EP rezultatai</span>
+                                <span class="nav-link" data-map-tab="2">LR Seimo rinkimų rezultatai</span>
                             </li>
                         </ul>
                         <div data-map-content="1">
-                            <iframe style="width: 100%; min-height: 600px; border: none" scrolling="no" marginheight="0"
-                                    marginwidth="0"
-                                    src="https://rinkimai.maps.lt/rinkimai2019/aktyvumas/?embed=1&map=2"></iframe>
+                            <iframe style="min-width:100%;max-width:100%;width:800px;" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+                            src="https://rinkimai.maps.lt/rinkimai2020/aktyvumas/?embed=1"></iframe>
                         </div>
                         <div data-map-content="2">
-                            <iframe style="width: 100%; min-height: 600px; border: none" scrolling="no" marginheight="0"
-                                    marginwidth="0"
-                                    src="https://rinkimai.maps.lt/rinkimai2019/prezidentas/?embed=1&map=2"></iframe>
+                            <iframe style="min-width:100%;max-width:100%;width:800px;" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+                            src="https://rinkimai.maps.lt/rinkimai2020/seimas/?embed=1&map=1"></iframe>
                         </div>
-                        <div data-map-content="3">
-                            <iframe style="width: 100%; min-height: 600px; border: none" scrolling="no" marginheight="0"
-                                    marginwidth="0"
-                                    src="https://rinkimai.maps.lt/rinkimai2019/ep/?embed=1&map=1"></iframe>
-                        </div>
+                        <span>Žemėlapis sukurtas Vyriausiosios rinkimų komisijos užsakymu.</span>
                     </div>
                 {% else %}
                     <div class="text-center mt-2 mb-3" style="width: 100%;" id="timer-container">
@@ -127,6 +118,11 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-sm-12" style="margin-top: 20px">
+                        <iframe style="min-width:100%;max-width:100%;width:800px;" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+                        src="https://rinkimai.maps.lt/rinkimai2020/aktyvumas/?embed=1"></iframe>
+                        <span>Žemėlapis sukurtas Vyriausiosios rinkimų komisijos užsakymu.</span>
+                    </div>
                 {% endif %}
             {% endif %}
         </div>
@@ -135,11 +131,13 @@
 
 {% block main_content %}
     <main class="container container-content mt-3">
+        {% comment %}
         <div class="row">
             <div class="col-12 card card-map">
                 <img class="card-map-img" src="{% static 'img/ZEMELAPIS_pilnas_reduced.jpg'%}" alt="">
             </div>
         </div>
+        {% endcomment %}
         <div class="row">
             <div class="col-sm-12 col-md-6">
                 <a href="{% url 'seimas_candidates' %}"
