@@ -40,7 +40,7 @@
         <div class="row">
             {% if voting_not_started %}
                 <div class="text-center mt-2 mb-3" style="width: 100%;" id="timer-container">
-                    <h3 class="mt-3 mb-2 timer-header">Laikas iki 2020 LR Seimo rinkimų pradžios</h3>
+                    <h3 class="mt-3 mb-2 timer-header">Laikas iki 2020 LR Seimo rinkimų II turo pradžios</h3>
                     <div class="col-md-8 offset-md-2 col-xs-12 align-items-center">
                         <div style="display: flex; justify-content: space-between">
                             <div>
@@ -131,13 +131,11 @@
 
 {% block main_content %}
     <main class="container container-content mt-3">
-        {% comment %}
         <div class="row">
             <div class="col-12 card card-map">
-                <img class="card-map-img" src="{% static 'img/ZEMELAPIS_pilnas_reduced.jpg'%}" alt="">
+                <img class="card-map-img" src="{% static 'img/jaunimo_aktyvumas.jpg'%}" alt="">
             </div>
         </div>
-        {% endcomment %}
         <div class="row">
             <div class="col-sm-12 col-md-6">
                 <a href="{% url 'seimas_candidates' %}"
@@ -212,7 +210,7 @@
                 var minutesElement = document.querySelector('#minutes');
                 var secondsElement = document.querySelector('#seconds');
 
-                var countDownDate = new Date(2020, 09, 11, 20, 0, 0).getTime();
+                var countDownDate = new Date(2020, 09, 25, 17, 22, 0).getTime();
 
                 var timer = setInterval(function () {
                     var now = new Date().getTime();
@@ -227,9 +225,11 @@
                     hoursElement.innerText = padding(hours, 2);
                     minutesElement.innerText = padding(minutes, 2);
                     secondsElement.innerText = padding(seconds, 2);
+                    
 
                     if (distance < 0) {
                         clearInterval(timer);
+                        
                     }
                 }, 1000);
 
@@ -238,6 +238,8 @@
                     num = num + '';
                     return num.length >= width ? num : new Array(width - num.length + 1).join(symbol) + num;
                 }
+                
+
             })();
         </script>
     {% else %}
