@@ -353,8 +353,8 @@ class SeimasCandidate(models.Model):
     active = ActiveSeimasCandidateManager()
 
     class Meta:
-        verbose_name = _("Kandidatas į seimą")
-        verbose_name_plural = _("Kandidatai į seimą")
+        verbose_name = _("Kandidatas į Seimą")
+        verbose_name_plural = _("Kandidatai į Seimą")
 
 
 class MayorCandidateQuerySet(models.QuerySet):

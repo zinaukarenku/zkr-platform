@@ -97,7 +97,7 @@ class EmailSubscriptionAdmin(admin.ModelAdmin):
 
 class PoliticianPromiseInline(SortableInlineAdminMixin, admin.StackedInline):
     model = PoliticianPromise
-    autocomplete_fields = ['debates']
+    # autocomplete_fields = ['debates']
 
 
 def send_registration_email(model_admin, request, politicians_set):

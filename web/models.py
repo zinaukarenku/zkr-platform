@@ -10,7 +10,7 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django_resized import ResizedImageField
 
-from elections.models import MayorCandidate, PresidentCandidate, EuroParliamentCandidate, SeimasCandidate
+from elections.models import MayorCandidate, PresidentCandidate, EuroParliamentCandidate, SeimasCandidate, Debates
 from seimas.models import Politician as SeimasPolitician
 from utils.utils import distinct_by, file_extension, gravatar_url
 from zkr import settings
@@ -221,8 +221,8 @@ class PoliticianInfo(models.Model):
                                            help_text=_("Sujungia kandidatą į merus su politiku"))
     seimas_candidate = models.OneToOneField(SeimasCandidate, on_delete=models.CASCADE, null=True, blank=True,
                                             related_name="politician_info",
-                                            verbose_name=_("Kandidatas į seimą"),
-                                            help_text=_("Sujungia kandidatą į seimą su politiku"))
+                                            verbose_name=_("Kandidatas į Seimą"),
+                                            help_text=_("Sujungia kandidatą į Seimą su politiku"))
     president_candidate = models.OneToOneField(PresidentCandidate, on_delete=models.CASCADE, null=True, blank=True,
                                                related_name="politician_info",
                                                verbose_name=_("Kandidatas į LR Prezidento postą"),
