@@ -22,7 +22,7 @@ def index(request):
     partners = OrganizationPartner.objects.all()
     voting_not_started = datetime.now() < datetime(2020, 10, 25, 8, 0, 0)
     voting_ended = datetime.now() > datetime(2020, 10, 25, 20, 0, 0)
-    voting_in_session = datetime.now() > datetime(2020, 10, 25, 8, 0, 0)
+    voting_in_session = datetime.now() < datetime(2020, 10, 25, 8, 0, 0)
     return render(request, 'web/index.html', {
         'partners': partners,
         'voting_not_started': voting_not_started,
