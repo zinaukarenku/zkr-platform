@@ -22,7 +22,7 @@ celery[redis]==4.4.7
 django-redis==4.10.0
 metadata_parser==0.9.21
 beautifulsoup4==4.6.3
-lxml==4.6.2
+lxml==4.6.5
 
 # This unreleased version has task name and other parameters
 git+git://github.com/celery/django-celery-results.git
